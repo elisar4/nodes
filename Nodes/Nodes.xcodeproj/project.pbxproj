@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		E9BA0DFB2B78E3080017240A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BA0DFA2B78E3080017240A /* AppDelegate.swift */; };
-		E9BA0DFF2B78E3080017240A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BA0DFE2B78E3080017240A /* ViewController.swift */; };
 		E9BA0E042B78E30A0017240A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9BA0E032B78E30A0017240A /* Assets.xcassets */; };
 		E9BA0E072B78E30A0017240A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9BA0E052B78E30A0017240A /* LaunchScreen.storyboard */; };
 		E9BA0E122B78E30A0017240A /* NodesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BA0E112B78E30A0017240A /* NodesTests.swift */; };
 		E9BA0E6A2B78E6170017240A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BA0E692B78E6170017240A /* main.swift */; };
+		E9BA0E6E2B78EAF80017240A /* App in Frameworks */ = {isa = PBXBuildFile; productRef = E9BA0E6D2B78EAF80017240A /* App */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,13 +28,13 @@
 /* Begin PBXFileReference section */
 		E9BA0DF72B78E3080017240A /* Nodes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nodes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BA0DFA2B78E3080017240A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E9BA0DFE2B78E3080017240A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E9BA0E032B78E30A0017240A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E9BA0E062B78E30A0017240A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E9BA0E082B78E30A0017240A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9BA0E0D2B78E30A0017240A /* NodesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NodesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BA0E112B78E30A0017240A /* NodesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodesTests.swift; sourceTree = "<group>"; };
 		E9BA0E692B78E6170017240A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		E9BA0E6B2B78EAC80017240A /* App */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = App; path = ../modules/App; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9BA0E6E2B78EAF80017240A /* App in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,9 +59,11 @@
 		E9BA0DEE2B78E3080017240A = {
 			isa = PBXGroup;
 			children = (
+				E9BA0E6B2B78EAC80017240A /* App */,
 				E9BA0DF92B78E3080017240A /* Nodes */,
 				E9BA0E102B78E30A0017240A /* NodesTests */,
 				E9BA0DF82B78E3080017240A /* Products */,
+				E9BA0E6C2B78EAF80017240A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -78,7 +81,6 @@
 			children = (
 				E9BA0E692B78E6170017240A /* main.swift */,
 				E9BA0DFA2B78E3080017240A /* AppDelegate.swift */,
-				E9BA0DFE2B78E3080017240A /* ViewController.swift */,
 				E9BA0E032B78E30A0017240A /* Assets.xcassets */,
 				E9BA0E052B78E30A0017240A /* LaunchScreen.storyboard */,
 				E9BA0E082B78E30A0017240A /* Info.plist */,
@@ -92,6 +94,13 @@
 				E9BA0E112B78E30A0017240A /* NodesTests.swift */,
 			);
 			path = NodesTests;
+			sourceTree = "<group>";
+		};
+		E9BA0E6C2B78EAF80017240A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -110,6 +119,9 @@
 			dependencies = (
 			);
 			name = Nodes;
+			packageProductDependencies = (
+				E9BA0E6D2B78EAF80017240A /* App */,
+			);
 			productName = Nodes;
 			productReference = E9BA0DF72B78E3080017240A /* Nodes.app */;
 			productType = "com.apple.product-type.application";
@@ -194,7 +206,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9BA0DFF2B78E3080017240A /* ViewController.swift in Sources */,
 				E9BA0DFB2B78E3080017240A /* AppDelegate.swift in Sources */,
 				E9BA0E6A2B78E6170017240A /* main.swift in Sources */,
 			);
@@ -476,6 +487,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E9BA0E6D2B78EAF80017240A /* App */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = App;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E9BA0DEF2B78E3080017240A /* Project object */;
 }
