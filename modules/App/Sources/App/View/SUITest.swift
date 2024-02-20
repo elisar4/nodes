@@ -4,26 +4,26 @@
 import SwiftUI
 
 struct SUITest: View {
-    @State var point1: CGPoint = CGPoint.zero
-    @State var point2: CGPoint = CGPoint.zero
-    @State var point3: CGPoint = CGPoint.zero
-
+    @StateObject var controller = NodeLinkController()
+    
     var body: some View {
         ZStack {
-            NodeView(title: "TextFieldNode") {
-                TextFieldNodeBodyView(outputPoint: $point1)
+            NodeView(title: "TextFieldNode") { id in
+                TextFieldNodeBodyView() { point in
+                    controller.addPoint(point, id: id)
+                }
             }
-            NodeView(title: "TextFieldNode") {
-                TextDisplayNodeBodyView(text: "Hello", inputPoint: $point2, outputPoint: $point3)
+            NodeView(title: "TextFieldNode") { id in
+                TextDisplayNodeBodyView(text: "Hello") { point in
+                    controller.addPoint(point, id: id)
+                }
             }
             
-            Path() { path in
-                path.move(to: point1)
-                path.addLine(to: point2)
+            ForEach(controller.points) { element in
+                LinkView(fromPoint: element.from, toPoint: element.to)
             }
-            .stroke(.blue, lineWidth: 2)
-            .ignoresSafeArea()
         }
         .ignoresSafeArea(.keyboard)
     }
 }
+

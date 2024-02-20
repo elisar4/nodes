@@ -3,13 +3,15 @@
 
 import SwiftUI
 
-struct NodeView<Content: View>: View {
+struct NodeView<Content: View>: View, Identifiable {
     @State var title: String
     
     @State private var isShowBody: Bool = true
     @State private var position = CGPoint.zero
     
-    @ViewBuilder var content: () -> Content
+    @ViewBuilder var content: (String) -> Content
+    
+    var id: String = UUID().uuidString
     
     var body: some View {
         GeometryReader { proxy in
@@ -17,7 +19,7 @@ struct NodeView<Content: View>: View {
                 HeaderView(isShowBody: $isShowBody, title: title)
                     .transition(.scale)
                 if isShowBody {
-                    content()
+                    content(id)
                 }
             }
             .frame(minWidth: 0, idealWidth: 200, minHeight: 0)
@@ -32,7 +34,8 @@ struct NodeView<Content: View>: View {
                     }
             )
             .onAppear {
-                position = .init(x: proxy.size.width / 2, y: proxy.size.height / 2)
+                position = .init(x: proxy.size.width * CGFloat.random(in: 0.2...0.8),
+                                 y: proxy.size.height * CGFloat.random(in: 0.2...0.8))
             }
         }
     }
@@ -68,12 +71,12 @@ struct HeaderView: View {
 
 struct TextFieldNodeBodyView: View {
     @State var text: String = ""
-    @Binding var outputPoint: CGPoint
+    var onLinkTap: (Binding<CGPoint>) -> Void?
     
     var body: some View {
         HStack {
             TextField("Hello", text: $text)
-            LinkPointView(point: $outputPoint)
+            LinkPointView(onTap: onLinkTap)
         }
         .padding(.leading, 8)
         .padding(.vertical, 8)
@@ -82,23 +85,23 @@ struct TextFieldNodeBodyView: View {
 
 struct TextDisplayNodeBodyView: View {
     @State var text: String
-    @Binding var inputPoint: CGPoint
-    @Binding var outputPoint: CGPoint
+    var onLinkTap: (Binding<CGPoint>) -> Void?
     
     var body: some View {
         HStack {
-            LinkPointView(point: $inputPoint)
+            LinkPointView(onTap: onLinkTap)
             Spacer(minLength: 0)
             Text(text)
             Spacer(minLength: 0)
-            LinkPointView(point: $outputPoint)
+            LinkPointView(onTap: onLinkTap)
         }
         .padding(.vertical, 8)
     }
 }
 
 struct LinkPointView: View {
-    @Binding var point: CGPoint
+    @State private var point: CGPoint = .zero
+    var onTap: (Binding<CGPoint>) -> Void?
     
     var body: some View {
         GeometryReader { geo in
@@ -110,5 +113,8 @@ struct LinkPointView: View {
         }
         .frame(width: 20, height: 20)
         .fixedSize()
+        .onTapGesture {
+            onTap($point)
+        }
     }
 }
