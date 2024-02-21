@@ -1,9 +1,9 @@
-//  SUITest.swift
+//  MainView.swift
 //  Created by Vladimir Roganov on 13.02.2024
 
 import SwiftUI
 
-struct SUITest: View {
+struct MainView: View {
     @StateObject var controller = NodeLinkController()
     
     var body: some View {

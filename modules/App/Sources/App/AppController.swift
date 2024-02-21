@@ -5,7 +5,7 @@ import SwiftUI
 
 public class AppController: UIViewController {
 
-    let sui = UIHostingController(rootView: SUITest())
+    let sui = UIHostingController(rootView: MainView())
 
     public override func viewDidLoad() {
         super.viewDidLoad()
