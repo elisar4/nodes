@@ -2,6 +2,7 @@
 //  Created by Vladimir Roganov on 13.02.2024
 
 import SwiftUI
+import Logic
 
 struct MainView: View {
     @StateObject var controller = NodeLinkController()
