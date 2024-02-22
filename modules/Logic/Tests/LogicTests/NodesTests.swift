@@ -33,9 +33,9 @@ final class NodesTests: XCTestCase {
 
         let exp = self.expectation(description: "Output")
 
-        sut.output.collect(2).sink {
-            letter1 = $0.first
-            letter2 = $0.last
+        sut.output.collect(2).sink { value in
+            letter1 = value.first ?? nil
+            letter2 = value.last ?? nil
             exp.fulfill()
         }.store(in: &listeners)
 
