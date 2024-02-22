@@ -1,19 +1,32 @@
 import Combine
 
+public protocol NodeInput {
+//    var input: [AnyPublisher<String?, Never>] { get }
+    func linkInput(_ inputs: AnyPublisher<String?, Never>...)
+}
+
 struct Logic {
     var running: Bool = true
 }
 
-class RandomLetter {
-    var output: PassthroughSubject<String, Never> = .init()
+public class RandomLetter {
+    public var output: PassthroughSubject<String, Never> = .init()
     
-    func run() {
+    public init() {}
+    
+    public func run() {
         let chars = "ABCDEFGHIJQKLMNOPRSTUVWXYZ".map({ $0 })
         output.send(chars[Int.random(in: 0...25)].description)
     }
 }
 
-class Join {
+class Join: NodeInput {
+//    var input: [AnyPublisher<String?, Never>] = []
+    
+    func linkInput(_ inputs: AnyPublisher<String?, Never>...) {
+        <#code#>
+    }
+    
     var input1: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
     var input2: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
     var output: PassthroughSubject<String, Never> = .init()
@@ -38,13 +51,15 @@ class Join {
     }
 }
 
-class Display {
-    var input: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
-    var output: PassthroughSubject<String?, Never> = .init()
+public class Display {
+    public var input: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
+    public var output: PassthroughSubject<String?, Never> = .init()
     
     private var listener: AnyCancellable?
     
-    func linkInput(_ link: PassthroughSubject<String, Never>) {
+    public init() {}
+    
+    public func linkInput(_ link: PassthroughSubject<String, Never>) {
         input = link.map(Optional.init).eraseToAnyPublisher()
         listener = input
             .sink { [weak self] (input) in
@@ -53,7 +68,7 @@ class Display {
             }
     }
     
-    var action: ((_: String?) -> Void)? = {
+    public var action: ((_: String?) -> Void)? = {
         print($0 ?? "nil")
     }
 }
