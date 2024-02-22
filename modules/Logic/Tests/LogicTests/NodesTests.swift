@@ -4,16 +4,47 @@
 import XCTest
 @testable import Logic
 
+import Combine
+
 final class NodesTests: XCTestCase {
+    private var listeners: Set<AnyCancellable> = .init()
+    
     func testRandomLetter_OuputsSingleLetter() throws {
         let sut = RandomLetter()
-        XCTAssertEqual(sut.output().count, 1)
+        var output: String?
+        let expectation = self.expectation(description: "Output")
+        sut.output.sink {
+            output = $0
+            expectation.fulfill()
+        }.store(in: &listeners)
+        
+        sut.run()
+        
+        waitForExpectations(timeout: 0.3)
+        let outputString = try XCTUnwrap(output)
+        XCTAssertEqual(outputString.count, 1)
     }
 
     func testRandomLetter_OutputsDifferentRandomLetters() throws {
         let sut = RandomLetter()
-        let letter1 = sut.output()
-        let letter2 = sut.output()
+        
+        var letter1: String?
+        var letter2: String?
+        
+        let exp = self.expectation(description: "Output")
+        
+        
+        sut.output.collect(2).sink {
+            letter1 = $0.first
+            letter2 = $0.last
+            exp.fulfill()
+        }.store(in: &listeners)
+        
+        sut.run()
+        sut.run()
+        
+        waitForExpectations(timeout: 0.3)
+        
         XCTAssertNotEqual(letter1, letter2)
     }
     

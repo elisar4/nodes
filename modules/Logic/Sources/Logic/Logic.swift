@@ -1,12 +1,15 @@
+import Combine
 
 struct Logic {
     var running: Bool = true
 }
 
 class RandomLetter {
-    func output() -> String {
+    var output: PassthroughSubject<String, Never> = .init()
+    
+    func run() {
         let chars = "ABCDEFGHIJQKLMNOPRSTUVWXYZ".map({ $0 })
-        return chars[Int.random(in: 0...25)].description
+        output.send(chars[Int.random(in: 0...25)].description)
     }
 }
 
@@ -26,7 +29,7 @@ class Join {
 
 class Display {
     private var inputParam: String?
-    var action: ((_: String?)->Void)? = {
+    var action: ((_: String?) -> Void)? = {
         print($0)
     }
     
