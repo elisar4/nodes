@@ -14,16 +14,27 @@ class RandomLetter {
 }
 
 class Join {
-    private var firstParam: String?
-    private var lastParam: String?
+    var input1: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
+    var input2: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
+    var output: PassthroughSubject<String, Never> = .init()
     
-    func input(firstParam: String?, lastParam: String?) {
-        self.firstParam = firstParam
-        self.lastParam = lastParam
+    private var listener: AnyCancellable?
+    
+    func linkParamOne(_ link: PassthroughSubject<String, Never>) {
+        input1 = link.map(Optional.init).eraseToAnyPublisher()
+        subscribe()
     }
     
-    func output() -> String? {
-        return (firstParam ?? "") + (lastParam ?? "")
+    func linkParamTwo(_ link: PassthroughSubject<String, Never>) {
+        input2 = link.map(Optional.init).eraseToAnyPublisher()
+        subscribe()
+    }
+    
+    private func subscribe() {
+        listener = Publishers.CombineLatest(input1, input2)
+            .sink { [weak output] (input1, input2) in
+                output?.send((input1 ?? "") + (input2 ?? ""))
+            }
     }
 }
 
