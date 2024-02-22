@@ -10,28 +10,15 @@ struct MainView: View {
     var body: some View {
         ZStack {
             NodeView(title: "RandomLetterNode") { id in
-                RandomLetterNodeBodyView(model: controller.randomLetterNode) { point in
-                    controller.addPoint(point, id: id)
-                    controller.connectRandomLetterToDisplay()
-                    return nil
+                RandomLetterNodeBodyView(model: controller.randomLetterNode) { (point, param) in
+                    controller.addPoint(point, id: id, param: param)
                 }
             }
             NodeView(title: "DisplayNode") { id in
                 TextDisplayNodeBodyView(displayModel: controller.displayNode) { (point, param) in
-                    controller.addPoint(point, id: id)
+                    controller.addPoint(point, id: id, param: param)
                 }
             }
-            NodeView(title: "TextFieldNode") { id in
-                TextFieldNodeBodyView() { point in
-                    controller.addPoint(point, id: id)
-                }
-            }
-//            NodeView(title: "TextFieldNode") { id in
-//                TextDisplayNodeBodyView(text: "Hello") { point in
-//                    controller.addPoint(point, id: id)
-//                }
-//            }
-            
             ForEach(controller.points) { element in
                 LinkView(fromPoint: element.from, toPoint: element.to)
             }

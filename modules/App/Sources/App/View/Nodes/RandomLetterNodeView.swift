@@ -20,20 +20,19 @@ class RandomLetterNode: ObservableObject {
 
 struct RandomLetterNodeBodyView: View {
     @ObservedObject var model: RandomLetterNode
-    var onLinkTap: (Binding<CGPoint>) -> Void?
-    
+    var onLinkTap: (Binding<CGPoint>, NodeParam) -> Void?
+
     var body: some View {
         HStack {
-//            LinkPointView(onTap: onLinkTap)
-//            Spacer(minLength: 0)
             VStack {
-//                Text(model.text ?? "nil")
                 Button("Active random generation") {
                     model.model.run()
                 }
             }
             Spacer(minLength: 0)
-            LinkPointView(onTap: onLinkTap)
+            LinkPointView(onTap: {
+                onLinkTap($0, .output(model.model.output))
+            })
         }
         .padding(.vertical, 8)
     }

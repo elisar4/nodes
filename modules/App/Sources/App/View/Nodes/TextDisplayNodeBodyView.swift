@@ -20,12 +20,11 @@ class DisplayNode: ObservableObject {
 struct TextDisplayNodeBodyView: View {
     @ObservedObject var displayModel: DisplayNode
     var onLinkTap: (Binding<CGPoint>, NodeParam) -> Void?
-//    public var input: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
-//    public var output: PassthroughSubject<String?, Never> = .init()
+
     var body: some View {
         HStack {
             LinkPointView(onTap: {
-                onLinkTap($0, .input(displayModel.model.input))
+                onLinkTap($0, .input(displayModel.model, 0))
             })
             Spacer(minLength: 0)
             Text(displayModel.text ?? "nil")

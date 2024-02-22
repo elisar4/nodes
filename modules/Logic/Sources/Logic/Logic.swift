@@ -1,8 +1,7 @@
 import Combine
 
 public protocol NodeInput {
-//    var input: [AnyPublisher<String?, Never>] { get }
-    func linkInput(_ inputs: AnyPublisher<String?, Never>...)
+    func linkInput(_ input: PassthroughSubject<String?, Never>, position: Int)
 }
 
 struct Logic {
@@ -10,8 +9,8 @@ struct Logic {
 }
 
 public class RandomLetter {
-    public var output: PassthroughSubject<String, Never> = .init()
-    
+    public var output: PassthroughSubject<String?, Never> = .init()
+
     public init() {}
     
     public func run() {
@@ -21,25 +20,30 @@ public class RandomLetter {
 }
 
 class Join: NodeInput {
-//    var input: [AnyPublisher<String?, Never>] = []
-    
-    func linkInput(_ inputs: AnyPublisher<String?, Never>...) {
-        <#code#>
+
+    public func linkInput(_ input: PassthroughSubject<String?, Never>, position: Int) {
+        if position == 0 {
+            linkParamOne(input)
+        } else if position == 1 {
+            linkParamOne(input)
+        } else {
+
+        }
     }
-    
+
     var input1: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
     var input2: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
-    var output: PassthroughSubject<String, Never> = .init()
-    
+    var output: PassthroughSubject<String?, Never> = .init()
+
     private var listener: AnyCancellable?
     
-    func linkParamOne(_ link: PassthroughSubject<String, Never>) {
-        input1 = link.map(Optional.init).eraseToAnyPublisher()
+    func linkParamOne(_ link: PassthroughSubject<String?, Never>) {
+        input1 = link.eraseToAnyPublisher()
         subscribe()
     }
     
-    func linkParamTwo(_ link: PassthroughSubject<String, Never>) {
-        input2 = link.map(Optional.init).eraseToAnyPublisher()
+    func linkParamTwo(_ link: PassthroughSubject<String?, Never>) {
+        input2 = link.eraseToAnyPublisher()
         subscribe()
     }
     
@@ -51,16 +55,25 @@ class Join: NodeInput {
     }
 }
 
-public class Display {
+public class Display: NodeInput {
     public var input: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
     public var output: PassthroughSubject<String?, Never> = .init()
     
     private var listener: AnyCancellable?
     
     public init() {}
-    
-    public func linkInput(_ link: PassthroughSubject<String, Never>) {
-        input = link.map(Optional.init).eraseToAnyPublisher()
+
+
+    public func linkInput(_ input: PassthroughSubject<String?, Never>, position: Int) {
+        if position == 0 {
+            linkInput(input)
+        } else {
+
+        }
+    }
+
+    public func linkInput(_ link: PassthroughSubject<String?, Never>) {
+        input = link.eraseToAnyPublisher()
         listener = input
             .sink { [weak self] (input) in
                 self?.output.send(input)

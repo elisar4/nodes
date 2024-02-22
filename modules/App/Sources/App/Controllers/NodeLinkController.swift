@@ -1,9 +1,5 @@
-//
-//  File.swift
-//  
-//
+//  NodeLinkController.swift
 //  Created by Aiur Arkhipov on 19.02.2024.
-//
 
 import SwiftUI
 import Logic
@@ -21,37 +17,34 @@ class NodeLinkController: ObservableObject {
     var displayNode = DisplayNode(model: Display())
     
     func addPoint(_ point: Binding<CGPoint>, id: String, param: NodeParam) {
-        if let tappedParam {
-            switch (tappedParam, param) {
-            case (.input(let input), .output(let output)):
-                /// Link output -> input
-                print("321")
-                displayNode.model.linkInput(output)
-            case (.output(let output), .input(let input)):
-                /// Link output -> input
-                print("123")
-            default: 
-                tappedParam = nil
-            }
-        } else {
-            tappedParam = param
-        }
-        
-        if let tappedPoint {
+        if let tappedParam, let tappedPoint {
             if tappedID == id {
                 return
             }
-            points.append(Link(from: tappedPoint, to: point))
-            self.tappedPoint = nil
-            self.tappedID = nil
+            switch (tappedParam, param) {
+            case (.input(let input, let position), .output(let output)):
+                link(input: input, position: position, output: output, tappedPoint: tappedPoint, point: point)
+            case (.output(let output), .input(let input, let position)):
+                link(input: input, position: position, output: output, tappedPoint: tappedPoint, point: point)
+            default:
+                clear()
+            }
         } else {
+            tappedParam = param
             tappedPoint = point
             tappedID = id
         }
     }
-    
-    func connectRandomLetterToDisplay() {
-        displayNode.model.linkInput(randomLetterNode.model.output)
+
+    private func link(input: NodeInput, position: Int, output: PassthroughSubject<String?, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>) {
+        input.linkInput(output, position: position)
+        points.append(Link(from: tappedPoint, to: point))
+        clear()
     }
-    
+
+    private func clear() {
+        tappedParam = nil
+        tappedPoint = nil
+        tappedID = nil
+    }
 }
