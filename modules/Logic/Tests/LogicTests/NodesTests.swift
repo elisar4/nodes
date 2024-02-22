@@ -103,23 +103,35 @@ final class NodesTests: XCTestCase {
         XCTAssertEqual(output, param + param2)
     }
     
-    func testDisplay_OutputsReceivedValue() throws {
+    func testDisplay_OutputsAndPrintReceivedValue() throws {
         let sut = Display()
-        XCTAssertNil(sut.output())
         let param = "Hello"
-        sut.input(param)
-        XCTAssertEqual(sut.output(), param)
-    }
-    
-    func testDisplay_PrintsReceivedValue() throws {
-        let sut = Display()
-        let inputValue = "Hello"
+        
+        let exp = self.expectation(description: "Output")
+        
+        let paramSubject = PassthroughSubject<String, Never>()
+        
+        sut.linkInput(paramSubject)
+        
+        var output: String?
+        
+        sut.output.sink {
+            output = $0
+            exp.fulfill()
+        }.store(in: &listeners)
+        
         var printedValue: String?
+        
         sut.action = {
             printedValue = $0
         }
-        sut.input(inputValue)
-        XCTAssertEqual(printedValue, inputValue)
+        
+        paramSubject.send(param)
+        
+        waitForExpectations(timeout: 0.3)
+        
+        XCTAssertEqual(output, param)
+        XCTAssertEqual(printedValue, param)
     }
     
     func testTwoRandomLettersJoined_OutputsCorrectStringLength() throws {

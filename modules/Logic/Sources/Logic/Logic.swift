@@ -39,17 +39,21 @@ class Join {
 }
 
 class Display {
-    private var inputParam: String?
+    var input: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
+    var output: PassthroughSubject<String?, Never> = .init()
+    
+    private var listener: AnyCancellable?
+    
+    func linkInput(_ link: PassthroughSubject<String, Never>) {
+        input = link.map(Optional.init).eraseToAnyPublisher()
+        listener = input
+            .sink { [weak self] (input) in
+                self?.output.send(input)
+                self?.action?(input)
+            }
+    }
+    
     var action: ((_: String?) -> Void)? = {
-        print($0)
-    }
-    
-    func input(_ param: String?) {
-        self.inputParam = param
-        action?(param)
-    }
-    
-    func output() -> String? {
-        return inputParam
+        print($0 ?? "nil")
     }
 }
