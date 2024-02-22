@@ -36,4 +36,23 @@ final class NodesTests: XCTestCase {
         sut.input(firstParam: param, lastParam: param2)
         XCTAssertEqual(sut.output(), param + param2)
     }
+    
+    func testDisplay_OutputsReceivedValue() throws {
+        let sut = Display()
+        XCTAssertNil(sut.output())
+        let param = "Hello"
+        sut.input(param)
+        XCTAssertEqual(sut.output(), param)
+    }
+    
+    func testDisplay_PrintsReceivedValue() throws {
+        let sut = Display()
+        let inputValue = "Hello"
+        var printedValue: String?
+        sut.action = {
+            printedValue = $0
+        }
+        sut.input(inputValue)
+        XCTAssertEqual(printedValue, inputValue)
+    }
 }

@@ -11,8 +11,8 @@ class RandomLetter {
 }
 
 class Join {
-    var firstParam: String?
-    var lastParam: String?
+    private var firstParam: String?
+    private var lastParam: String?
     
     func input(firstParam: String?, lastParam: String?) {
         self.firstParam = firstParam
@@ -21,5 +21,21 @@ class Join {
     
     func output() -> String? {
         return (firstParam ?? "") + (lastParam ?? "")
+    }
+}
+
+class Display {
+    private var inputParam: String?
+    var action: ((_: String?)->Void)? = {
+        print($0)
+    }
+    
+    func input(_ param: String?) {
+        self.inputParam = param
+        action?(param)
+    }
+    
+    func output() -> String? {
+        return inputParam
     }
 }
