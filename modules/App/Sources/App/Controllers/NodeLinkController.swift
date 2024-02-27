@@ -7,13 +7,11 @@ import Combine
 
 final class NodeLinkController: LinkController, ObservableObject {
     @Published var points: [Link] = []
-    @Published var nodes: [any BaseNode] = [
-        JoinNode(),
-        RandomLetterNode(),
-        DisplayNode(),
-        JoinNode(),
-        RandomLetterNode(),
-        DisplayNode()
+    @Published var nodes: [any BaseNode] = []
+    private let nodesType: [any BaseNode.Type] = [
+        JoinNode.self,
+        RandomLetterNode.self,
+        DisplayNode.self
     ]
 
     private var tappedPoint: Binding<CGPoint>?
@@ -39,6 +37,16 @@ final class NodeLinkController: LinkController, ObservableObject {
             tappedPoint = point
             tappedID = id
         }
+    }
+
+    func reset() {
+        points = []
+        nodes = []
+        clear()
+    }
+    
+    func addRandomNode() {
+        nodes.append(nodesType.randomElement()!.init())
     }
 
     private func link(input: NodeInput, position: Int, output: PassthroughSubject<String?, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>) {

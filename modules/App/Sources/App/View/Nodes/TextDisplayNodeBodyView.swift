@@ -11,8 +11,8 @@ class DisplayNode: BaseNode, ObservableObject {
     var name: String = "Display"
     var id: String = UUID().uuidString
 
-    init(model: Display = .init()) {
-        self.model = model
+    required init() {
+        model = .init()
         model.action = { [weak self] in
             self?.text = $0
         }

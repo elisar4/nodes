@@ -6,19 +6,22 @@ import Logic
 
 struct MainView: View {
     @StateObject var controller = NodeLinkController()
-    
+
     var body: some View {
-        ZStack {
-            ForEach(controller.nodes, id: \.id) { node in
-                NodeView(title: node.name) { id in
-                    node.build(controller: controller, id: id)
+        NavigationView {
+            DebugView(controller: controller)
+            ZStack {
+                ForEach(controller.nodes, id: \.id) { node in
+                    NodeView(title: node.name) { id in
+                        node.build(controller: controller, id: id)
+                    }
+                }
+                ForEach(controller.points) { element in
+                    LinkView(fromPoint: element.from, toPoint: element.to)
                 }
             }
-            ForEach(controller.points) { element in
-                LinkView(fromPoint: element.from, toPoint: element.to)
-            }
+            .ignoresSafeArea(.keyboard)
         }
-        .ignoresSafeArea(.keyboard)
     }
 }
 

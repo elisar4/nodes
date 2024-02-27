@@ -9,9 +9,7 @@ class RandomLetterNode: BaseNode, ObservableObject {
     var name: String = "RandomLetter"
     var id: String = UUID().uuidString
 
-    init(model: RandomLetter = .init()) {
-        self.model = model
-    }
+    required init() { model = .init() }
 
     func build(controller: LinkController, id: String) -> AnyView {
         AnyView(RandomLetterNodeBodyView(model: self, onLinkTap: { (point, param) in
@@ -27,7 +25,7 @@ struct RandomLetterNodeBodyView: View {
     var body: some View {
         HStack {
             VStack {
-                Button("Active random generation") {
+                Button("Generate") {
                     model.model.run()
                 }
             }

@@ -9,9 +9,7 @@ final class JoinNode: BaseNode, ObservableObject {
     var name: String = "Join"
     var id: String = UUID().uuidString
 
-    init(model: Join = .init()) {
-        self.model = model
-    }
+    required init() { model = .init() }
 
     func build(controller: LinkController, id: String) -> AnyView {
         AnyView(JoinDisplayNodeBodyView(model: self, onLinkTap: { (point, param) in

@@ -6,5 +6,6 @@ import SwiftUI
 protocol BaseNode: Identifiable {
     var id: String { get }
     var name: String { get }
+    init()
     func build(controller: LinkController, id: String) -> AnyView
 }
