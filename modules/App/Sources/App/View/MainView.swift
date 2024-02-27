@@ -14,16 +14,6 @@ struct MainView: View {
                     node.build(controller: controller, id: id)
                 }
             }
-            NodeView(title: "RandomLetterNode") { id in
-                RandomLetterNodeBodyView(model: controller.randomLetterNode) { (point, param) in
-                    controller.addPoint(point, id: id, param: param)
-                }
-            }
-            NodeView(title: "DisplayNode") { id in
-                TextDisplayNodeBodyView(displayModel: controller.displayNode) { (point, param) in
-                    controller.addPoint(point, id: id, param: param)
-                }
-            }
             ForEach(controller.points) { element in
                 LinkView(fromPoint: element.from, toPoint: element.to)
             }

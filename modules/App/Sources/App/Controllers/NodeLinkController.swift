@@ -8,16 +8,18 @@ import Combine
 final class NodeLinkController: LinkController, ObservableObject {
     @Published var points: [Link] = []
     @Published var nodes: [any BaseNode] = [
-        JoinNode(model: Join())
+        JoinNode(),
+        RandomLetterNode(),
+        DisplayNode(),
+        JoinNode(),
+        RandomLetterNode(),
+        DisplayNode()
     ]
 
     private var tappedPoint: Binding<CGPoint>?
     private var tappedID: String?
     
     private var tappedParam: NodeParam?
-    
-    var randomLetterNode = RandomLetterNode(model: RandomLetter())
-    var displayNode = DisplayNode(model: Display())
 
     func addPoint(_ point: Binding<CGPoint>, id: String, param: NodeParam) {
         if let tappedParam, let tappedPoint {

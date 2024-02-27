@@ -9,7 +9,7 @@ final class JoinNode: BaseNode, ObservableObject {
     var name: String = "Join"
     var id: String = UUID().uuidString
 
-    init(model: Join) {
+    init(model: Join = .init()) {
         self.model = model
     }
 

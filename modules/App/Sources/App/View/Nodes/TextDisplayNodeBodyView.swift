@@ -4,33 +4,41 @@
 import SwiftUI
 import Logic
 
-class DisplayNode: ObservableObject {
-    var model: Display
-    
+class DisplayNode: BaseNode, ObservableObject {
     @Published var text: String?
-    
-    init(model: Display) {
+
+    var model: Display
+    var name: String = "Display"
+    var id: String = UUID().uuidString
+
+    init(model: Display = .init()) {
         self.model = model
         model.action = { [weak self] in
             self?.text = $0
         }
     }
+
+    func build(controller: LinkController, id: String) -> AnyView {
+        AnyView(TextDisplayNodeBodyView(model: self, onLinkTap: { (point, param) in
+            controller.addPoint(point, id: id, param: param)
+        }))
+    }
 }
 
 struct TextDisplayNodeBodyView: View {
-    @ObservedObject var displayModel: DisplayNode
+    @ObservedObject var model: DisplayNode
     var onLinkTap: (Binding<CGPoint>, NodeParam) -> Void?
 
     var body: some View {
         HStack {
             LinkPointView(onTap: {
-                onLinkTap($0, .input(displayModel.model, 0))
+                onLinkTap($0, .input(model.model, 0))
             })
             Spacer(minLength: 0)
-            Text(displayModel.text ?? "nil")
+            Text(model.text ?? "nil")
             Spacer(minLength: 0)
             LinkPointView(onTap: {
-                onLinkTap($0, .output(displayModel.model.output))
+                onLinkTap($0, .output(model.model.output))
             })
         }
         .padding(.vertical, 8)
