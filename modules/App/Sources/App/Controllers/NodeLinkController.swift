@@ -15,7 +15,8 @@ final class NodeLinkController: ObservableObject {
     
     var randomLetterNode = RandomLetterNode(model: RandomLetter())
     var displayNode = DisplayNode(model: Display())
-    
+    var joinNode = JoinNode(model: Join())
+
     func addPoint(_ point: Binding<CGPoint>, id: String, param: NodeParam) {
         if let tappedParam, let tappedPoint {
             if tappedID == id {
