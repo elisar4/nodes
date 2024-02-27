@@ -4,11 +4,19 @@
 import SwiftUI
 import Logic
 
-class JoinNode: ObservableObject {
+final class JoinNode: BaseNode, ObservableObject {
     var model: Join
-    
+    var name: String = "Join"
+    var id: String = UUID().uuidString
+
     init(model: Join) {
         self.model = model
+    }
+
+    func build(controller: LinkController, id: String) -> AnyView {
+        AnyView(JoinDisplayNodeBodyView(model: self, onLinkTap: { (point, param) in
+            controller.addPoint(point, id: id, param: param)
+        }))
     }
 }
 
