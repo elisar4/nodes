@@ -4,11 +4,19 @@
 import SwiftUI
 import Logic
 
-class RandomLetterNode: ObservableObject {
+class RandomLetterNode: BaseNode, ObservableObject {
     var model: RandomLetter
-    
-    init(model: RandomLetter) {
+    var name: String = "RandomLetter"
+    var id: String = UUID().uuidString
+
+    init(model: RandomLetter = .init()) {
         self.model = model
+    }
+
+    func build(controller: LinkController, id: String) -> AnyView {
+        AnyView(RandomLetterNodeBodyView(model: self, onLinkTap: { (point, param) in
+            controller.addPoint(point, id: id, param: param)
+        }))
     }
 }
 

@@ -9,19 +9,9 @@ struct MainView: View {
     
     var body: some View {
         ZStack {
-            NodeView(title: "RandomLetterNode") { id in
-                RandomLetterNodeBodyView(model: controller.randomLetterNode) { (point, param) in
-                    controller.addPoint(point, id: id, param: param)
-                }
-            }
-            NodeView(title: "DisplayNode") { id in
-                TextDisplayNodeBodyView(displayModel: controller.displayNode) { (point, param) in
-                    controller.addPoint(point, id: id, param: param)
-                }
-            }
-            NodeView(title: "JoinNode") { id in
-                JoinDisplayNodeBodyView(model: controller.joinNode) { (point, param) in
-                    controller.addPoint(point, id: id, param: param)
+            ForEach(controller.nodes, id: \.id) { node in
+                NodeView(title: node.name) { id in
+                    node.build(controller: controller, id: id)
                 }
             }
             ForEach(controller.points) { element in
