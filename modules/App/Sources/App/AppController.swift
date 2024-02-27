@@ -5,17 +5,17 @@ import SwiftUI
 
 public class AppController: UIViewController {
 
-    let sui = UIHostingController(rootView: MainView())
+    let rootController = UIHostingController(rootView: MainView())
 
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(hue: 0.2, saturation: 0, brightness: 0.2, alpha: 1)
-        addChild(sui)
-        view.addSubview(sui.view)
+        addChild(rootController)
+        view.addSubview(rootController.view)
     }
 
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        sui.view.frame = view.bounds
+        rootController.view.frame = view.bounds
     }
 }

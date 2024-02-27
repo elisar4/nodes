@@ -1,10 +1,10 @@
-//  TextDisplayNodeBodyView.swift
-//  Created by Vladimir Roganov on 21.02.2024
+//  JoinNodeView.swift
+//  Created by Aiur Arkhipov on 22.02.2024.
 
 import SwiftUI
 import Logic
 
-class DisplayNode: ObservableObject {
+class JoinNode: ObservableObject {
     var model: Display
     
     @Published var text: String?
@@ -17,21 +17,17 @@ class DisplayNode: ObservableObject {
     }
 }
 
-struct TextDisplayNodeBodyView: View {
+struct JoinDisplayNodeBodyView: View {
     @ObservedObject var displayModel: DisplayNode
-    var onLinkTap: (Binding<CGPoint>, NodeParam) -> Void?
-
+    var onLinkTap: (Binding<CGPoint>) -> Void?
+    
     var body: some View {
         HStack {
-            LinkPointView(onTap: {
-                onLinkTap($0, .input(displayModel.model, 0))
-            })
+            LinkPointView(onTap: onLinkTap)
             Spacer(minLength: 0)
             Text(displayModel.text ?? "nil")
             Spacer(minLength: 0)
-            LinkPointView(onTap: {
-                onLinkTap($0, .output(displayModel.model.output))
-            })
+            LinkPointView(onTap: onLinkTap)
         }
         .padding(.vertical, 8)
     }

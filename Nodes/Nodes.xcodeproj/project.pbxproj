@@ -26,6 +26,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E9220B6C2B8779FE00C4DE1D /* refs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = refs; path = ../refs; sourceTree = "<group>"; };
+		E9252AA82B86308F00052FFE /* Logic */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Logic; path = ../modules/Logic; sourceTree = "<group>"; };
 		E9BA0DF72B78E3080017240A /* Nodes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nodes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BA0DFA2B78E3080017240A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9BA0E032B78E30A0017240A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -59,6 +61,8 @@
 		E9BA0DEE2B78E3080017240A = {
 			isa = PBXGroup;
 			children = (
+				E9220B6C2B8779FE00C4DE1D /* refs */,
+				E9252AA82B86308F00052FFE /* Logic */,
 				E9BA0E6B2B78EAC80017240A /* App */,
 				E9BA0DF92B78E3080017240A /* Nodes */,
 				E9BA0E102B78E30A0017240A /* NodesTests */,
