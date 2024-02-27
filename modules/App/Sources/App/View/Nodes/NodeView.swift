@@ -22,7 +22,7 @@ struct NodeView<Content: View>: View, Identifiable {
                     content(id)
                 }
             }
-            .frame(minWidth: 0, idealWidth: 200, minHeight: 0)
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0)
             .fixedSize()
             .background(.background)
             .overlay(RoundedRectangle(cornerRadius: 10).stroke())

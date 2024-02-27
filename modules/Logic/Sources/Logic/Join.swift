@@ -16,7 +16,7 @@ public class Join: NodeInput {
         if position == 0 {
             linkParamOne(input)
         } else if position == 1 {
-            linkParamOne(input)
+            linkParamTwo(input)
         } else {
 
         }

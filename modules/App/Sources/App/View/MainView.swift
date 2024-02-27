@@ -19,6 +19,11 @@ struct MainView: View {
                     controller.addPoint(point, id: id, param: param)
                 }
             }
+            NodeView(title: "JoinNode") { id in
+                JoinDisplayNodeBodyView(model: controller.joinNode) { (point, param) in
+                    controller.addPoint(point, id: id, param: param)
+                }
+            }
             ForEach(controller.points) { element in
                 LinkView(fromPoint: element.from, toPoint: element.to)
             }

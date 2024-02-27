@@ -5,29 +5,26 @@ import SwiftUI
 import Logic
 
 class JoinNode: ObservableObject {
-    var model: Display
+    var model: Join
     
-    @Published var text: String?
-    
-    init(model: Display) {
+    init(model: Join) {
         self.model = model
-        model.action = { [weak self] in
-            self?.text = $0
-        }
     }
 }
 
 struct JoinDisplayNodeBodyView: View {
-    @ObservedObject var displayModel: DisplayNode
-    var onLinkTap: (Binding<CGPoint>) -> Void?
+    @ObservedObject var model: JoinNode
+    var onLinkTap: (Binding<CGPoint>, NodeParam) -> Void?
     
     var body: some View {
         HStack {
-            LinkPointView(onTap: onLinkTap)
+            VStack {
+                LinkPointView(onTap: { onLinkTap($0, .input(model.model, 0)) })
+                LinkPointView(onTap: { onLinkTap($0, .input(model.model, 1)) })
+            }
+
             Spacer(minLength: 0)
-            Text(displayModel.text ?? "nil")
-            Spacer(minLength: 0)
-            LinkPointView(onTap: onLinkTap)
+            LinkPointView(onTap: { onLinkTap($0, .output(model.model.output)) })
         }
         .padding(.vertical, 8)
     }
