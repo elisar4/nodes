@@ -1,5 +1,4 @@
 //  JoinNodeView.swift
-//
 //  Created by Aiur Arkhipov on 22.02.2024.
 
 import SwiftUI

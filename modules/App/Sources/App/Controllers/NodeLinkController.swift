@@ -5,7 +5,7 @@ import SwiftUI
 import Logic
 import Combine
 
-class NodeLinkController: ObservableObject {
+final class NodeLinkController: ObservableObject {
     @Published var points: [Link] = []
     
     private var tappedPoint: Binding<CGPoint>?

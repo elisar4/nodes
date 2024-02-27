@@ -1,17 +1,11 @@
-//
-//  File.swift
-//  
-//
+//  RandomLetterNodeView.swift
 //  Created by Aiur Arkhipov on 22.02.2024.
-//
 
 import SwiftUI
 import Logic
 
 class RandomLetterNode: ObservableObject {
     var model: RandomLetter
-    
-    @Published var text: String?
     
     init(model: RandomLetter) {
         self.model = model
