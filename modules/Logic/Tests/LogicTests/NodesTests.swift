@@ -75,6 +75,34 @@ final class NodesTests: XCTestCase {
         XCTAssertEqual(param, output)
     }
 
+    func testJoin_WithBothParams_OneWithoutSend_NotOutputsParamString() throws {
+        let sut = Join()
+        let param = "Hello"
+
+        let exp = self.expectation(description: "Output")
+
+        var output: String?
+
+        let paramA = "A"
+        let paramB = "B"
+        let constStringNodeA = ConstantString(paramA)
+        let constStringNodeB = ConstantString(paramB)
+
+        sut.linkParamOne(constStringNodeA.output)
+        sut.linkParamTwo(constStringNodeB.output)
+
+        sut.output.sink {
+            output = $0
+            exp.fulfill()
+        }.store(in: &listeners)
+
+        constStringNodeA.run()
+
+        waitForExpectations(timeout: 0.3) // Fail
+
+        XCTAssertEqual(paramA, output)
+    }
+
     func testJoin_WithBothParams_OutputsCombinedString() throws {
         let sut = Join()
         let param = "Hello"
