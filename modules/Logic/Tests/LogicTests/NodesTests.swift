@@ -2,9 +2,8 @@
 //  Created by Vladimir Roganov on 21.02.2024
 
 import XCTest
-@testable import Logic
-
 import Combine
+@testable import Logic
 
 final class NodesTests: XCTestCase {
     private var listeners: Set<AnyCancellable> = .init()
@@ -12,14 +11,14 @@ final class NodesTests: XCTestCase {
     func testRandomLetter_OuputsSingleLetter() throws {
         let sut = RandomLetter()
 
-        var output: String?
+        var result: String?
         sut.output.sink {
-            output = $0
+            result = $0
         }.store(in: &listeners)
 
         sut.run()
 
-        XCTAssertEqual(output?.count, 1)
+        XCTAssertEqual(result?.count, 1)
     }
 
     func testRandomLetter_OutputsDifferentRandomLetters() throws {
@@ -49,14 +48,14 @@ final class NodesTests: XCTestCase {
         let paramSubject = CurrentValueSubject<String?, Never>(nil)
         sut.linkParamOne(paramSubject)
 
-        var output: String?
+        var result: String?
         sut.output.sink {
-            output = $0
+            result = $0
         }.store(in: &listeners)
 
         paramSubject.send(param)
 
-        XCTAssertEqual(param, output)
+        XCTAssertEqual(param, result)
     }
 
     func testJoin_WithBothParams_OneWithoutSend_NotOutputsParamString() throws {
@@ -70,35 +69,35 @@ final class NodesTests: XCTestCase {
         sut.linkParamOne(constStringNodeA.output)
         sut.linkParamTwo(constStringNodeB.output)
 
-        var output: String?
+        var result: String?
         sut.output.sink {
-            output = $0
+            result = $0
         }.store(in: &listeners)
 
         constStringNodeA.run()
 
-        XCTAssertEqual(paramA, output)
+        XCTAssertEqual(paramA, result)
     }
 
     func testJoin_WithBothParams_OutputsCombinedString() throws {
         let sut = Join()
-        let param = "Hello"
+        let param1 = "Hello"
         let param2 = "World"
 
-        let paramSubject = CurrentValueSubject<String?, Never>(nil)
-        sut.linkParamOne(paramSubject)
+        let param1Subject = CurrentValueSubject<String?, Never>(nil)
+        sut.linkParamOne(param1Subject)
         let param2Subject = CurrentValueSubject<String?, Never>(nil)
         sut.linkParamTwo(param2Subject)
 
-        var output: String?
+        var result: String?
         sut.output.sink {
-            output = $0
+            result = $0
         }.store(in: &listeners)
 
-        paramSubject.send(param)
+        param1Subject.send(param1)
         param2Subject.send(param2)
 
-        XCTAssertEqual(output, param + param2)
+        XCTAssertEqual(result, param1 + param2)
     }
 
     func testDisplay_OutputsAndPrintReceivedValue() throws {
@@ -109,9 +108,9 @@ final class NodesTests: XCTestCase {
 
         sut.linkInput(paramSubject)
 
-        var output: String?
+        var result: String?
         sut.output.sink {
-            output = $0
+            result = $0
         }.store(in: &listeners)
 
         var printedValue: String?
@@ -121,25 +120,24 @@ final class NodesTests: XCTestCase {
 
         paramSubject.send(param)
 
-        XCTAssertEqual(output, param)
+        XCTAssertEqual(result, param)
         XCTAssertEqual(printedValue, param)
     }
 
     func testTwoRandomLettersJoined_OutputsCorrectStringLength() throws {
-        let sut = RandomLetter()
+        let sut1 = RandomLetter()
         let sut2 = Join()
 
-        sut2.linkParamOne(sut.output)
-        sut2.linkParamTwo(sut.output)
+        sut2.linkParamOne(sut1.output)
+        sut2.linkParamTwo(sut1.output)
 
-        var output: String?
+        var result: String?
         sut2.output.sink {
-            output = $0
+            result = $0
         }.store(in: &listeners)
 
-        sut.run()
+        sut1.run()
 
-        XCTAssertEqual(output?.count, 2)
+        XCTAssertEqual(result?.count, 2)
     }
 }
-
