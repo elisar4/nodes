@@ -2,27 +2,23 @@
 //  Created by Vladimir Roganov on 21.02.2024
 
 import XCTest
-@testable import Logic
-
 import Combine
+@testable import Logic
 
 final class NodesTests: XCTestCase {
     private var listeners: Set<AnyCancellable> = .init()
 
     func testRandomLetter_OuputsSingleLetter() throws {
         let sut = RandomLetter()
-        var output: String?
-        let expectation = self.expectation(description: "Output")
+
+        var result: String?
         sut.output.sink {
-            output = $0
-            expectation.fulfill()
+            result = $0
         }.store(in: &listeners)
 
         sut.run()
 
-        waitForExpectations(timeout: 0.3)
-        let outputString = try XCTUnwrap(output)
-        XCTAssertEqual(outputString.count, 1)
+        XCTAssertEqual(result?.count, 1)
     }
 
     func testRandomLetter_OutputsDifferentRandomLetters() throws {
@@ -30,134 +26,118 @@ final class NodesTests: XCTestCase {
 
         var letter1: String?
         var letter2: String?
-
-        let exp = self.expectation(description: "Output")
-
         sut.output.collect(2).sink { value in
             letter1 = value.first ?? nil
             letter2 = value.last ?? nil
-            exp.fulfill()
         }.store(in: &listeners)
 
         sut.run()
         sut.run()
 
-        waitForExpectations(timeout: 0.3)
-
         XCTAssertNotEqual(letter1, letter2)
     }
 
     func testJoin_OutputsEmptyString_WithoutParams() throws {
-        let sut = Join()
-        XCTAssertNotNil(sut.output)
+        XCTAssertNotNil(Join().output.value)
     }
 
     func testJoin_WithSingleParam_OutputsParamString() throws {
         let sut = Join()
         let param = "Hello"
 
-        let exp = self.expectation(description: "Output")
-
-        var output: String?
-
-        let paramSubject = PassthroughSubject<String?, Never>()
+        let paramSubject = CurrentValueSubject<String?, Never>(nil)
         sut.linkParamOne(paramSubject)
 
+        var result: String?
         sut.output.sink {
-            output = $0
-            exp.fulfill()
+            result = $0
         }.store(in: &listeners)
 
         paramSubject.send(param)
 
-        waitForExpectations(timeout: 0.3)
+        XCTAssertEqual(param, result)
+    }
 
-        XCTAssertEqual(param, output)
+    func testJoin_WithBothParams_OneWithoutSend_NotOutputsParamString() throws {
+        let sut = Join()
+
+        let paramA = "A"
+        let paramB = "B"
+        let constStringNodeA = ConstantString(paramA)
+        let constStringNodeB = ConstantString(paramB)
+
+        sut.linkParamOne(constStringNodeA.output)
+        sut.linkParamTwo(constStringNodeB.output)
+
+        var result: String?
+        sut.output.sink {
+            result = $0
+        }.store(in: &listeners)
+
+        constStringNodeA.run()
+
+        XCTAssertEqual(paramA, result)
     }
 
     func testJoin_WithBothParams_OutputsCombinedString() throws {
         let sut = Join()
-        let param = "Hello"
+        let param1 = "Hello"
         let param2 = "World"
 
-        let exp = self.expectation(description: "Output")
-
-        var output: String?
-
-        let paramSubject = PassthroughSubject<String?, Never>()
-        sut.linkParamOne(paramSubject)
-        let param2Subject = PassthroughSubject<String?, Never>()
+        let param1Subject = CurrentValueSubject<String?, Never>(nil)
+        sut.linkParamOne(param1Subject)
+        let param2Subject = CurrentValueSubject<String?, Never>(nil)
         sut.linkParamTwo(param2Subject)
 
+        var result: String?
         sut.output.sink {
-            output = $0
-            exp.fulfill()
+            result = $0
         }.store(in: &listeners)
 
-        paramSubject.send(param)
+        param1Subject.send(param1)
         param2Subject.send(param2)
 
-        waitForExpectations(timeout: 0.3)
-
-        XCTAssertEqual(output, param + param2)
+        XCTAssertEqual(result, param1 + param2)
     }
 
     func testDisplay_OutputsAndPrintReceivedValue() throws {
         let sut = Display()
         let param = "Hello"
 
-        let exp = self.expectation(description: "Output")
-
-        let paramSubject = PassthroughSubject<String?, Never>()
+        let paramSubject = CurrentValueSubject<String?, Never>(nil)
 
         sut.linkInput(paramSubject)
 
-        var output: String?
-
+        var result: String?
         sut.output.sink {
-            output = $0
-            exp.fulfill()
+            result = $0
         }.store(in: &listeners)
 
         var printedValue: String?
-
         sut.action = {
             printedValue = $0
         }
 
         paramSubject.send(param)
 
-        waitForExpectations(timeout: 0.3)
-
-        XCTAssertEqual(output, param)
+        XCTAssertEqual(result, param)
         XCTAssertEqual(printedValue, param)
     }
 
     func testTwoRandomLettersJoined_OutputsCorrectStringLength() throws {
-        let sut = RandomLetter()
+        let sut1 = RandomLetter()
         let sut2 = Join()
 
-        let exp = self.expectation(description: "Output")
+        sut2.linkParamOne(sut1.output)
+        sut2.linkParamTwo(sut1.output)
 
-        sut2.linkParamOne(sut.output)
-        sut2.linkParamTwo(sut.output)
-
-        var output: String?
-
+        var result: String?
         sut2.output.sink {
-            output = $0
-            exp.fulfill()
+            result = $0
         }.store(in: &listeners)
 
-        sut.run()
+        sut1.run()
 
-        waitForExpectations(timeout: 0.3)
-
-        XCTAssertEqual(output?.count, 2)
-    }
-
-    func testAll() throws {
-
+        XCTAssertEqual(result?.count, 2)
     }
 }
-

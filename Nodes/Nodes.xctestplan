@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "CAA3A1D4-234A-4C04-9196-56048DE28C86",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:..\/modules\/Logic",
+        "identifier" : "LogicTests",
+        "name" : "LogicTests"
+      }
+    }
+  ],
+  "version" : 1
+}

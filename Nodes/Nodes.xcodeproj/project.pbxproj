@@ -28,6 +28,7 @@
 /* Begin PBXFileReference section */
 		E9220B6C2B8779FE00C4DE1D /* refs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = refs; path = ../refs; sourceTree = "<group>"; };
 		E9252AA82B86308F00052FFE /* Logic */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Logic; path = ../modules/Logic; sourceTree = "<group>"; };
+		E9770B7C2B908CF80065FDFF /* Nodes.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nodes.xctestplan; sourceTree = SOURCE_ROOT; };
 		E9BA0DF72B78E3080017240A /* Nodes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nodes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BA0DFA2B78E3080017240A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9BA0E032B78E30A0017240A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -83,11 +84,12 @@
 		E9BA0DF92B78E3080017240A /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
-				E9BA0E692B78E6170017240A /* main.swift */,
-				E9BA0DFA2B78E3080017240A /* AppDelegate.swift */,
-				E9BA0E032B78E30A0017240A /* Assets.xcassets */,
-				E9BA0E052B78E30A0017240A /* LaunchScreen.storyboard */,
 				E9BA0E082B78E30A0017240A /* Info.plist */,
+				E9BA0DFA2B78E3080017240A /* AppDelegate.swift */,
+				E9BA0E692B78E6170017240A /* main.swift */,
+				E9BA0E032B78E30A0017240A /* Assets.xcassets */,
+				E9770B7C2B908CF80065FDFF /* Nodes.xctestplan */,
+				E9BA0E052B78E30A0017240A /* LaunchScreen.storyboard */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";

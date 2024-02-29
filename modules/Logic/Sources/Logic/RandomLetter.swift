@@ -4,7 +4,7 @@
 import Combine
 
 public class RandomLetter {
-    public var output: PassthroughSubject<String?, Never> = .init()
+    public var output: CurrentValueSubject<String?, Never> = .init(nil)
 
     public init() {}
 
