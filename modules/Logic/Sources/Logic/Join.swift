@@ -6,7 +6,7 @@ import Combine
 public class Join: NodeInput {
     public var input1: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
     public var input2: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
-    public var output: CurrentValueSubject<String?, Never> = .init(nil)
+    public var output: CurrentValueSubject<String?, Never> = .init("")
 
     private var listener: AnyCancellable?
 

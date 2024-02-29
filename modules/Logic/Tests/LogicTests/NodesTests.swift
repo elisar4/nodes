@@ -11,18 +11,15 @@ final class NodesTests: XCTestCase {
 
     func testRandomLetter_OuputsSingleLetter() throws {
         let sut = RandomLetter()
+
         var output: String?
-        let expectation = self.expectation(description: "Output")
         sut.output.sink {
             output = $0
-            expectation.fulfill()
         }.store(in: &listeners)
 
         sut.run()
 
-        waitForExpectations(timeout: 0.3)
-        let outputString = try XCTUnwrap(output)
-        XCTAssertEqual(outputString.count, 1)
+        XCTAssertEqual(output?.count, 1)
     }
 
     func testRandomLetter_OutputsDifferentRandomLetters() throws {
@@ -30,47 +27,34 @@ final class NodesTests: XCTestCase {
 
         var letter1: String?
         var letter2: String?
-
-        let exp = self.expectation(description: "Output")
-
         sut.output.collect(2).sink { value in
             letter1 = value.first ?? nil
             letter2 = value.last ?? nil
-            exp.fulfill()
         }.store(in: &listeners)
 
         sut.run()
         sut.run()
 
-        waitForExpectations(timeout: 0.3)
-
         XCTAssertNotEqual(letter1, letter2)
     }
 
     func testJoin_OutputsEmptyString_WithoutParams() throws {
-        let sut = Join()
-        XCTAssertNotNil(sut.output)
+        XCTAssertNotNil(Join().output.value)
     }
 
     func testJoin_WithSingleParam_OutputsParamString() throws {
         let sut = Join()
         let param = "Hello"
 
-        let exp = self.expectation(description: "Output")
-
-        var output: String?
-
         let paramSubject = CurrentValueSubject<String?, Never>(nil)
         sut.linkParamOne(paramSubject)
 
+        var output: String?
         sut.output.sink {
             output = $0
-            exp.fulfill()
         }.store(in: &listeners)
 
         paramSubject.send(param)
-
-        waitForExpectations(timeout: 0.3)
 
         XCTAssertEqual(param, output)
     }
@@ -101,24 +85,18 @@ final class NodesTests: XCTestCase {
         let param = "Hello"
         let param2 = "World"
 
-        let exp = self.expectation(description: "Output")
-
-        var output: String?
-
         let paramSubject = CurrentValueSubject<String?, Never>(nil)
         sut.linkParamOne(paramSubject)
         let param2Subject = CurrentValueSubject<String?, Never>(nil)
         sut.linkParamTwo(param2Subject)
 
+        var output: String?
         sut.output.sink {
             output = $0
-            exp.fulfill()
         }.store(in: &listeners)
 
         paramSubject.send(param)
         param2Subject.send(param2)
-
-        waitForExpectations(timeout: 0.3)
 
         XCTAssertEqual(output, param + param2)
     }
@@ -127,28 +105,21 @@ final class NodesTests: XCTestCase {
         let sut = Display()
         let param = "Hello"
 
-        let exp = self.expectation(description: "Output")
-
         let paramSubject = CurrentValueSubject<String?, Never>(nil)
 
         sut.linkInput(paramSubject)
 
         var output: String?
-
         sut.output.sink {
             output = $0
-            exp.fulfill()
         }.store(in: &listeners)
 
         var printedValue: String?
-
         sut.action = {
             printedValue = $0
         }
 
         paramSubject.send(param)
-
-        waitForExpectations(timeout: 0.3)
 
         XCTAssertEqual(output, param)
         XCTAssertEqual(printedValue, param)
@@ -158,27 +129,17 @@ final class NodesTests: XCTestCase {
         let sut = RandomLetter()
         let sut2 = Join()
 
-        let exp = self.expectation(description: "Output")
-
         sut2.linkParamOne(sut.output)
         sut2.linkParamTwo(sut.output)
 
         var output: String?
-
         sut2.output.sink {
             output = $0
-            exp.fulfill()
         }.store(in: &listeners)
 
         sut.run()
 
-        waitForExpectations(timeout: 0.3)
-
         XCTAssertEqual(output?.count, 2)
-    }
-
-    func testAll() throws {
-
     }
 }
 
