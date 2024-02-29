@@ -6,5 +6,5 @@ import Logic
 
 enum NodeParam {
     case input(NodeInput, Int)
-    case output(PassthroughSubject<String?, Never>)
+    case output(CurrentValueSubject<String?, Never>)
 }

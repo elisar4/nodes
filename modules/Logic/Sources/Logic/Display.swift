@@ -5,7 +5,7 @@ import Combine
 
 public final class Display: NodeInput {
     public var input: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
-    public var output: PassthroughSubject<String?, Never> = .init()
+    public var output: CurrentValueSubject<String?, Never> = .init("")
 
     public var action: ((_: String?) -> Void)? = {
         print($0 ?? "nil")
@@ -15,7 +15,7 @@ public final class Display: NodeInput {
 
     public init() {}
 
-    public func linkInput(_ input: PassthroughSubject<String?, Never>, position: Int) {
+    public func linkInput(_ input: CurrentValueSubject<String?, Never>, position: Int) {
         if position == 0 {
             linkInput(input)
         } else {
@@ -23,7 +23,7 @@ public final class Display: NodeInput {
         }
     }
 
-    public func linkInput(_ link: PassthroughSubject<String?, Never>) {
+    public func linkInput(_ link: CurrentValueSubject<String?, Never>) {
         input = link.eraseToAnyPublisher()
         listener = input
             .sink { [weak self] (input) in

@@ -49,7 +49,7 @@ final class NodeLinkController: LinkController, ObservableObject {
         nodes.append(nodesType.randomElement()!.init())
     }
 
-    private func link(input: NodeInput, position: Int, output: PassthroughSubject<String?, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>) {
+    private func link(input: NodeInput, position: Int, output: CurrentValueSubject<String?, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>) {
         input.linkInput(output, position: position)
         points.append(Link(from: tappedPoint, to: point))
         clear()

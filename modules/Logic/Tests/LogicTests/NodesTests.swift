@@ -60,7 +60,7 @@ final class NodesTests: XCTestCase {
 
         var output: String?
 
-        let paramSubject = PassthroughSubject<String?, Never>()
+        let paramSubject = CurrentValueSubject<String?, Never>(nil)
         sut.linkParamOne(paramSubject)
 
         sut.output.sink {
@@ -77,11 +77,6 @@ final class NodesTests: XCTestCase {
 
     func testJoin_WithBothParams_OneWithoutSend_NotOutputsParamString() throws {
         let sut = Join()
-        let param = "Hello"
-
-        let exp = self.expectation(description: "Output")
-
-        var output: String?
 
         let paramA = "A"
         let paramB = "B"
@@ -91,14 +86,12 @@ final class NodesTests: XCTestCase {
         sut.linkParamOne(constStringNodeA.output)
         sut.linkParamTwo(constStringNodeB.output)
 
+        var output: String?
         sut.output.sink {
             output = $0
-            exp.fulfill()
         }.store(in: &listeners)
 
         constStringNodeA.run()
-
-        waitForExpectations(timeout: 0.3) // Fail
 
         XCTAssertEqual(paramA, output)
     }
@@ -112,9 +105,9 @@ final class NodesTests: XCTestCase {
 
         var output: String?
 
-        let paramSubject = PassthroughSubject<String?, Never>()
+        let paramSubject = CurrentValueSubject<String?, Never>(nil)
         sut.linkParamOne(paramSubject)
-        let param2Subject = PassthroughSubject<String?, Never>()
+        let param2Subject = CurrentValueSubject<String?, Never>(nil)
         sut.linkParamTwo(param2Subject)
 
         sut.output.sink {
@@ -136,7 +129,7 @@ final class NodesTests: XCTestCase {
 
         let exp = self.expectation(description: "Output")
 
-        let paramSubject = PassthroughSubject<String?, Never>()
+        let paramSubject = CurrentValueSubject<String?, Never>(nil)
 
         sut.linkInput(paramSubject)
 

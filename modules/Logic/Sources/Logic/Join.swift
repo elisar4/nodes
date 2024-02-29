@@ -6,13 +6,13 @@ import Combine
 public class Join: NodeInput {
     public var input1: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
     public var input2: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
-    public var output: PassthroughSubject<String?, Never> = .init()
+    public var output: CurrentValueSubject<String?, Never> = .init(nil)
 
     private var listener: AnyCancellable?
 
     public init() {}
 
-    public func linkInput(_ input: PassthroughSubject<String?, Never>, position: Int) {
+    public func linkInput(_ input: CurrentValueSubject<String?, Never>, position: Int) {
         if position == 0 {
             linkParamOne(input)
         } else if position == 1 {
@@ -22,12 +22,12 @@ public class Join: NodeInput {
         }
     }
 
-    func linkParamOne(_ link: PassthroughSubject<String?, Never>) {
+    func linkParamOne(_ link: CurrentValueSubject<String?, Never>) {
         input1 = link.eraseToAnyPublisher()
         subscribe()
     }
 
-    func linkParamTwo(_ link: PassthroughSubject<String?, Never>) {
+    func linkParamTwo(_ link: CurrentValueSubject<String?, Never>) {
         input2 = link.eraseToAnyPublisher()
         subscribe()
     }
