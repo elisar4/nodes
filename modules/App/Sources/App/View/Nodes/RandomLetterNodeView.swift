@@ -28,6 +28,7 @@ struct RandomLetterNodeBodyView: View {
 
     var body: some View {
         HStack {
+            Spacer(minLength: 0)
             VStack {
                 Button("Generate") {
                     model.model.run()
