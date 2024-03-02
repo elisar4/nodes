@@ -13,8 +13,11 @@ struct MainView: View {
             ZStack {
                 workspaceBackground
                 ForEach(controller.nodes, id: \.id) { node in
-                    NodeView(title: node.name) { id in
-                        node.build(controller: controller, id: id)
+                    NodeView(title: node.name, isSelected: controller.selection?.id == node.id) {
+                        node.build(controller: controller, id: node.id)
+                    }
+                    .onTapGesture {
+                        controller.didTapNode(node)
                     }
                 }
                 ForEach(controller.points) { element in
