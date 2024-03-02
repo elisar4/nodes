@@ -18,12 +18,10 @@ public final class Display: NodeInput {
     public func linkInput(_ input: CurrentValueSubject<String?, Never>, position: Int) {
         if position == 0 {
             linkInput(input)
-        } else {
-
         }
     }
 
-    public func linkInput(_ link: CurrentValueSubject<String?, Never>) {
+    private func linkInput(_ link: CurrentValueSubject<String?, Never>) {
         input = link.eraseToAnyPublisher()
         listener = input
             .sink { [weak self] (input) in

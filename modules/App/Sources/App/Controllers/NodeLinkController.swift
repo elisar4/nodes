@@ -46,7 +46,12 @@ final class NodeLinkController: LinkController, ObservableObject {
     }
     
     func addRandomNode() {
-        nodes.append(nodesType.randomElement()!.init())
+        let randomNode = nodesType.randomElement()!.init()
+        addNode(randomNode)
+    }
+
+    func addNode(_ node: any BaseNode) {
+        nodes.append(node)
     }
 
     private func link(input: NodeInput, position: Int, output: CurrentValueSubject<String?, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>) {
