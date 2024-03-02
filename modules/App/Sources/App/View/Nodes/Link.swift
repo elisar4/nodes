@@ -8,6 +8,8 @@ struct Link: Identifiable {
 
     let from: Binding<CGPoint>
     let to: Binding<CGPoint>
+    let fromId: String
+    let toId: String
 }
 
 struct LinkView: View {
