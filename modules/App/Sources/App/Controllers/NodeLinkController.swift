@@ -82,3 +82,19 @@ extension NodeLinkController {
         selection = nil
     }
 }
+
+// MARK: - Removing
+
+extension NodeLinkController {
+    func removeSelectedNode() {
+        guard let selection,
+              let idx = nodes.firstIndex(where: { $0.id == selection.id }) else {
+            return
+        }
+        let uid = selection.id
+        selection.remove()
+        self.selection = nil
+        nodes.remove(at: idx)
+        points = points.filter({ !($0.fromId == uid || $0.toId == uid) })
+    }
+}

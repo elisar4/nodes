@@ -24,6 +24,7 @@ struct MainView: View {
                     LinkView(fromPoint: element.from, toPoint: element.to)
                 }
             }
+            .toolbar(content: { toolbarView })
             .ignoresSafeArea(.keyboard)
         }
     }
@@ -36,4 +37,14 @@ struct MainView: View {
             }
     }
 
+    @ViewBuilder
+    var toolbarView: some View {
+        if controller.selection == nil {
+            EmptyView()
+        } else {
+            Button("Remove selected") {
+                controller.removeSelectedNode()
+            }
+        }
+    }
 }
