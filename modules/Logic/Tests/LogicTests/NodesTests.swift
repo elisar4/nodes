@@ -46,7 +46,7 @@ final class NodesTests: XCTestCase {
         let param = "Hello"
 
         let paramSubject = CurrentValueSubject<String?, Never>(nil)
-        sut.linkParamOne(paramSubject)
+        sut.linkInput(paramSubject, position: 0)
 
         var result: String?
         sut.output.sink {
@@ -66,8 +66,8 @@ final class NodesTests: XCTestCase {
         let constStringNodeA = ConstantString(paramA)
         let constStringNodeB = ConstantString(paramB)
 
-        sut.linkParamOne(constStringNodeA.output)
-        sut.linkParamTwo(constStringNodeB.output)
+        sut.linkInput(constStringNodeA.output, position: 0)
+        sut.linkInput(constStringNodeB.output, position: 1)
 
         var result: String?
         sut.output.sink {
@@ -85,9 +85,9 @@ final class NodesTests: XCTestCase {
         let param2 = "World"
 
         let param1Subject = CurrentValueSubject<String?, Never>(nil)
-        sut.linkParamOne(param1Subject)
+        sut.linkInput(param1Subject, position: 0)
         let param2Subject = CurrentValueSubject<String?, Never>(nil)
-        sut.linkParamTwo(param2Subject)
+        sut.linkInput(param2Subject, position: 1)
 
         var result: String?
         sut.output.sink {
@@ -106,7 +106,7 @@ final class NodesTests: XCTestCase {
 
         let paramSubject = CurrentValueSubject<String?, Never>(nil)
 
-        sut.linkInput(paramSubject)
+        sut.linkInput(paramSubject, position: 0)
 
         var result: String?
         sut.output.sink {
@@ -128,8 +128,8 @@ final class NodesTests: XCTestCase {
         let sut1 = RandomLetter()
         let sut2 = Join()
 
-        sut2.linkParamOne(sut1.output)
-        sut2.linkParamTwo(sut1.output)
+        sut2.linkInput(sut1.output, position: 0)
+        sut2.linkInput(sut1.output, position: 1)
 
         var result: String?
         sut2.output.sink {

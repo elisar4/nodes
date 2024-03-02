@@ -17,17 +17,15 @@ public class Join: NodeInput {
             linkParamOne(input)
         } else if position == 1 {
             linkParamTwo(input)
-        } else {
-
         }
     }
 
-    func linkParamOne(_ link: CurrentValueSubject<String?, Never>) {
+    private func linkParamOne(_ link: CurrentValueSubject<String?, Never>) {
         input1 = link.eraseToAnyPublisher()
         subscribe()
     }
 
-    func linkParamTwo(_ link: CurrentValueSubject<String?, Never>) {
+    private func linkParamTwo(_ link: CurrentValueSubject<String?, Never>) {
         input2 = link.eraseToAnyPublisher()
         subscribe()
     }
