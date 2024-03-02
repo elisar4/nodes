@@ -11,6 +11,10 @@ class RandomLetterNode: BaseNode, ObservableObject {
 
     required init() { model = .init() }
 
+    func remove() {
+        model.remove()
+    }
+
     func build(controller: LinkController, id: String) -> AnyView {
         AnyView(RandomLetterNodeBodyView(model: self, onLinkTap: { (point, param) in
             controller.addPoint(point, id: id, param: param)

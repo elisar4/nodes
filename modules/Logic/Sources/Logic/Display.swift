@@ -21,6 +21,11 @@ public final class Display: NodeInput {
         }
     }
 
+    public func remove() {
+        output.send(nil)
+        listener = nil
+    }
+
     private func linkInput(_ link: CurrentValueSubject<String?, Never>) {
         input = link.eraseToAnyPublisher()
         listener = input

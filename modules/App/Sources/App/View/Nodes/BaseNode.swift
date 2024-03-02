@@ -7,5 +7,6 @@ protocol BaseNode: Identifiable {
     var id: String { get }
     var name: String { get }
     init()
+    func remove()
     func build(controller: LinkController, id: String) -> AnyView
 }

@@ -12,4 +12,8 @@ public class RandomLetter {
         let chars = "ABCDEFGHIJQKLMNOPRSTUVWXYZ".map({ $0 })
         output.send(chars[Int.random(in: 0...25)].description)
     }
+
+    public func remove() {
+        output.send(nil)
+    }
 }

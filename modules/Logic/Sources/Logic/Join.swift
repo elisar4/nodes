@@ -20,6 +20,11 @@ public class Join: NodeInput {
         }
     }
 
+    public func remove() {
+        output.send(nil)
+        listener = nil
+    }
+
     private func linkParamOne(_ link: CurrentValueSubject<String?, Never>) {
         input1 = link.eraseToAnyPublisher()
         subscribe()
