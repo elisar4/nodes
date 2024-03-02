@@ -8,7 +8,7 @@ import Combine
 final class NodeLinkController: LinkController, ObservableObject {
     @Published var points: [Link] = []
     @Published var nodes: [any BaseNode] = []
-    private let nodesType: [any BaseNode.Type] = [
+    @Published var selection: (any BaseNode)?
         JoinNode.self,
         RandomLetterNode.self,
         DisplayNode.self
@@ -64,5 +64,21 @@ final class NodeLinkController: LinkController, ObservableObject {
         tappedParam = nil
         tappedPoint = nil
         tappedID = nil
+    }
+}
+
+// MARK: - Selection
+
+extension NodeLinkController {
+    func didTapNode(_ node: any BaseNode) {
+        if selection?.id == node.id {
+            selection = nil
+        } else {
+            selection = node
+        }
+    }
+
+    func didTapBackground() {
+        selection = nil
     }
 }
