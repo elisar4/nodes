@@ -11,6 +11,7 @@ struct MainView: View {
         NavigationView {
             DebugView(controller: controller)
             ZStack {
+                workspaceBackground
                 ForEach(controller.nodes, id: \.id) { node in
                     NodeView(title: node.name) { id in
                         node.build(controller: controller, id: id)
@@ -23,5 +24,13 @@ struct MainView: View {
             .ignoresSafeArea(.keyboard)
         }
     }
-}
 
+    var workspaceBackground: some View {
+        Image("bgPattern")
+            .resizable(resizingMode: .tile)
+            .onTapGesture {
+                controller.didTapBackground()
+            }
+    }
+
+}
