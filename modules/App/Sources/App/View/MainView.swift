@@ -24,6 +24,7 @@ struct MainView: View {
                     LinkView(fromPoint: element.from, toPoint: element.to)
                 }
             }
+            .coordinateSpace(name: "ZStackMain")
             .toolbar(content: { toolbarView })
             .ignoresSafeArea(.keyboard)
         }

@@ -22,6 +22,5 @@ struct LinkView: View {
             path.addLine(to: toPoint)
         }
         .stroke(.blue, lineWidth: 2)
-        .ignoresSafeArea()
     }
 }

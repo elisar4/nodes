@@ -11,8 +11,8 @@ struct LinkPointView: View {
         GeometryReader { geo in
             Image(systemName: "circle.circle")
                 .onChange(of: geo.frame(in: .global)) { _ in
-                    point = .init(x: geo.frame(in: .global).midX,
-                                  y: geo.frame(in: .global).midY)
+                    let frame = geo.frame(in: .named("ZStackMain"))
+                    point = .init(x: frame.midX, y: frame.midY)
                 }
         }
         .frame(width: 20, height: 20)
