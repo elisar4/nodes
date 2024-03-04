@@ -4,5 +4,5 @@
 import Combine
 
 public protocol NodeInput {
-    func linkInput(_ input: CurrentValueSubject<String?, Never>, position: Int)
+    func linkInput(_ input: CurrentValueSubject<Wrapped?, Never>, position: Int)
 }

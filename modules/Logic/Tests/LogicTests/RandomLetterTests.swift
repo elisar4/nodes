@@ -11,21 +11,21 @@ final class RandomLetterTests: XCTestCase {
     func testRandomLetter_OuputsSingleLetter() throws {
         let sut = RandomLetter()
 
-        var result: String?
+        var result: Wrapped?
         sut.output.sink {
             result = $0
         }.store(in: &listeners)
 
         sut.run()
 
-        XCTAssertEqual(result?.count, 1)
+        XCTAssertEqual(result?.string?.count, 1)
     }
 
     func testRandomLetter_OutputsDifferentRandomLetters() throws {
         let sut = RandomLetter()
 
-        var letter1: String?
-        var letter2: String?
+        var letter1: Wrapped?
+        var letter2: Wrapped?
         sut.output.collect(2).sink { value in
             letter1 = value.first ?? nil
             letter2 = value.last ?? nil

@@ -1,15 +1,11 @@
-//  Display.swift
-//  Created by Igor Manakov on 27.02.2024.
+//  Count.swift
+//  Created by Igor Manakov on 04.03.2024.
 
 import Combine
 
-public final class Display: NodeInput {
+public final class Count: NodeInput {
     public var input: AnyPublisher<Wrapped?, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
-    public var output: CurrentValueSubject<Wrapped?, Never> = .init(.string(""))
-
-    public var action: ((_: String?) -> Void)? = {
-        print($0 ?? "nil")
-    }
+    public var output: CurrentValueSubject<Wrapped?, Never> = .init(.int(0))
 
     private var listener: AnyCancellable?
 
@@ -29,9 +25,8 @@ public final class Display: NodeInput {
     private func linkInput(_ link: CurrentValueSubject<Wrapped?, Never>) {
         input = link.eraseToAnyPublisher()
         listener = input
-            .sink { [weak self] input in
-                self?.output.send(input)
-                self?.action?(input?.string ?? input?.int?.description)
+            .sink { [weak output] input in
+                output?.send(.int(input?.string?.count ?? 0))
             }
     }
 }

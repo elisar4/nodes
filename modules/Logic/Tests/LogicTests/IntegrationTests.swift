@@ -15,13 +15,13 @@ final class IntegrationTests: XCTestCase {
         sut2.linkInput(sut1.output, position: 0)
         sut2.linkInput(sut1.output, position: 1)
 
-        var result: String?
+        var result: Wrapped?
         sut2.output.sink {
             result = $0
         }.store(in: &listeners)
 
         sut1.run()
 
-        XCTAssertEqual(result?.count, 2)
+        XCTAssertEqual(result?.string?.count, 2)
     }
 }

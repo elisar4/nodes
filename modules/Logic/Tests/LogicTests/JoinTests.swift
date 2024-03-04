@@ -16,17 +16,17 @@ final class JoinTests: XCTestCase {
         let sut = Join()
         let param = "Hello"
 
-        let paramSubject = CurrentValueSubject<String?, Never>(nil)
+        let paramSubject = CurrentValueSubject<Wrapped?, Never>(nil)
         sut.linkInput(paramSubject, position: 0)
 
-        var result: String?
+        var result: Wrapped?
         sut.output.sink {
             result = $0
         }.store(in: &listeners)
 
-        paramSubject.send(param)
+        paramSubject.send(.string(param))
 
-        XCTAssertEqual(param, result)
+        XCTAssertEqual(.string(param), result)
     }
 
     func testJoin_WithBothParams_OneWithoutSend_NotOutputsParamString() throws {
@@ -40,14 +40,14 @@ final class JoinTests: XCTestCase {
         sut.linkInput(constStringNodeA.output, position: 0)
         sut.linkInput(constStringNodeB.output, position: 1)
 
-        var result: String?
+        var result: Wrapped?
         sut.output.sink {
             result = $0
         }.store(in: &listeners)
 
         constStringNodeA.run()
 
-        XCTAssertEqual(paramA, result)
+        XCTAssertEqual(.string(paramA), result)
     }
 
     func testJoin_WithBothParams_OutputsCombinedString() throws {
@@ -55,19 +55,19 @@ final class JoinTests: XCTestCase {
         let param1 = "Hello"
         let param2 = "World"
 
-        let param1Subject = CurrentValueSubject<String?, Never>(nil)
+        let param1Subject = CurrentValueSubject<Wrapped?, Never>(nil)
         sut.linkInput(param1Subject, position: 0)
-        let param2Subject = CurrentValueSubject<String?, Never>(nil)
+        let param2Subject = CurrentValueSubject<Wrapped?, Never>(nil)
         sut.linkInput(param2Subject, position: 1)
 
-        var result: String?
+        var result: Wrapped?
         sut.output.sink {
             result = $0
         }.store(in: &listeners)
 
-        param1Subject.send(param1)
-        param2Subject.send(param2)
+        param1Subject.send(.string(param1))
+        param2Subject.send(.string(param2))
 
-        XCTAssertEqual(result, param1 + param2)
+        XCTAssertEqual(result, .string(param1 + param2))
     }
 }

@@ -4,15 +4,15 @@
 import Combine
 
 public class Join: NodeInput {
-    public var input1: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
-    public var input2: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
-    public var output: CurrentValueSubject<String?, Never> = .init("")
+    public var input1: AnyPublisher<Wrapped?, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
+    public var input2: AnyPublisher<Wrapped?, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
+    public var output: CurrentValueSubject<Wrapped?, Never> = .init(.string(""))
 
     private var listener: AnyCancellable?
 
     public init() {}
 
-    public func linkInput(_ input: CurrentValueSubject<String?, Never>, position: Int) {
+    public func linkInput(_ input: CurrentValueSubject<Wrapped?, Never>, position: Int) {
         if position == 0 {
             linkParamOne(input)
         } else if position == 1 {
@@ -25,12 +25,12 @@ public class Join: NodeInput {
         listener = nil
     }
 
-    private func linkParamOne(_ link: CurrentValueSubject<String?, Never>) {
+    private func linkParamOne(_ link: CurrentValueSubject<Wrapped?, Never>) {
         input1 = link.eraseToAnyPublisher()
         subscribe()
     }
 
-    private func linkParamTwo(_ link: CurrentValueSubject<String?, Never>) {
+    private func linkParamTwo(_ link: CurrentValueSubject<Wrapped?, Never>) {
         input2 = link.eraseToAnyPublisher()
         subscribe()
     }
@@ -38,7 +38,7 @@ public class Join: NodeInput {
     private func subscribe() {
         listener = Publishers.CombineLatest(input1, input2)
             .sink { [weak output] (input1, input2) in
-                output?.send((input1 ?? "") + (input2 ?? ""))
+                output?.send(.string((input1?.string ?? "") + (input2?.string ?? "")))
             }
     }
 }

@@ -10,20 +10,20 @@ final class DisplayTests: XCTestCase {
 
     func testDisplay_OutputsAndPrintReceivedValue() throws {
         let sut = Display()
-        let param = "Hello"
+        let param = Wrapped.string("Hello")
 
-        let paramSubject = CurrentValueSubject<String?, Never>(nil)
+        let paramSubject = CurrentValueSubject<Wrapped?, Never>(nil)
 
         sut.linkInput(paramSubject, position: 0)
 
-        var result: String?
+        var result: Wrapped?
         sut.output.sink {
             result = $0
         }.store(in: &listeners)
 
-        var printedValue: String?
+        var printedValue: Wrapped?
         sut.action = {
-            printedValue = $0
+            printedValue = .string($0 ?? "")
         }
 
         paramSubject.send(param)
