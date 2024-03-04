@@ -3,15 +3,14 @@
 
 import SwiftUI
 
-struct NodeView<Content: View>: View, Identifiable {
+struct NodeView<Content: View>: View {
     @State var title: String
+    var isSelected: Bool
 
     @State private var isShowBody: Bool = true
     @State private var position = CGPoint.zero
 
-    @ViewBuilder var content: (String) -> Content
-
-    var id: String = UUID().uuidString
+    @ViewBuilder var content: () -> Content
 
     var body: some View {
         GeometryReader { proxy in
@@ -19,13 +18,13 @@ struct NodeView<Content: View>: View, Identifiable {
                 NodeHeaderView(isShowBody: $isShowBody, title: title)
                     .transition(.scale)
                 if isShowBody {
-                    content(id)
+                    content()
                 }
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0)
             .fixedSize()
             .background(.background)
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke())
+            .overlay(nodeBorder)
             .position(position)
             .gesture(
                 DragGesture()
@@ -37,6 +36,14 @@ struct NodeView<Content: View>: View, Identifiable {
                 position = .init(x: proxy.size.width * CGFloat.random(in: 0.2...0.8),
                                  y: proxy.size.height * CGFloat.random(in: 0.2...0.8))
             }
+        }
+    }
+
+    private var nodeBorder: some View {
+        if isSelected {
+            RoundedRectangle(cornerRadius: 10).stroke(Color.accentColor)
+        } else {
+            RoundedRectangle(cornerRadius: 10).stroke(Color.secondary)
         }
     }
 }

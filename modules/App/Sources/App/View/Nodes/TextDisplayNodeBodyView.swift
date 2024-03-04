@@ -18,6 +18,10 @@ class DisplayNode: BaseNode, ObservableObject {
         }
     }
 
+    func remove() {
+        model.remove()
+    }
+
     func build(controller: LinkController, id: String) -> AnyView {
         AnyView(TextDisplayNodeBodyView(model: self, onLinkTap: { (point, param) in
             controller.addPoint(point, id: id, param: param)

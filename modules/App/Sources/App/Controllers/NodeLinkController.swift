@@ -8,11 +8,7 @@ import Combine
 final class NodeLinkController: LinkController, ObservableObject {
     @Published var points: [Link] = []
     @Published var nodes: [any BaseNode] = []
-    private let nodesType: [any BaseNode.Type] = [
-        JoinNode.self,
-        RandomLetterNode.self,
-        DisplayNode.self
-    ]
+    @Published var selection: (any BaseNode)?
 
     private var tappedPoint: Binding<CGPoint>?
     private var tappedID: String?
@@ -20,15 +16,27 @@ final class NodeLinkController: LinkController, ObservableObject {
     private var tappedParam: NodeParam?
 
     func addPoint(_ point: Binding<CGPoint>, id: String, param: NodeParam) {
-        if let tappedParam, let tappedPoint {
+        if let tappedParam, let tappedPoint, let tappedID {
             if tappedID == id {
                 return
             }
             switch (tappedParam, param) {
             case (.input(let input, let position), .output(let output)):
-                link(input: input, position: position, output: output, tappedPoint: tappedPoint, point: point)
+                link(input: input,
+                     position: position,
+                     output: output,
+                     tappedPoint: tappedPoint,
+                     point: point,
+                     inputNodeId: tappedID,
+                     outputNodeId: id)
             case (.output(let output), .input(let input, let position)):
-                link(input: input, position: position, output: output, tappedPoint: tappedPoint, point: point)
+                link(input: input,
+                     position: position,
+                     output: output,
+                     tappedPoint: tappedPoint,
+                     point: point,
+                     inputNodeId: id,
+                     outputNodeId: tappedID)
             default:
                 clear()
             }
@@ -46,6 +54,11 @@ final class NodeLinkController: LinkController, ObservableObject {
     }
     
     func addRandomNode() {
+        let nodesType: [any BaseNode.Type] = [
+            JoinNode.self,
+            RandomLetterNode.self,
+            DisplayNode.self,
+        ]
         let randomNode = nodesType.randomElement()!.init()
         addNode(randomNode)
     }
@@ -54,9 +67,9 @@ final class NodeLinkController: LinkController, ObservableObject {
         nodes.append(node)
     }
 
-    private func link(input: NodeInput, position: Int, output: CurrentValueSubject<String?, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>) {
+    private func link(input: NodeInput, position: Int, output: CurrentValueSubject<String?, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>, inputNodeId: String, outputNodeId: String) {
         input.linkInput(output, position: position)
-        points.append(Link(from: tappedPoint, to: point))
+        points.append(Link(from: tappedPoint, to: point, fromId: outputNodeId, toId: inputNodeId))
         clear()
     }
 
@@ -64,5 +77,37 @@ final class NodeLinkController: LinkController, ObservableObject {
         tappedParam = nil
         tappedPoint = nil
         tappedID = nil
+    }
+}
+
+// MARK: - Selection
+
+extension NodeLinkController {
+    func didTapNode(_ node: any BaseNode) {
+        if selection?.id == node.id {
+            selection = nil
+        } else {
+            selection = node
+        }
+    }
+
+    func didTapBackground() {
+        selection = nil
+    }
+}
+
+// MARK: - Removing
+
+extension NodeLinkController {
+    func removeSelectedNode() {
+        guard let selection,
+              let idx = nodes.firstIndex(where: { $0.id == selection.id }) else {
+            return
+        }
+        let uid = selection.id
+        selection.remove()
+        self.selection = nil
+        nodes.remove(at: idx)
+        points = points.filter({ !($0.fromId == uid || $0.toId == uid) })
     }
 }

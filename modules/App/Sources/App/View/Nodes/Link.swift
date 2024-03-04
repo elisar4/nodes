@@ -8,6 +8,8 @@ struct Link: Identifiable {
 
     let from: Binding<CGPoint>
     let to: Binding<CGPoint>
+    let fromId: String
+    let toId: String
 }
 
 struct LinkView: View {
@@ -20,6 +22,5 @@ struct LinkView: View {
             path.addLine(to: toPoint)
         }
         .stroke(.blue, lineWidth: 2)
-        .ignoresSafeArea()
     }
 }

@@ -11,17 +11,41 @@ struct MainView: View {
         NavigationView {
             DebugView(controller: controller)
             ZStack {
+                workspaceBackground
                 ForEach(controller.nodes, id: \.id) { node in
-                    NodeView(title: node.name) { id in
-                        node.build(controller: controller, id: id)
+                    NodeView(title: node.name, isSelected: controller.selection?.id == node.id) {
+                        node.build(controller: controller, id: node.id)
+                    }
+                    .onTapGesture {
+                        controller.didTapNode(node)
                     }
                 }
                 ForEach(controller.points) { element in
                     LinkView(fromPoint: element.from, toPoint: element.to)
                 }
             }
+            .coordinateSpace(name: "ZStackMain")
+            .toolbar(content: { toolbarView })
             .ignoresSafeArea(.keyboard)
         }
     }
-}
 
+    var workspaceBackground: some View {
+        Image("bgPattern")
+            .resizable(resizingMode: .tile)
+            .onTapGesture {
+                controller.didTapBackground()
+            }
+    }
+
+    @ViewBuilder
+    var toolbarView: some View {
+        if controller.selection == nil {
+            EmptyView()
+        } else {
+            Button("Remove selected") {
+                controller.removeSelectedNode()
+            }
+        }
+    }
+}
