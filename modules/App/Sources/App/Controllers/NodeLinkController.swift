@@ -9,10 +9,6 @@ final class NodeLinkController: LinkController, ObservableObject {
     @Published var points: [Link] = []
     @Published var nodes: [any BaseNode] = []
     @Published var selection: (any BaseNode)?
-        JoinNode.self,
-        RandomLetterNode.self,
-        DisplayNode.self
-    ]
 
     private var tappedPoint: Binding<CGPoint>?
     private var tappedID: String?
@@ -58,6 +54,11 @@ final class NodeLinkController: LinkController, ObservableObject {
     }
     
     func addRandomNode() {
+        let nodesType: [any BaseNode.Type] = [
+            JoinNode.self,
+            RandomLetterNode.self,
+            DisplayNode.self,
+        ]
         let randomNode = nodesType.randomElement()!.init()
         addNode(randomNode)
     }
