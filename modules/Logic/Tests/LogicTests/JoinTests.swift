@@ -1,41 +1,12 @@
-//  NodesTests.swift
-//  Created by Vladimir Roganov on 21.02.2024
+//  JoinTests.swift
+//  Created by Igor Manakov on 04.03.2024.
 
 import XCTest
 import Combine
 @testable import Logic
 
-final class NodesTests: XCTestCase {
+final class JoinTests: XCTestCase {
     private var listeners: Set<AnyCancellable> = .init()
-
-    func testRandomLetter_OuputsSingleLetter() throws {
-        let sut = RandomLetter()
-
-        var result: String?
-        sut.output.sink {
-            result = $0
-        }.store(in: &listeners)
-
-        sut.run()
-
-        XCTAssertEqual(result?.count, 1)
-    }
-
-    func testRandomLetter_OutputsDifferentRandomLetters() throws {
-        let sut = RandomLetter()
-
-        var letter1: String?
-        var letter2: String?
-        sut.output.collect(2).sink { value in
-            letter1 = value.first ?? nil
-            letter2 = value.last ?? nil
-        }.store(in: &listeners)
-
-        sut.run()
-        sut.run()
-
-        XCTAssertNotEqual(letter1, letter2)
-    }
 
     func testJoin_OutputsEmptyString_WithoutParams() throws {
         XCTAssertNotNil(Join().output.value)
@@ -98,46 +69,5 @@ final class NodesTests: XCTestCase {
         param2Subject.send(param2)
 
         XCTAssertEqual(result, param1 + param2)
-    }
-
-    func testDisplay_OutputsAndPrintReceivedValue() throws {
-        let sut = Display()
-        let param = "Hello"
-
-        let paramSubject = CurrentValueSubject<String?, Never>(nil)
-
-        sut.linkInput(paramSubject, position: 0)
-
-        var result: String?
-        sut.output.sink {
-            result = $0
-        }.store(in: &listeners)
-
-        var printedValue: String?
-        sut.action = {
-            printedValue = $0
-        }
-
-        paramSubject.send(param)
-
-        XCTAssertEqual(result, param)
-        XCTAssertEqual(printedValue, param)
-    }
-
-    func testTwoRandomLettersJoined_OutputsCorrectStringLength() throws {
-        let sut1 = RandomLetter()
-        let sut2 = Join()
-
-        sut2.linkInput(sut1.output, position: 0)
-        sut2.linkInput(sut1.output, position: 1)
-
-        var result: String?
-        sut2.output.sink {
-            result = $0
-        }.store(in: &listeners)
-
-        sut1.run()
-
-        XCTAssertEqual(result?.count, 2)
     }
 }
