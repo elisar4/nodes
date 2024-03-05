@@ -12,9 +12,10 @@ struct WorkspaceBackground: View {
     var body: some View {
         Image("bgPattern")
             .resizable(resizingMode: .tile)
-            .position(.init(
-                x: windowSize.width * 1.25 - workspaceOffset.x + workspaceOffset.x.truncatingRemainder(dividingBy: patternSize),
-                y: windowSize.height * 1.25 - workspaceOffset.y + workspaceOffset.y.truncatingRemainder(dividingBy: patternSize)))
-            .frame(width: windowSize.width * 1.5, height: windowSize.height * 1.5)
+            .offset(.init(
+                width: workspaceOffset.x.truncatingRemainder(dividingBy: patternSize) - patternSize * 4,
+                height: workspaceOffset.y.truncatingRemainder(dividingBy: patternSize) - patternSize * 4))
+            .frame(width: windowSize.width + patternSize * 8, height: windowSize.height + patternSize * 8)
+            .ignoresSafeArea()
     }
 }

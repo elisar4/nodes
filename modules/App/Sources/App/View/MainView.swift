@@ -42,18 +42,15 @@ struct MainView: View {
             ForEach(controller.nodes, id: \.id) { node in
                 makeNodeView(node)
             }
+            .offset(CGSize(width: workspaceDragOffset.x, height: workspaceDragOffset.y))
             ForEach(controller.points) { element in
                 LinkView(fromPoint: element.from, toPoint: element.to)
                     .zIndex(2)
             }
         }
-        .position(workspaceDragOffset)
         .coordinateSpace(name: "ZStackMain")
         .toolbar(content: { toolbarView })
         .ignoresSafeArea(.keyboard)
-        .onAppear {
-            lastOffset = .init(x: windowSize.width * 0.5, y: windowSize.height * 0.5)
-        }
     }
 
     private func makeNodeView(_ node: any BaseNode) -> some View {
@@ -79,4 +76,3 @@ struct MainView: View {
         }
     }
 }
-
