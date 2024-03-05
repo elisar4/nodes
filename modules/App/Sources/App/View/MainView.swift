@@ -16,7 +16,6 @@ struct MainView: View {
     var body: some View {
         NavigationView {
             DebugView(controller: controller)
-
             GeometryReader { geometry in
                 workspace(windowSize: geometry.frame(in: .local).size)
             }
@@ -54,15 +53,21 @@ struct MainView: View {
     }
 
     private func makeNodeView(_ node: any BaseNode) -> some View {
-        NodeView(title: node.name, isSelected: controller.selection?.id == node.id) {
+        let tap = TapGesture()
+            .onEnded { _ in
+                controller.didTapNode(node)
+            }
+        let drag = DragGesture(minimumDistance: 0)
+            .onChanged { gesture in
+                node.position = .init(x: gesture.location.x,
+                                      y: gesture.location.y)
+                controller.topNodeID = node.id
+            }
+        return NodeView(title: node.name, isSelected: controller.selection?.id == node.id, position: node.position) {
             node.build(controller: controller, id: node.id)
-        } onInteraction: {
-            controller.topNodeID = node.id
         }
         .zIndex(controller.topNodeID == node.id ? 1 : 0)
-        .onTapGesture {
-            controller.didTapNode(node)
-        }
+        .gesture(drag.simultaneously(with: tap))
     }
 
     @ViewBuilder
