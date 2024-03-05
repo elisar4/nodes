@@ -73,8 +73,12 @@ final class NodeLinkController: LinkController, ObservableObject {
 
     private func link(input: NodeInput, position: Int, output: CurrentValueSubject<Wrapped?, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>, inputNodeId: String, outputNodeId: String) {
         input.linkInput(output, position: position)
-        points = points.filter({ $0.toId != inputNodeId })
-        points.append(Link(from: tappedPoint, to: point, fromId: outputNodeId, toId: inputNodeId))
+        points = points.filter({ "\($0.toId)\($0.toPosition)" != "\(inputNodeId)\(position)" })
+        points.append(Link(from: tappedPoint,
+                           to: point,
+                           fromId: outputNodeId,
+                           toId: inputNodeId,
+                           toPosition: position))
         clear()
     }
 
