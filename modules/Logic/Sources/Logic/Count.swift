@@ -4,8 +4,8 @@
 import Combine
 
 public final class Count: NodeInput {
-    public var input: AnyPublisher<Wrapped?, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
-    public var output: CurrentValueSubject<Wrapped?, Never> = .init(.int(0))
+    public var input: AnyPublisher<Wrapped?, Never> = CurrentValueSubject.init(nil).eraseToAnyPublisher()
+    public var output: CurrentValueSubject<Wrapped?, Never> = .init(nil)
 
     private var listener: AnyCancellable?
 

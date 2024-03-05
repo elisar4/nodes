@@ -8,8 +8,8 @@ import Combine
 final class CountTests: XCTestCase {
     private var listeners: Set<AnyCancellable> = .init()
 
-    func testCount_OutputsZero_WithoutInput() throws {
-        XCTAssertEqual(Count().output.value?.int, 0)
+    func testCount_OutputsNil_WithoutInput() throws {
+        XCTAssertNil(Count().output.value?.int)
     }
 
     func testCount_OutputsCorrectInputLength() throws {
