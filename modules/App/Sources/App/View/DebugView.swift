@@ -16,6 +16,14 @@ struct DebugView: View {
                 controller.addRandomNode()
             }
             .buttonStyle(.borderedProminent)
+            Divider()
+            ForEach(controller.nodesNameTypePair, id: \.0) { nodePair in
+                Button(nodePair.0) {
+                    controller.addNode(nodePair.1.init())
+                }
+                .buttonStyle(.borderedProminent)
+            }
         }
+        .padding(.horizontal)
     }
 }
