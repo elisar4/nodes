@@ -15,13 +15,17 @@ struct MainView: View {
                 ForEach(controller.nodes, id: \.id) { node in
                     NodeView(title: node.name, isSelected: controller.selection?.id == node.id) {
                         node.build(controller: controller, id: node.id)
+                    } onInteraction: {
+                        controller.topNodeID = node.id
                     }
+                    .zIndex(controller.topNodeID == node.id ? 1 : 0)
                     .onTapGesture {
                         controller.didTapNode(node)
                     }
                 }
                 ForEach(controller.points) { element in
                     LinkView(fromPoint: element.from, toPoint: element.to)
+                        .zIndex(2)
                 }
             }
             .coordinateSpace(name: "ZStackMain")

@@ -9,10 +9,11 @@ final class NodeLinkController: LinkController, ObservableObject {
     @Published var points: [Link] = []
     @Published var nodes: [any BaseNode] = []
     @Published var selection: (any BaseNode)?
+    @Published var topNodeID: String?
 
     private var tappedPoint: Binding<CGPoint>?
     private var tappedID: String?
-    
+
     private var tappedParam: NodeParam?
 
     func addPoint(_ point: Binding<CGPoint>, id: String, param: NodeParam) {
