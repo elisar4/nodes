@@ -10,6 +10,7 @@ final class NodeLinkController: LinkController, ObservableObject {
     @Published var nodes: [any BaseNode] = []
     @Published var selection: (any BaseNode)?
     @Published var topNodeID: String?
+    @Published var workspaceDragOffset: CGPoint = .zero
 
     let nodesNameTypePair: [(String, any BaseNode.Type)] = [
         ("JoinNode", JoinNode.self),

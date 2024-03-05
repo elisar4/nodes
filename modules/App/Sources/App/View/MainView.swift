@@ -6,42 +6,28 @@ import Logic
 
 struct MainView: View {
     @StateObject var controller = NodeLinkController()
-    @State private var offset: CGPoint = .zero
-    @State private var lastOffset: CGPoint = .zero
-
-    private var workspaceDragOffset: CGPoint {
-        return offset + lastOffset
-    }
 
     var body: some View {
-        NavigationView {
-            DebugView(controller: controller)
-            GeometryReader { geometry in
-                workspace(windowSize: geometry.frame(in: .local).size)
+        WorkspaceOffset(offset: $controller.workspaceDragOffset) {
+            NavigationView {
+                DebugView(controller: controller)
+                GeometryReader { geometry in
+                    workspace(windowSize: geometry.frame(in: .local).size)
+                }
             }
         }
-        .gesture(
-            DragGesture()
-                .onChanged { model in
-                    offset = .init(x: model.translation.width, y: model.translation.height)
-                }
-                .onEnded { model in
-                    lastOffset = lastOffset + .init(x: model.translation.width, y: model.translation.height)
-                    offset = .zero
-                }
-        )
     }
 
     private func workspace(windowSize: CGSize) -> some View {
         ZStack {
-            WorkspaceBackground(windowSize: windowSize, workspaceOffset: workspaceDragOffset)
+            WorkspaceBackground(windowSize: windowSize, workspaceOffset: controller.workspaceDragOffset)
                 .onTapGesture {
                     controller.didTapBackground()
                 }
             ForEach(controller.nodes, id: \.id) { node in
                 makeNodeView(node)
             }
-            .offset(CGSize(width: workspaceDragOffset.x, height: workspaceDragOffset.y))
+            .offset(CGSize(width: controller.workspaceDragOffset.x, height: controller.workspaceDragOffset.y))
             ForEach(controller.points) { element in
                 LinkView(fromPoint: element.from, toPoint: element.to)
                     .zIndex(2)
