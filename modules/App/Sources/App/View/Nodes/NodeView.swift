@@ -12,6 +12,8 @@ struct NodeView<Content: View>: View {
 
     @ViewBuilder var content: () -> Content
 
+    var onInteraction: () -> Void
+
     var body: some View {
         GeometryReader { proxy in
             VStack(spacing: 0) {
@@ -29,6 +31,7 @@ struct NodeView<Content: View>: View {
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
+                        onInteraction()
                         position = gesture.location
                     }
             )
