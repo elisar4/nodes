@@ -4,13 +4,13 @@
 import Combine
 
 public class RandomLetter {
-    public var output: CurrentValueSubject<String?, Never> = .init(nil)
+    public var output: CurrentValueSubject<Wrapped?, Never> = .init(nil)
 
     public init() {}
 
     public func run() {
         let chars = "ABCDEFGHIJQKLMNOPRSTUVWXYZ".map({ $0 })
-        output.send(chars[Int.random(in: 0...25)].description)
+        output.send(.string(chars[Int.random(in: 0...25)].description))
     }
 
     public func remove() {

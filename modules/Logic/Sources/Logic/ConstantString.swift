@@ -4,7 +4,7 @@
 import Combine
 
 public class ConstantString {
-    public var output: CurrentValueSubject<String?, Never> = .init(nil)
+    public var output: CurrentValueSubject<Wrapped?, Never> = .init(nil)
 
     private var string: String
 
@@ -13,6 +13,6 @@ public class ConstantString {
     }
 
     public func run() {
-        output.send(string)
+        output.send(.string(string))
     }
 }

@@ -1,4 +1,4 @@
-//  TextDisplayNodeBodyView.swift
+//  DisplayNodeBodyView.swift
 //  Created by Vladimir Roganov on 21.02.2024
 
 import SwiftUI
@@ -23,13 +23,13 @@ class DisplayNode: BaseNode, ObservableObject {
     }
 
     func build(controller: LinkController, id: String) -> AnyView {
-        AnyView(TextDisplayNodeBodyView(model: self, onLinkTap: { (point, param) in
+        AnyView(DisplayNodeBodyView(model: self, onLinkTap: { (point, param) in
             controller.addPoint(point, id: id, param: param)
         }))
     }
 }
 
-struct TextDisplayNodeBodyView: View {
+struct DisplayNodeBodyView: View {
     @ObservedObject var model: DisplayNode
     var onLinkTap: (Binding<CGPoint>, NodeParam) -> Void?
 

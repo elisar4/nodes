@@ -4,8 +4,8 @@
 import Combine
 
 public final class Display: NodeInput {
-    public var input: AnyPublisher<String?, Never> = CurrentValueSubject.init("").eraseToAnyPublisher()
-    public var output: CurrentValueSubject<String?, Never> = .init("")
+    public var input: AnyPublisher<Wrapped?, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
+    public var output: CurrentValueSubject<Wrapped?, Never> = .init(.string(""))
 
     public var action: ((_: String?) -> Void)? = {
         print($0 ?? "nil")
@@ -15,7 +15,7 @@ public final class Display: NodeInput {
 
     public init() {}
 
-    public func linkInput(_ input: CurrentValueSubject<String?, Never>, position: Int) {
+    public func linkInput(_ input: CurrentValueSubject<Wrapped?, Never>, position: Int) {
         if position == 0 {
             linkInput(input)
         }
@@ -26,12 +26,12 @@ public final class Display: NodeInput {
         listener = nil
     }
 
-    private func linkInput(_ link: CurrentValueSubject<String?, Never>) {
+    private func linkInput(_ link: CurrentValueSubject<Wrapped?, Never>) {
         input = link.eraseToAnyPublisher()
         listener = input
-            .sink { [weak self] (input) in
+            .sink { [weak self] input in
                 self?.output.send(input)
-                self?.action?(input)
+                self?.action?(input?.string ?? input?.int?.description)
             }
     }
 }

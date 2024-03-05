@@ -57,6 +57,7 @@ final class NodeLinkController: LinkController, ObservableObject {
         let nodesType: [any BaseNode.Type] = [
             JoinNode.self,
             RandomLetterNode.self,
+            CountNode.self,
             DisplayNode.self,
         ]
         let randomNode = nodesType.randomElement()!.init()
@@ -67,7 +68,7 @@ final class NodeLinkController: LinkController, ObservableObject {
         nodes.append(node)
     }
 
-    private func link(input: NodeInput, position: Int, output: CurrentValueSubject<String?, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>, inputNodeId: String, outputNodeId: String) {
+    private func link(input: NodeInput, position: Int, output: CurrentValueSubject<Wrapped?, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>, inputNodeId: String, outputNodeId: String) {
         input.linkInput(output, position: position)
         points = points.filter({ $0.toId != inputNodeId })
         points.append(Link(from: tappedPoint, to: point, fromId: outputNodeId, toId: inputNodeId))
