@@ -6,22 +6,15 @@ import Combine
 @testable import Logic
 
 final class IntegrationTests: XCTestCase {
-    private var listeners: Set<AnyCancellable> = .init()
-
     func testTwoRandomLettersJoined_OutputsCorrectStringLength() throws {
-        let sut1 = RandomLetter()
-        let sut2 = Join()
+        let randomLetter = RandomLetter()
+        let join = Join()
 
-        sut2.linkInput(sut1.output, position: 0)
-        sut2.linkInput(sut1.output, position: 1)
+        join.linkInput(randomLetter.output, position: 0)
+        join.linkInput(randomLetter.output, position: 1)
 
-        var result: Wrapped?
-        sut2.output.sink {
-            result = $0
-        }.store(in: &listeners)
+        randomLetter.run()
 
-        sut1.run()
-
-        XCTAssertEqual(result?.string?.count, 2)
+        XCTAssertEqual(join.output.value?.string?.count, 2)
     }
 }
