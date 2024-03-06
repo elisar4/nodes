@@ -6,27 +6,19 @@ import Combine
 @testable import Logic
 
 final class CountTests: XCTestCase {
-    private var listeners: Set<AnyCancellable> = .init()
+    let sut = Count()
 
     func testCount_OutputsNil_WithoutInput() throws {
-        XCTAssertNil(Count().output.value?.int)
+        XCTAssertNil(sut.output.value?.int)
     }
 
     func testCount_OutputsCorrectInputLength() throws {
-        let sut = Count()
         let param = "Hello, world!"
 
         let paramSubject = CurrentValueSubject<Wrapped?, Never>(nil)
-
         sut.linkInput(paramSubject, position: 0)
-
-        var result: Wrapped?
-        sut.output.sink {
-            result = $0
-        }.store(in: &listeners)
-
         paramSubject.send(.string(param))
 
-        XCTAssertEqual(result?.int, param.count)
+        XCTAssertEqual(sut.output.value?.int, param.count)
     }
 }

@@ -6,24 +6,15 @@ import Combine
 @testable import Logic
 
 final class RandomLetterTests: XCTestCase {
+    let sut = RandomLetter()
     private var listeners: Set<AnyCancellable> = .init()
 
     func testRandomLetter_OuputsSingleLetter() throws {
-        let sut = RandomLetter()
-
-        var result: Wrapped?
-        sut.output.sink {
-            result = $0
-        }.store(in: &listeners)
-
         sut.run()
-
-        XCTAssertEqual(result?.string?.count, 1)
+        XCTAssertEqual(sut.output.value?.string?.count, 1)
     }
 
     func testRandomLetter_OutputsDifferentRandomLetters() throws {
-        let sut = RandomLetter()
-
         var letter1: Wrapped?
         var letter2: Wrapped?
         sut.output.collect(2).sink { value in

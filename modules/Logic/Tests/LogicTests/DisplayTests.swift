@@ -6,20 +6,14 @@ import Combine
 @testable import Logic
 
 final class DisplayTests: XCTestCase {
-    private var listeners: Set<AnyCancellable> = .init()
+    let sut = Display()
 
     func testDisplay_OutputsAndPrintReceivedValue() throws {
-        let sut = Display()
         let param = Wrapped.string("Hello")
 
         let paramSubject = CurrentValueSubject<Wrapped?, Never>(nil)
 
         sut.linkInput(paramSubject, position: 0)
-
-        var result: Wrapped?
-        sut.output.sink {
-            result = $0
-        }.store(in: &listeners)
 
         var printedValue: Wrapped?
         sut.action = {
@@ -28,7 +22,7 @@ final class DisplayTests: XCTestCase {
 
         paramSubject.send(param)
 
-        XCTAssertEqual(result, param)
+        XCTAssertEqual(sut.output.value, param)
         XCTAssertEqual(printedValue, param)
     }
 }
