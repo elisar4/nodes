@@ -16,8 +16,10 @@ struct LinkColor {
                 Point().fill(.blue)
             case "s":
                 Point().fill(.red)
+            case "b":
+                Point().fill(.green)
             default:
-                Point().fill(.red)
+                Image(uiImage: .init(systemName: "xmark")!)
             }
         } else {
             Color(.orange)
