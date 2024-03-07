@@ -71,8 +71,13 @@ final class NodeLinkController: LinkController, ObservableObject {
         nodes.append(node)
     }
 
-    private func link(input: NodeInput, position: Int, output: CurrentValueSubject<Wrapped?, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>, inputNodeId: String, outputNodeId: String) {
-        input.linkInput(output, position: position)
+    private func link(input: NodeInput, position: Int, output: CurrentValueSubject<Wrapped, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>, inputNodeId: String, outputNodeId: String) {
+        let success = input.linkInput(output, position: position)
+        guard success else {
+            // todo: feedback to user
+            print("Error: can't connect provided output with provided input")
+            return
+        }
         points = points.filter({ "\($0.toId)\($0.toPosition)" != "\(inputNodeId)\(position)" })
         points.append(Link(from: tappedPoint,
                            to: point,
