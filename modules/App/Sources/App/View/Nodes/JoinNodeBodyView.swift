@@ -5,6 +5,8 @@ import SwiftUI
 import Logic
 
 final class JoinNode: BaseNode, ObservableObject {
+    @Published var position: CGPoint = .randomPositionOnScreen
+
     var model: Join
     var name: String = "Join"
     var id: String = UUID().uuidString

@@ -6,6 +6,7 @@ import Logic
 
 class DisplayNode: BaseNode, ObservableObject {
     @Published var text: String?
+    @Published var position: CGPoint = .randomPositionOnScreen
 
     var model: Display
     var name: String = "Display"

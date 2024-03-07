@@ -6,13 +6,11 @@ import SwiftUI
 struct NodeView<Content: View>: View {
     @State var title: String
     var isSelected: Bool
+    var position = CGPoint.zero
 
     @State private var isShowBody: Bool = true
-    @State private var position = CGPoint.zero
 
     @ViewBuilder var content: () -> Content
-
-    var onInteraction: () -> Void
 
     var body: some View {
         GeometryReader { proxy in
@@ -27,18 +25,7 @@ struct NodeView<Content: View>: View {
             .fixedSize()
             .background(.background)
             .overlay(nodeBorder)
-            .position(position)
-            .gesture(
-                DragGesture()
-                    .onChanged { gesture in
-                        onInteraction()
-                        position = gesture.location
-                    }
-            )
-            .onAppear {
-                position = .init(x: proxy.size.width * CGFloat.random(in: 0.2...0.8),
-                                 y: proxy.size.height * CGFloat.random(in: 0.2...0.8))
-            }
+            .position(.init(x: position.x, y: position.y))
         }
     }
 

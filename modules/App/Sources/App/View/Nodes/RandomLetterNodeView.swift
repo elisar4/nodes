@@ -5,6 +5,8 @@ import SwiftUI
 import Logic
 
 class RandomLetterNode: BaseNode, ObservableObject {
+    @Published var position: CGPoint = .randomPositionOnScreen
+
     var model: RandomLetter
     var name: String = "RandomLetter"
     var id: String = UUID().uuidString

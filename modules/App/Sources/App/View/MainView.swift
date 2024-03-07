@@ -8,38 +8,52 @@ struct MainView: View {
     @StateObject var controller = NodeLinkController()
 
     var body: some View {
-        NavigationView {
-            DebugView(controller: controller)
-            ZStack {
-                workspaceBackground
-                ForEach(controller.nodes, id: \.id) { node in
-                    NodeView(title: node.name, isSelected: controller.selection?.id == node.id) {
-                        node.build(controller: controller, id: node.id)
-                    } onInteraction: {
-                        controller.topNodeID = node.id
-                    }
-                    .zIndex(controller.topNodeID == node.id ? 1 : 0)
-                    .onTapGesture {
-                        controller.didTapNode(node)
-                    }
-                }
-                ForEach(controller.points) { element in
-                    LinkView(fromPoint: element.from, toPoint: element.to)
-                        .zIndex(2)
+        WorkspaceOffset(offset: $controller.workspaceDragOffset) {
+            NavigationView {
+                DebugView(controller: controller)
+                GeometryReader { geometry in
+                    workspace(windowSize: geometry.frame(in: .local).size)
                 }
             }
-            .coordinateSpace(name: "ZStackMain")
-            .toolbar(content: { toolbarView })
-            .ignoresSafeArea(.keyboard)
         }
     }
 
-    var workspaceBackground: some View {
-        Image("bgPattern")
-            .resizable(resizingMode: .tile)
-            .onTapGesture {
-                controller.didTapBackground()
+    private func workspace(windowSize: CGSize) -> some View {
+        ZStack {
+            WorkspaceBackground(windowSize: windowSize, workspaceOffset: controller.workspaceDragOffset)
+                .onTapGesture {
+                    controller.didTapBackground()
+                }
+            ForEach(controller.nodes, id: \.id) { node in
+                makeNodeView(node)
             }
+            .offset(CGSize(width: controller.workspaceDragOffset.x, height: controller.workspaceDragOffset.y))
+            ForEach(controller.points) { element in
+                LinkView(fromPoint: element.from, toPoint: element.to)
+                    .zIndex(2)
+            }
+        }
+        .coordinateSpace(name: "ZStackMain")
+        .toolbar(content: { toolbarView })
+        .ignoresSafeArea(.keyboard)
+    }
+
+    private func makeNodeView(_ node: any BaseNode) -> some View {
+        let tap = TapGesture()
+            .onEnded { _ in
+                controller.didTapNode(node)
+            }
+        let drag = DragGesture(minimumDistance: 0)
+            .onChanged { gesture in
+                node.position = .init(x: gesture.location.x,
+                                      y: gesture.location.y)
+                controller.topNodeID = node.id
+            }
+        return NodeView(title: node.name, isSelected: controller.selection?.id == node.id, position: node.position) {
+            node.build(controller: controller, id: node.id)
+        }
+        .zIndex(controller.topNodeID == node.id ? 1 : 0)
+        .gesture(drag.simultaneously(with: tap))
     }
 
     @ViewBuilder
