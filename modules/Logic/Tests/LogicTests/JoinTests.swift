@@ -15,7 +15,7 @@ final class JoinTests: XCTestCase {
     func testJoin_WithSingleParam_OutputsParamString() throws {
         let param = "Hello"
 
-        let paramSubject = CurrentValueSubject<Wrapped?, Never>(nil)
+        let paramSubject = CurrentValueSubject<Wrapped, Never>(.string(nil))
         sut.linkInput(paramSubject, position: 0)
 
         paramSubject.send(.string(param))
@@ -41,9 +41,9 @@ final class JoinTests: XCTestCase {
         let param1 = "Hello"
         let param2 = "World"
 
-        let param1Subject = CurrentValueSubject<Wrapped?, Never>(nil)
+        let param1Subject = CurrentValueSubject<Wrapped, Never>(.string(nil))
         sut.linkInput(param1Subject, position: 0)
-        let param2Subject = CurrentValueSubject<Wrapped?, Never>(nil)
+        let param2Subject = CurrentValueSubject<Wrapped, Never>(.string(nil))
         sut.linkInput(param2Subject, position: 1)
 
         param1Subject.send(.string(param1))

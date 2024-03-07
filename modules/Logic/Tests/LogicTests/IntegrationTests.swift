@@ -15,6 +15,6 @@ final class IntegrationTests: XCTestCase {
 
         randomLetter.run()
 
-        XCTAssertEqual(join.output.value?.string?.count, 2)
+        XCTAssertEqual(join.output.value.string?.count, 2)
     }
 }

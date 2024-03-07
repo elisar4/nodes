@@ -3,7 +3,12 @@
 
 import Combine
 
-public final class Display: NodeInput {
+public protocol Linkable {
+    func allowedInputTypes(_ position: Int) -> [String]
+    func allowedOutputTypes(_ position: Int) -> [String]
+}
+
+public final class Display: NodeInput, Linkable {
     public var input: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.string(""))
 
@@ -11,8 +16,12 @@ public final class Display: NodeInput {
         print($0 ?? "nil")
     }
 
-    let allowedTypes: [Int: [String]] = [
+    private let inputTypes: [Int: [String]] = [
         0: ["i", "s"],
+    ]
+
+    private let outputTypes: [Int: [String]] = [
+        0: ["s"],
     ]
 
     private var listener: AnyCancellable?
@@ -23,7 +32,7 @@ public final class Display: NodeInput {
         guard position == 0 else {
             return false
         }
-        guard allowedTypes[position]?.contains(input.value.type) == true else {
+        guard inputTypes[position]?.contains(input.value.type) == true else {
             return false
         }
         if position == 0 {
@@ -35,6 +44,14 @@ public final class Display: NodeInput {
     public func remove() {
         output.send(.string(nil))
         listener = nil
+    }
+
+    public func allowedInputTypes(_ position: Int) -> [String] {
+        inputTypes[position] ?? []
+    }
+
+    public func allowedOutputTypes(_ position: Int) -> [String] {
+        outputTypes[position] ?? []
     }
 
     private func linkInput(_ link: CurrentValueSubject<Wrapped, Never>) {

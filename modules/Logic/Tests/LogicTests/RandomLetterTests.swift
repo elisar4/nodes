@@ -11,7 +11,7 @@ final class RandomLetterTests: XCTestCase {
 
     func testRandomLetter_OuputsSingleLetter() throws {
         sut.run()
-        XCTAssertEqual(sut.output.value?.string?.count, 1)
+        XCTAssertEqual(sut.output.value.string?.count, 1)
     }
 
     func testRandomLetter_OutputsDifferentRandomLetters() throws {

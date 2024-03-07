@@ -3,14 +3,18 @@
 
 import Combine
 
-public final class Count: NodeInput {
+public final class Count: NodeInput, Linkable {
     public var input: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string(nil)).eraseToAnyPublisher()
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.int(nil))
 
     private var listener: AnyCancellable?
 
-    let allowedTypes: [Int: [String]] = [
+    private let inputTypes: [Int: [String]] = [
         0: ["s"],
+    ]
+
+    private let outputTypes: [Int: [String]] = [
+        0: ["i"],
     ]
 
     public init() {}
@@ -19,7 +23,7 @@ public final class Count: NodeInput {
         guard position == 0 else {
             return false
         }
-        guard allowedTypes[position]?.contains(input.value.type) == true else {
+        guard inputTypes[position]?.contains(input.value.type) == true else {
             return false
         }
         if position == 0 {
@@ -31,6 +35,14 @@ public final class Count: NodeInput {
     public func remove() {
         output.send(.int(nil))
         listener = nil
+    }
+
+    public func allowedInputTypes(_ position: Int) -> [String] {
+        inputTypes[position] ?? []
+    }
+
+    public func allowedOutputTypes(_ position: Int) -> [String] {
+        outputTypes[position] ?? []
     }
 
     private func linkInput(_ link: CurrentValueSubject<Wrapped, Never>) {

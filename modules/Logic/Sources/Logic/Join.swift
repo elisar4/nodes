@@ -3,14 +3,18 @@
 
 import Combine
 
-public class Join: NodeInput {
+public class Join: NodeInput, Linkable {
     public var input1: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
     public var input2: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.string(""))
 
-    let allowedTypes: [Int: [String]] = [
+    private let inputTypes: [Int: [String]] = [
         0: ["s"],
         1: ["s"],
+    ]
+
+    private let outputTypes: [Int: [String]] = [
+        0: ["s"],
     ]
 
     private var listener: AnyCancellable?
@@ -21,7 +25,7 @@ public class Join: NodeInput {
         guard position == 0 || position == 1 else {
             return false
         }
-        guard allowedTypes[position]?.contains(input.value.type) == true else {
+        guard inputTypes[position]?.contains(input.value.type) == true else {
             return false
         }
         if position == 0 {
@@ -35,6 +39,14 @@ public class Join: NodeInput {
     public func remove() {
         output.send(.string(nil))
         listener = nil
+    }
+
+    public func allowedInputTypes(_ position: Int) -> [String] {
+        inputTypes[position] ?? []
+    }
+
+    public func allowedOutputTypes(_ position: Int) -> [String] {
+        outputTypes[position] ?? []
     }
 
     private func linkParamOne(_ link: CurrentValueSubject<Wrapped, Never>) {
