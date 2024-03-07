@@ -6,6 +6,7 @@ import Foundation
 public enum Wrapped: Equatable {
     case int(Int?)
     case string(String?)
+    case bool(Bool?)
 
     var string: String? {
         if case let .string(value) = self {
@@ -23,12 +24,22 @@ public enum Wrapped: Equatable {
         }
     }
 
+    var bool: Bool? {
+        if case let .bool(value) = self {
+            return value
+        } else {
+            return nil
+        }
+    }
+
     public var type: String {
         switch self {
         case .int:
             return "i"
         case .string:
             return "s"
+        case .bool:
+            return "b"
         }
     }
 }
