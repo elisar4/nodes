@@ -16,6 +16,7 @@ final class NodeLinkController: LinkController, ObservableObject {
         ("JoinNode", JoinNode.self),
         ("RandomLetterNode", RandomLetterNode.self),
         ("CountNode", CountNode.self),
+        ("GreaterNode", GreaterNode.self),
         ("LockNode", LockNode.self),
         ("DisplayNode", DisplayNode.self),
     ]
