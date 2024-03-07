@@ -4,7 +4,7 @@
 import Foundation
 import Combine
 
-class Greater: NodeInput {
+public class Greater: NodeInput {
     public var input1: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.int(nil)).eraseToAnyPublisher()
     public var input2: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.int(nil)).eraseToAnyPublisher()
     public var output1: CurrentValueSubject<Wrapped, Never> = .init(.bool(nil))
