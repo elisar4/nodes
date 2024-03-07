@@ -10,6 +10,7 @@ struct Link: Identifiable {
     let to: Binding<CGPoint>
     let fromId: String
     let toId: String
+    let toPosition: Int
 }
 
 struct LinkView: View {
