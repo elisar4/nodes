@@ -4,7 +4,7 @@
 import Combine
 
 public class ConstantString {
-    public var output: CurrentValueSubject<Wrapped?, Never> = .init(nil)
+    public var output: CurrentValueSubject<Wrapped, Never> = .init(.string(nil))
 
     private var string: String
 

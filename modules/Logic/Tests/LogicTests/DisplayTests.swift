@@ -11,7 +11,7 @@ final class DisplayTests: XCTestCase {
     func testDisplay_OutputsAndPrintReceivedValue() throws {
         let param = Wrapped.string("Hello")
 
-        let paramSubject = CurrentValueSubject<Wrapped?, Never>(nil)
+        let paramSubject = CurrentValueSubject<Wrapped, Never>(.string(nil))
 
         sut.linkInput(paramSubject, position: 0)
 

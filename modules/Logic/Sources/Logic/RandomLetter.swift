@@ -3,8 +3,14 @@
 
 import Combine
 
-public class RandomLetter {
-    public var output: CurrentValueSubject<Wrapped?, Never> = .init(nil)
+public class RandomLetter: Linkable {
+    public var output: CurrentValueSubject<Wrapped, Never> = .init(.string(nil))
+
+    private let inputTypes: [Int: [String]] = [:]
+
+    private let outputTypes: [Int: [String]] = [
+        0: ["s"],
+    ]
 
     public init() {}
 
@@ -14,6 +20,14 @@ public class RandomLetter {
     }
 
     public func remove() {
-        output.send(nil)
+        output.send(.string(nil))
+    }
+
+    public func allowedInputTypes(_ position: Int) -> [String] {
+        inputTypes[position] ?? []
+    }
+
+    public func allowedOutputTypes(_ position: Int) -> [String] {
+        outputTypes[position] ?? []
     }
 }

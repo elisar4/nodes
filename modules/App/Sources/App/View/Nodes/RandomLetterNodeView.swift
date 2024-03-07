@@ -37,9 +37,11 @@ struct RandomLetterNodeBodyView: View {
                 }
             }
             Spacer(minLength: 0)
-            LinkPointView(onTap: {
+            LinkPointView {
+                LinkColor(allowedTypes: model.model.allowedOutputTypes(0)).view
+            } onTap: {
                 onLinkTap($0, .output(model.model.output))
-            })
+            }
         }
         .padding(.vertical, 8)
     }
