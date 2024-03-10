@@ -21,5 +21,5 @@ struct DotsBackground: View {
 }
 
 #Preview {
-    DotsBackground(dotRadius: 4)
+    DotsBackground(color: .green, dotRadius: 6, dotSpacing: 60)
 }

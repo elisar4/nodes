@@ -8,9 +8,9 @@ struct MainView: View {
     @StateObject var controller = NodeLinkController()
 
     var body: some View {
-        WorkspaceOffset(offset: $controller.workspaceDragOffset) {
-            NavigationView {
-                DebugView(controller: controller)
+        NavigationView {
+            DebugView(controller: controller)
+            WorkspaceOffset(offset: $controller.workspaceDragOffset) {
                 workspace()
             }
         }
