@@ -5,31 +5,26 @@ import SwiftUI
 
 struct WorkspaceOffset<Content: View>: View {
     @Binding var offset: CGPoint
+    @State var initialOffset: CGPoint = .zero
     @ViewBuilder var content: () -> Content
-
-    @State private var dragOffset: CGPoint = .zero
-    @State private var lastDragOffset: CGPoint = .zero
-
-    private var workspaceDragOffset: CGPoint {
-        return dragOffset + lastDragOffset
-    }
 
     var body: some View {
         ZStack {
             content()
         }
-        .gesture(
-            DragGesture()
-                .onChanged { model in
-                    dragOffset = .init(x: model.translation.width, y: model.translation.height)
-                    offset = workspaceDragOffset
-                }
-                .onEnded { model in
-                    lastDragOffset = lastDragOffset + .init(x: model.translation.width,
-                                                            y: model.translation.height)
-                    dragOffset = .zero
-                    offset = workspaceDragOffset
-                }
-        )
+        .gesture(drag)
+    }
+
+    private var drag: some Gesture {
+        DragGesture()
+            .onChanged { model in
+                offset = .init(x: initialOffset.x + model.translation.width,
+                               y: initialOffset.y + model.translation.height)
+            }
+            .onEnded { model in
+                initialOffset = .init(x: initialOffset.x + model.translation.width,
+                                      y: initialOffset.y + model.translation.height)
+                offset = initialOffset
+            }
     }
 }

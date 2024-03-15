@@ -8,19 +8,17 @@ struct MainView: View {
     @StateObject var controller = NodeLinkController()
 
     var body: some View {
-        WorkspaceOffset(offset: $controller.workspaceDragOffset) {
-            NavigationView {
-                DebugView(controller: controller)
-                GeometryReader { geometry in
-                    workspace(windowSize: geometry.frame(in: .local).size)
-                }
+        NavigationView {
+            DebugView(controller: controller)
+            WorkspaceOffset(offset: $controller.workspaceDragOffset) {
+                workspace()
             }
         }
     }
 
-    private func workspace(windowSize: CGSize) -> some View {
+    private func workspace() -> some View {
         ZStack {
-            WorkspaceBackground(windowSize: windowSize, workspaceOffset: controller.workspaceDragOffset)
+            WorkspaceBackground(offset: controller.workspaceDragOffset)
                 .onTapGesture {
                     controller.didTapBackground()
                 }
