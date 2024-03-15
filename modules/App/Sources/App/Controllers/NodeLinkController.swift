@@ -12,15 +12,6 @@ final class NodeLinkController: LinkController, ObservableObject {
     @Published var topNodeID: String?
     @Published var workspaceDragOffset: CGPoint = .zero
 
-    let nodesNameTypePair: [(String, any BaseNode.Type)] = [
-        ("JoinNode", JoinNode.self),
-        ("RandomLetterNode", RandomLetterNode.self),
-        ("CountNode", CountNode.self),
-        ("GreaterNode", GreaterNode.self),
-        ("LockNode", LockNode.self),
-        ("DisplayNode", DisplayNode.self),
-    ]
-
     private var tappedPoint: Binding<CGPoint>?
     private var tappedID: String?
 
@@ -65,7 +56,7 @@ final class NodeLinkController: LinkController, ObservableObject {
     }
     
     func addRandomNode() {
-        let randomNode = nodesNameTypePair.randomElement()!.1.init()
+        let randomNode = NodeType.allTypes.randomElement()!.type.init()
         addNode(randomNode)
     }
 
