@@ -17,7 +17,7 @@ struct RandomLetterNodeView: View {
             }
             Spacer(minLength: 0)
             LinkPointView {
-                LinkColor(allowedTypes: model.model.allowedOutputTypes(0)).view
+                LinkBadge(allowedTypes: model.model.allowedOutputTypes(0)).view
             } onTap: {
                 onLinkTap($0, .output(model.model.output))
             }

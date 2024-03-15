@@ -11,13 +11,13 @@ struct LockNodeView: View {
         HStack {
             VStack {
                 LinkPointView {
-                    LinkColor(allowedTypes: model.model.allowedInputTypes(0)).view
+                    LinkBadge(allowedTypes: model.model.allowedInputTypes(0)).view
                 } onTap: {
                     onLinkTap($0, .input(model.model, 0))
                 }
 
                 LinkPointView {
-                    LinkColor(allowedTypes: model.model.allowedInputTypes(1)).view
+                    LinkBadge(allowedTypes: model.model.allowedInputTypes(1)).view
                 } onTap: {
                     onLinkTap($0, .input(model.model, 1))
                 }
@@ -25,7 +25,7 @@ struct LockNodeView: View {
 
             Spacer(minLength: 0)
             LinkPointView {
-                LinkColor(allowedTypes: model.model.allowedOutputTypes(0)).view
+                LinkBadge(allowedTypes: model.model.allowedOutputTypes(0)).view
             } onTap: {
                 onLinkTap($0, .output(model.model.output))
             }

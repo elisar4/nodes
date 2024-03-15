@@ -3,14 +3,6 @@
 
 import SwiftUI
 
-struct Point: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.addEllipse(in: rect)
-        return path
-    }
-}
-
 struct LinkPointView<Content: View>: View {
     @State private var point: CGPoint = .zero
     @ViewBuilder var pointView: () -> Content
@@ -37,7 +29,7 @@ struct LinkPointView<Content: View>: View {
 struct LinkPointView_Previews: PreviewProvider {
     static var previews: some View {
         LinkPointView {
-            Point().fill(.blue)
+            Color.blue.clipShape(.circle)
         } onTap: {_ in
             return
         }

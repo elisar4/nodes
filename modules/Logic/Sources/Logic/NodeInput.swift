@@ -6,3 +6,7 @@ import Combine
 public protocol NodeInput {
     func linkInput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool
 }
+
+public protocol NodeOutput {
+    func linkOutput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool
+}
