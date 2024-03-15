@@ -9,7 +9,7 @@ struct MainView: View {
 
     var body: some View {
         NavigationView {
-            DebugView(controller: controller)
+            DebugView(controller: DebugMenuController(nodeLinkController: controller))
             WorkspaceOffset(offset: $controller.workspaceDragOffset) {
                 workspace()
             }

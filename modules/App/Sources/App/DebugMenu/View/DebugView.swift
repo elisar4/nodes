@@ -4,8 +4,8 @@
 import SwiftUI
 
 struct DebugView: View {
-    @ObservedObject var controller: NodeLinkController
-
+    @ObservedObject var controller: DebugMenuController
+    
     var body: some View {
         VStack(alignment: .leading) {
             Button("Reset") {

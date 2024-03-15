@@ -49,21 +49,6 @@ final class NodeLinkController: LinkController, ObservableObject {
         }
     }
 
-    func reset() {
-        points = []
-        nodes = []
-        clear()
-    }
-    
-    func addRandomNode() {
-        let randomNode = NodeType.allTypes.randomElement()!.type.init()
-        addNode(randomNode)
-    }
-
-    func addNode(_ node: any BaseNode) {
-        nodes.append(node)
-    }
-
     private func link(input: NodeInput, position: Int, output: CurrentValueSubject<Wrapped, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>, inputNodeId: String, outputNodeId: String) {
         let success = input.linkInput(output, position: position)
         guard success else {
@@ -80,7 +65,7 @@ final class NodeLinkController: LinkController, ObservableObject {
         clear()
     }
 
-    private func clear() {
+    func clear() {
         tappedParam = nil
         tappedPoint = nil
         tappedID = nil
