@@ -19,7 +19,7 @@ class RandomLetterNode: BaseNode, ObservableObject {
 
     func build(controller: LinkController, id: String) -> AnyView {
         AnyView(RandomLetterNodeBodyView(model: self, onLinkTap: { (point, param) in
-            controller.addPoint(point, id: id, param: param)
+            controller.link(point, id: id, param: param)
         }))
     }
 }

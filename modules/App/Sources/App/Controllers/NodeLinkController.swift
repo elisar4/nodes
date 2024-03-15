@@ -26,7 +26,7 @@ final class NodeLinkController: LinkController, ObservableObject {
 
     private var tappedParam: NodeParam?
 
-    func addPoint(_ point: Binding<CGPoint>, id: String, param: NodeParam) {
+    func link(_ point: Binding<CGPoint>, id: String, param: NodeParam) {
         if let tappedParam, let tappedPoint, let tappedID {
             if tappedID == id {
                 return

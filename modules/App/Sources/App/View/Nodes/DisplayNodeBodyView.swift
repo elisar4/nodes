@@ -25,7 +25,7 @@ class DisplayNode: BaseNode, ObservableObject {
 
     func build(controller: LinkController, id: String) -> AnyView {
         AnyView(DisplayNodeBodyView(model: self, onLinkTap: { (point, param) in
-            controller.addPoint(point, id: id, param: param)
+            controller.link(point, id: id, param: param)
         }))
     }
 }

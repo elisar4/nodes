@@ -19,7 +19,7 @@ final class JoinNode: BaseNode, ObservableObject {
 
     func build(controller: LinkController, id: String) -> AnyView {
         AnyView(JoinDisplayNodeBodyView(model: self, onLinkTap: { (point, param) in
-            controller.addPoint(point, id: id, param: param)
+            controller.link(point, id: id, param: param)
         }))
     }
 }
