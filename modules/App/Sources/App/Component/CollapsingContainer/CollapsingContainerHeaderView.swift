@@ -1,9 +1,9 @@
-//  NodeHeaderView.swift
+//  CollapsingContainerHeaderView.swift
 //  Created by Vladimir Roganov on 21.02.2024
 
 import SwiftUI
 
-struct NodeHeaderView: View {
+struct CollapsingContainerHeaderView: View {
     @Binding var isShowBody: Bool
     @State var title: String
 

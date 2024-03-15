@@ -11,7 +11,7 @@ class DebugMenuController: ObservableObject {
     }
     
     func reset() {
-        nodeLinkController.points = []
+        nodeLinkController.links = []
         nodeLinkController.nodes = []
         nodeLinkController.clear()
     }

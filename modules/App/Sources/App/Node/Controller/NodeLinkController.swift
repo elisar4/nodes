@@ -6,7 +6,7 @@ import Logic
 import Combine
 
 final class NodeLinkController: LinkController, ObservableObject {
-    @Published var points: [Link] = []
+    @Published var links: [Link] = []
     @Published var nodes: [any BaseNode] = []
     @Published var selection: (any BaseNode)?
     @Published var topNodeID: String?
@@ -56,8 +56,8 @@ final class NodeLinkController: LinkController, ObservableObject {
             print("Error: can't connect provided output with provided input")
             return
         }
-        points = points.filter({ "\($0.toId)\($0.toPosition)" != "\(inputNodeId)\(position)" })
-        points.append(Link(from: tappedPoint,
+        links = links.filter({ "\($0.toId)\($0.toPosition)" != "\(inputNodeId)\(position)" })
+        links.append(Link(from: tappedPoint,
                            to: point,
                            fromId: outputNodeId,
                            toId: inputNodeId,
@@ -100,6 +100,6 @@ extension NodeLinkController {
         selection.remove()
         self.selection = nil
         nodes.remove(at: idx)
-        points = points.filter({ !($0.fromId == uid || $0.toId == uid) })
+        links = links.filter({ !($0.fromId == uid || $0.toId == uid) })
     }
 }

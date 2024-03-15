@@ -12,16 +12,3 @@ struct Link: Identifiable {
     let toId: String
     let toPosition: Int
 }
-
-struct LinkView: View {
-    @Binding var fromPoint: CGPoint
-    @Binding var toPoint: CGPoint
-    
-    var body: some View {
-        Path() { path in
-            path.move(to: fromPoint)
-            path.addLine(to: toPoint)
-        }
-        .stroke(.blue, lineWidth: 2)
-    }
-}
