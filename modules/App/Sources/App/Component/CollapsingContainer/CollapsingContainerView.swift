@@ -1,9 +1,9 @@
-//  NodeView.swift
+//  CollapsingContainerView.swift
 //  Created by Vladimir Roganov on 21.02.2024
 
 import SwiftUI
 
-struct NodeView<Content: View>: View {
+struct CollapsingContainerView<Content: View>: View {
     @State var title: String
     var isSelected: Bool
     var position = CGPoint.zero
@@ -15,7 +15,7 @@ struct NodeView<Content: View>: View {
     var body: some View {
         GeometryReader { proxy in
             VStack(spacing: 0) {
-                NodeHeaderView(isShowBody: $isShowBody, title: title)
+                CollapsingContainerHeaderView(isShowBody: $isShowBody, title: title)
                     .transition(.scale)
                 if isShowBody {
                     content()

@@ -4,5 +4,5 @@
 import SwiftUI
 
 protocol LinkController {
-    func addPoint(_ point: Binding<CGPoint>, id: String, param: NodeParam)
+    func link(_ point: Binding<CGPoint>, id: String, param: NodeParam)
 }

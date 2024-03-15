@@ -3,16 +3,6 @@
 
 import SwiftUI
 
-struct Link: Identifiable {
-    let id: String = UUID().uuidString
-
-    let from: Binding<CGPoint>
-    let to: Binding<CGPoint>
-    let fromId: String
-    let toId: String
-    let toPosition: Int
-}
-
 struct LinkView: View {
     @Binding var fromPoint: CGPoint
     @Binding var toPoint: CGPoint

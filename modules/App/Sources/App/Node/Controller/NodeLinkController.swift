@@ -6,27 +6,18 @@ import Logic
 import Combine
 
 final class NodeLinkController: LinkController, ObservableObject {
-    @Published var points: [Link] = []
+    @Published var links: [Link] = []
     @Published var nodes: [any BaseNode] = []
     @Published var selection: (any BaseNode)?
     @Published var topNodeID: String?
     @Published var workspaceDragOffset: CGPoint = .zero
-
-    let nodesNameTypePair: [(String, any BaseNode.Type)] = [
-        ("JoinNode", JoinNode.self),
-        ("RandomLetterNode", RandomLetterNode.self),
-        ("CountNode", CountNode.self),
-        ("GreaterNode", GreaterNode.self),
-        ("LockNode", LockNode.self),
-        ("DisplayNode", DisplayNode.self),
-    ]
 
     private var tappedPoint: Binding<CGPoint>?
     private var tappedID: String?
 
     private var tappedParam: NodeParam?
 
-    func addPoint(_ point: Binding<CGPoint>, id: String, param: NodeParam) {
+    func link(_ point: Binding<CGPoint>, id: String, param: NodeParam) {
         if let tappedParam, let tappedPoint, let tappedID {
             if tappedID == id {
                 return
@@ -58,21 +49,6 @@ final class NodeLinkController: LinkController, ObservableObject {
         }
     }
 
-    func reset() {
-        points = []
-        nodes = []
-        clear()
-    }
-    
-    func addRandomNode() {
-        let randomNode = nodesNameTypePair.randomElement()!.1.init()
-        addNode(randomNode)
-    }
-
-    func addNode(_ node: any BaseNode) {
-        nodes.append(node)
-    }
-
     private func link(input: NodeInput, position: Int, output: CurrentValueSubject<Wrapped, Never>, tappedPoint: Binding<CGPoint>, point: Binding<CGPoint>, inputNodeId: String, outputNodeId: String) {
         let success = input.linkInput(output, position: position)
         guard success else {
@@ -80,8 +56,8 @@ final class NodeLinkController: LinkController, ObservableObject {
             print("Error: can't connect provided output with provided input")
             return
         }
-        points = points.filter({ "\($0.toId)\($0.toPosition)" != "\(inputNodeId)\(position)" })
-        points.append(Link(from: tappedPoint,
+        links = links.filter({ "\($0.toId)\($0.toPosition)" != "\(inputNodeId)\(position)" })
+        links.append(Link(from: tappedPoint,
                            to: point,
                            fromId: outputNodeId,
                            toId: inputNodeId,
@@ -89,7 +65,7 @@ final class NodeLinkController: LinkController, ObservableObject {
         clear()
     }
 
-    private func clear() {
+    func clear() {
         tappedParam = nil
         tappedPoint = nil
         tappedID = nil
@@ -124,6 +100,6 @@ extension NodeLinkController {
         selection.remove()
         self.selection = nil
         nodes.remove(at: idx)
-        points = points.filter({ !($0.fromId == uid || $0.toId == uid) })
+        links = links.filter({ !($0.fromId == uid || $0.toId == uid) })
     }
 }

@@ -4,8 +4,8 @@
 import SwiftUI
 
 struct DebugView: View {
-    @ObservedObject var controller: NodeLinkController
-
+    @ObservedObject var controller: DebugMenuController
+    
     var body: some View {
         VStack(alignment: .leading) {
             Button("Reset") {
@@ -17,9 +17,9 @@ struct DebugView: View {
             }
             .buttonStyle(.borderedProminent)
             Divider()
-            ForEach(controller.nodesNameTypePair, id: \.0) { nodePair in
-                Button(nodePair.0) {
-                    controller.addNode(nodePair.1.init())
+            ForEach(NodeType.allTypes, id: \.name) { item in
+                Button(item.name) {
+                    controller.addNode(item.type.init())
                 }
                 .buttonStyle(.borderedProminent)
             }

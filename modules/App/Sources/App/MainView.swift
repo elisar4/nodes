@@ -9,7 +9,7 @@ struct MainView: View {
 
     var body: some View {
         NavigationView {
-            DebugView(controller: controller)
+            DebugView(controller: DebugMenuController(nodeLinkController: controller))
             WorkspaceOffset(offset: $controller.workspaceDragOffset) {
                 workspace()
             }
@@ -26,7 +26,7 @@ struct MainView: View {
                 makeNodeView(node)
             }
             .offset(CGSize(width: controller.workspaceDragOffset.x, height: controller.workspaceDragOffset.y))
-            ForEach(controller.points) { element in
+            ForEach(controller.links) { element in
                 LinkView(fromPoint: element.from, toPoint: element.to)
                     .zIndex(2)
             }
@@ -47,7 +47,7 @@ struct MainView: View {
                                       y: gesture.location.y)
                 controller.topNodeID = node.id
             }
-        return NodeView(title: node.name, isSelected: controller.selection?.id == node.id, position: node.position) {
+        return CollapsingContainerView(title: node.name, isSelected: controller.selection?.id == node.id, position: node.position) {
             node.build(controller: controller, id: node.id)
         }
         .zIndex(controller.topNodeID == node.id ? 1 : 0)

@@ -20,10 +20,7 @@ public final class Count: NodeInput, Linkable {
     public init() {}
 
     public func linkInput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool {
-        guard position == 0 else {
-            return false
-        }
-        guard inputTypes[position]?.contains(input.value.type) == true else {
+        guard allowedInputTypes(position).contains(input.value.type) else {
             return false
         }
         if position == 0 {

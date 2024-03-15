@@ -1,9 +1,9 @@
-//  LinkColor.swift
+//  LinkBadge.swift
 //  Created by Igor Manakov on 07.03.2024.
 
 import SwiftUI
 
-struct LinkColor {
+struct LinkBadge {
     let allowedTypes: [String]
 
     @ViewBuilder
@@ -13,11 +13,11 @@ struct LinkColor {
         } else if let type = allowedTypes.first {
             switch type {
             case "i":
-                Point().fill(.blue)
+                Color.blue.clipShape(.circle)
             case "s":
-                Point().fill(.red)
+                Color.red.clipShape(.circle)
             case "b":
-                Point().fill(.green)
+                Color.green.clipShape(.circle)
             default:
                 Image(uiImage: .init(systemName: "xmark")!)
             }
