@@ -3,7 +3,7 @@
 
 import SwiftUI
 
-protocol BaseNode: AnyObject, Identifiable {
+protocol BaseNode: AnyObject, Identifiable, BaseNodeState {
     var id: String { get }
     var name: String { get }
     var position: CGPoint { get set }

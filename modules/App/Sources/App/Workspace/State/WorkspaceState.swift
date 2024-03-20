@@ -12,6 +12,14 @@ protocol LinkState {
 
 struct WorkspaceState {
     var links: [LinkState] = []
-    var nodes: [BaseNode] = []
+    var nodes: [BaseNodeState] = []
     var offset: CGPoint
 }
+
+protocol BaseNodeState {
+    var id: String { get }
+    var name: String { get }
+    var position: CGPoint { get }
+}
+
+extension Link: LinkState {}

@@ -7,7 +7,11 @@ import XCTest
 class WorkspaceStateTests: XCTestCase {
 
     func testWorkspace_InitWithEmptyState() throws {
+        let sut = NodeLinkController()
         
+        XCTAssertEqual(sut.links.count, 0)
+        XCTAssertEqual(sut.nodes.count, 0)
+        XCTAssertEqual(sut.workspaceDragOffset, .zero)
     }
 
 }
