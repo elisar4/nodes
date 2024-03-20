@@ -4,7 +4,7 @@
 import Combine
 
 class DebugMenuController: ObservableObject {
-    private let nodeLinkController: NodeLinkController
+    let nodeLinkController: NodeLinkController
     
     init(nodeLinkController: NodeLinkController) {
         self.nodeLinkController = nodeLinkController
@@ -23,5 +23,13 @@ class DebugMenuController: ObservableObject {
     
     func addNode(_ node: any BaseNode) {
         nodeLinkController.nodes.append(node)
+    }
+    
+    func saveDebugState() {
+        nodeLinkController.saveDebugState()
+    }
+    
+    func loadDebugState() {
+        nodeLinkController.loadDebugState()
     }
 }

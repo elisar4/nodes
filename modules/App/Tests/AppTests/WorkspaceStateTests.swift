@@ -41,6 +41,19 @@ class WorkspaceStateTests: XCTestCase {
         
         XCTAssertEqual(controller.currentWorkspaceState.nodes.count, 3)
     }
+    
+    func testWorkspace_SaveNodesNew() throws {
+        let controller = NodeLinkController()
+        let displayNode = DisplayNode()
+        displayNode.position = .init(x: 64, y: 64)
+        controller.nodes.append(displayNode)
+        
+        let state = controller.currentWorkspaceState
+        
+        displayNode.position = .init(x: 100, y: 100)
+        
+        XCTAssertEqual(state.nodes.first?.position, .init(x: 64, y: 64))
+    }
 
     func testWorkspace_SaveLinks() throws {
         let controller = NodeLinkController()
