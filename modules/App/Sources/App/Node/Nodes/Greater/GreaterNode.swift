@@ -5,6 +5,8 @@ import SwiftUI
 import Logic
 
 final class GreaterNode: BaseNode, ObservableObject {
+    var type: any BaseNode.Type { GreaterNode.self }
+    
     @Published var position: CGPoint = .randomPositionOnScreen
 
     var model: Greater

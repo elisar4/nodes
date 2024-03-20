@@ -12,13 +12,24 @@ final class NodeLinkController: LinkController, ObservableObject {
     @Published var topNodeID: String?
     @Published var workspaceDragOffset: CGPoint = .zero
 
+    var currentWorkspaceState: WorkspaceState {
+        .init(links: links, nodes: nodes, offset: workspaceDragOffset)
+    }
+
     private var tappedPoint: Binding<CGPoint>?
     private var tappedID: String?
 
     private var tappedParam: NodeParam?
 
     func loadState(_ state: WorkspaceState) {
-        //
+        nodes = state.nodes.map {
+            let node = $0.type.init()
+            node.id = $0.id
+            node.name = $0.name
+            node.position = $0.position
+            return node
+        }
+        workspaceDragOffset = state.offset
     }
 
     func link(_ point: Binding<CGPoint>, id: String, param: NodeParam) {

@@ -5,6 +5,8 @@ import SwiftUI
 import Logic
 
 class DisplayNode: BaseNode, ObservableObject {
+    var type: any BaseNode.Type { DisplayNode.self }
+    
     @Published var text: String?
     @Published var position: CGPoint = .randomPositionOnScreen
 

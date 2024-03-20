@@ -5,6 +5,8 @@ import SwiftUI
 import Logic
 
 class LockNode: BaseNode, ObservableObject {
+    var type: any BaseNode.Type { LockNode.self }
+    
     @Published var position: CGPoint = .randomPositionOnScreen
 
     var model: Lock

@@ -5,6 +5,8 @@ import SwiftUI
 import Logic
 
 class RandomLetterNode: BaseNode, ObservableObject {
+    var type: any BaseNode.Type { RandomLetterNode.self }
+    
     @Published var position: CGPoint = .randomPositionOnScreen
 
     var model: RandomLetter

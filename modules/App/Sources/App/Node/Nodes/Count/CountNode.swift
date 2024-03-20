@@ -5,6 +5,8 @@ import SwiftUI
 import Logic
 
 class CountNode: BaseNode, ObservableObject {
+    var type: any BaseNode.Type { CountNode.self }
+    
     @Published var position: CGPoint = .randomPositionOnScreen
 
     var model: Count

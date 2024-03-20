@@ -5,6 +5,8 @@ import SwiftUI
 import Logic
 
 final class JoinNode: BaseNode, ObservableObject {
+    var type: any BaseNode.Type { JoinNode.self }
+    
     @Published var position: CGPoint = .randomPositionOnScreen
 
     var model: Join
