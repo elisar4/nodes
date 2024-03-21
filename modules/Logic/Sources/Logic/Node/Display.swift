@@ -12,7 +12,7 @@ public final class Display: NodeInput, NodeOutput, Linkable {
     }
 
     private let inputTypes: [Int: [String]] = [
-        0: ["i", "s"],
+        0: ["i", "s", "b"],
     ]
 
     private let outputTypes: [Int: [String]] = [
@@ -66,7 +66,20 @@ public final class Display: NodeInput, NodeOutput, Linkable {
         listener = input
             .sink { [weak self] input in
                 self?.output.send(input)
-                self?.action?(input.string ?? input.int?.description)
+                self?.action?(input.displayText)
             }
+    }
+}
+
+private extension Wrapped {
+    var displayText: String? {
+        switch self {
+        case .bool(let value):
+            return value?.description.capitalized
+        case .int(let value):
+            return value?.description
+        case .string(let value):
+            return value
+        }
     }
 }
