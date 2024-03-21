@@ -4,22 +4,19 @@
 import SwiftUI
 import Logic
 
-final class GreaterNode: BaseNode, ObservableObject {
-    var type: any BaseNode.Type { GreaterNode.self }
-    
-    @Published var position: CGPoint = .randomPositionOnScreen
-
+final class GreaterNode: BaseNode {
     var model: Greater
-    var name: String = "Greater"
-    var id: String = UUID().uuidString
 
-    required init() { model = .init() }
+    required init() {
+        model = Greater()
+        super.init()
+    }
 
-    func remove() {
+    override func remove() {
         model.remove()
     }
 
-    func build(controller: LinkController, id: String) -> AnyView {
+    override func build(controller: LinkController, id: String) -> AnyView {
         AnyView(GreaterNodeView(model: self, onLinkTap: { (point, param) in
             controller.link(point, id: id, param: param)
         }))

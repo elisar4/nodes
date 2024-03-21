@@ -7,15 +7,15 @@ import Combine
 
 final class WorkspaceController: LinkController, ObservableObject {
     @Published var links: [Link] = []
-    @Published var nodes: [any BaseNode] = []
-    @Published var selection: (any BaseNode)?
+    @Published var nodes: [BaseNode] = []
+    @Published var selection: (BaseNode)?
     @Published var topNodeID: String?
     @Published var workspaceDragOffset: CGPoint = .zero
 
     var currentWorkspaceState: WorkspaceState {
         return .init(
             links: links,
-            nodes: nodes.map { BaseNodeStateStruct(node: $0) },
+            nodes: nodes.map(BaseNodeState.init(node:)),
             offset: workspaceDragOffset
         )
     }
@@ -29,14 +29,7 @@ final class WorkspaceController: LinkController, ObservableObject {
         links = []
         nodes = []
         clear()
-        workspaceDragOffset = .zero
-        nodes = state.nodes.map {
-            let node = $0.type.init()
-            node.id = $0.id
-            node.name = $0.name
-            node.position = $0.position
-            return node
-        }
+        nodes = state.nodes.map(\.restored)
         workspaceDragOffset = state.offset
     }
 
@@ -98,7 +91,7 @@ final class WorkspaceController: LinkController, ObservableObject {
 // MARK: - Selection
 
 extension WorkspaceController {
-    func didTapNode(_ node: any BaseNode) {
+    func didTapNode(_ node: BaseNode) {
         if selection?.id == node.id {
             selection = nil
         } else {

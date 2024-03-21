@@ -4,24 +4,19 @@
 import SwiftUI
 import Logic
 
-class LockNode: BaseNode, ObservableObject {
-    var type: any BaseNode.Type { LockNode.self }
-    
-    @Published var position: CGPoint = .randomPositionOnScreen
-
+final class LockNode: BaseNode {
     var model: Lock
-    var name: String = "Lock"
-    var id: String = UUID().uuidString
 
     required init() {
-        model = .init()
+        model = Lock()
+        super.init()
     }
 
-    func remove() {
+    override func remove() {
         model.remove()
     }
 
-    func build(controller: LinkController, id: String) -> AnyView {
+    override func build(controller: LinkController, id: String) -> AnyView {
         AnyView(LockNodeView(model: self, onLinkTap: { (point, param) in
             controller.link(point, id: id, param: param)
         }))

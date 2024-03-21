@@ -4,28 +4,23 @@
 import SwiftUI
 import Logic
 
-class DisplayNode: BaseNode, ObservableObject {
-    var type: any BaseNode.Type { DisplayNode.self }
-    
+final class DisplayNode: BaseNode {
     @Published var text: String?
-    @Published var position: CGPoint = .randomPositionOnScreen
-
     var model: Display
-    var name: String = "Display"
-    var id: String = UUID().uuidString
 
     required init() {
-        model = .init()
+        model = Display()
+        super.init()
         model.action = { [weak self] in
             self?.text = $0
         }
     }
 
-    func remove() {
+    override func remove() {
         model.remove()
     }
 
-    func build(controller: LinkController, id: String) -> AnyView {
+    override func build(controller: LinkController, id: String) -> AnyView {
         AnyView(DisplayNodeView(model: self, onLinkTap: { (point, param) in
             controller.link(point, id: id, param: param)
         }))

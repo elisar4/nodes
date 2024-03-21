@@ -42,7 +42,7 @@ struct MainView: View {
         .ignoresSafeArea(.keyboard)
     }
 
-    private func makeNodeView(_ node: any BaseNode) -> some View {
+    private func makeNodeView(_ node: BaseNode) -> some View {
         let tap = TapGesture()
             .onEnded { _ in
                 controller.didTapNode(node)

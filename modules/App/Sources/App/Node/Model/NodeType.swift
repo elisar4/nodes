@@ -6,7 +6,7 @@ import Logic
 
 struct NodeType {
     let name: String
-    let type: any BaseNode.Type
+    let type: BaseNode.Type
     
     static let allTypes: [NodeType] = [
         .init(name: "JoinNode", type: JoinNode.self),

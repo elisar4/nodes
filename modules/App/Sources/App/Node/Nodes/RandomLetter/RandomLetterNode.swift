@@ -4,22 +4,19 @@
 import SwiftUI
 import Logic
 
-class RandomLetterNode: BaseNode, ObservableObject {
-    var type: any BaseNode.Type { RandomLetterNode.self }
-    
-    @Published var position: CGPoint = .randomPositionOnScreen
-
+final class RandomLetterNode: BaseNode {
     var model: RandomLetter
-    var name: String = "RandomLetter"
-    var id: String = UUID().uuidString
 
-    required init() { model = .init() }
+    required init() {
+        model = RandomLetter()
+        super.init()
+    }
 
-    func remove() {
+    override func remove() {
         model.remove()
     }
 
-    func build(controller: LinkController, id: String) -> AnyView {
+    override func build(controller: LinkController, id: String) -> AnyView {
         AnyView(RandomLetterNodeView(model: self, onLinkTap: { (point, param) in
             controller.link(point, id: id, param: param)
         }))

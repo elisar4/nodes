@@ -23,7 +23,7 @@ class DebugMenuController: ObservableObject {
         addNode(randomNode)
     }
     
-    func addNode(_ node: any BaseNode) {
+    func addNode(_ node: BaseNode) {
         workspace.nodes.append(node)
     }
 

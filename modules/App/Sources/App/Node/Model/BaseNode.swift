@@ -3,12 +3,20 @@
 
 import SwiftUI
 
-protocol BaseNode: AnyObject, Identifiable, BaseNodeState {
-    var id: String { get set }
-    var name: String { get set }
-    var position: CGPoint { get set }
-    init()
-    func remove()
-    func build(controller: LinkController, id: String) -> AnyView
-    var type: any BaseNode.Type { get }
+class BaseNode: ObservableObject, Identifiable {
+    var name: String { String(describing: type) }
+    @Published var position: CGPoint = .randomPositionOnScreen
+
+    var id: String = UUID().uuidString
+    var type: BaseNode.Type { Self.self }
+
+    required init() { }
+
+    func remove() {
+        fatalError()
+    }
+
+    func build(controller: LinkController, id: String) -> AnyView {
+        AnyView(Color.red)
+    }
 }

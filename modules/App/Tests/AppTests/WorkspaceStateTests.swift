@@ -68,9 +68,9 @@ class WorkspaceStateTests: XCTestCase {
     func testWorkspace_InitWithNodes() throws {
         let sut = WorkspaceController()
         let state = WorkspaceState(nodes: [
-            NodeType.allTypes.randomElement()!.type.init(),
-            NodeType.allTypes.randomElement()!.type.init(),
-            NodeType.allTypes.randomElement()!.type.init()
+            BaseNodeState.init(node: NodeType.allTypes.randomElement()!.type.init()),
+            BaseNodeState.init(node: NodeType.allTypes.randomElement()!.type.init()),
+            BaseNodeState.init(node: NodeType.allTypes.randomElement()!.type.init()),
         ])
 
         sut.loadState(state)
@@ -82,7 +82,7 @@ class WorkspaceStateTests: XCTestCase {
         let sut = WorkspaceController()
         let node1 = RandomLetterNode()
         let state = WorkspaceState(nodes: [
-            node1
+            BaseNodeState.init(node: node1)
         ])
 
         sut.loadState(state)
@@ -90,6 +90,5 @@ class WorkspaceStateTests: XCTestCase {
         XCTAssertEqual(sut.nodes.first!.id, node1.id)
         XCTAssertEqual(sut.nodes.first!.name, node1.name)
         XCTAssertEqual(sut.nodes.first!.position, node1.position)
-//        XCTAssertEqual(sut.nodes.first!.type, node1.self)
     }
 }

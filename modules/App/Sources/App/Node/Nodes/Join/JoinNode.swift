@@ -4,22 +4,19 @@
 import SwiftUI
 import Logic
 
-final class JoinNode: BaseNode, ObservableObject {
-    var type: any BaseNode.Type { JoinNode.self }
-    
-    @Published var position: CGPoint = .randomPositionOnScreen
-
+final class JoinNode: BaseNode {
     var model: Join
-    var name: String = "Join"
-    var id: String = UUID().uuidString
 
-    required init() { model = .init() }
+    required init() {
+        model = Join()
+        super.init()
+    }
 
-    func remove() {
+    override func remove() {
         model.remove()
     }
 
-    func build(controller: LinkController, id: String) -> AnyView {
+    override func build(controller: LinkController, id: String) -> AnyView {
         AnyView(JoinNodeView(model: self, onLinkTap: { (point, param) in
             controller.link(point, id: id, param: param)
         }))
