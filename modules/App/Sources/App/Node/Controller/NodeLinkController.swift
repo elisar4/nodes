@@ -13,21 +13,11 @@ final class NodeLinkController: LinkController, ObservableObject {
     @Published var workspaceDragOffset: CGPoint = .zero
 
     var currentWorkspaceState: WorkspaceState {
-        .init(links: links, nodes: nodes.map { BaseNodeStateStruct(node: $0) }, offset: workspaceDragOffset)
-    }
-    
-    @Published var debugState: WorkspaceState?
-    
-    func saveDebugState() {
-        debugState = currentWorkspaceState
-    }
-    
-    func loadDebugState() {
-        guard let debugState else {
-            print("Debug state noo")
-            return
-        }
-        loadState(debugState)
+        return .init(
+            links: links,
+            nodes: nodes.map { BaseNodeStateStruct(node: $0) },
+            offset: workspaceDragOffset
+        )
     }
 
     private var tappedPoint: Binding<CGPoint>?

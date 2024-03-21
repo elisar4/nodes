@@ -5,11 +5,17 @@ import SwiftUI
 import Logic
 
 struct MainView: View {
-    @StateObject var controller = NodeLinkController()
+    @ObservedObject var controller: NodeLinkController
+    @ObservedObject var debugController: DebugMenuController
+
+    init(controller: NodeLinkController, debugController: DebugMenuController) {
+        self.controller = controller
+        self.debugController = debugController
+    }
 
     var body: some View {
         NavigationView {
-            DebugView(controller: DebugMenuController(nodeLinkController: controller))
+            DebugView(controller: debugController)
             WorkspaceOffset(offset: $controller.workspaceDragOffset) {
                 workspace()
             }

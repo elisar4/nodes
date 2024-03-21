@@ -31,7 +31,7 @@ struct DebugView: View {
             Button("Load State") {
                 controller.loadDebugState()
             }
-            .disabled(controller.nodeLinkController.debugState == nil)
+            .disabled(controller.debugState == nil)
             .buttonStyle(.borderedProminent)
         }
         .padding(.horizontal)

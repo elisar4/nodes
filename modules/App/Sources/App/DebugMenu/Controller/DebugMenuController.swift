@@ -4,8 +4,10 @@
 import Combine
 
 class DebugMenuController: ObservableObject {
-    let nodeLinkController: NodeLinkController
-    
+    @Published var debugState: WorkspaceState?
+
+    private let nodeLinkController: NodeLinkController
+
     init(nodeLinkController: NodeLinkController) {
         self.nodeLinkController = nodeLinkController
     }
@@ -24,12 +26,16 @@ class DebugMenuController: ObservableObject {
     func addNode(_ node: any BaseNode) {
         nodeLinkController.nodes.append(node)
     }
-    
+
     func saveDebugState() {
-        nodeLinkController.saveDebugState()
+        debugState = nodeLinkController.currentWorkspaceState
     }
-    
+
     func loadDebugState() {
-        nodeLinkController.loadDebugState()
+        guard let debugState else {
+            print("Debug state noo")
+            return
+        }
+        nodeLinkController.loadState(debugState)
     }
 }
