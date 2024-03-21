@@ -18,6 +18,13 @@
         "identifier" : "LogicTests",
         "name" : "LogicTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/modules\/App",
+        "identifier" : "AppTests",
+        "name" : "AppTests"
+      }
     }
   ],
   "version" : 1
