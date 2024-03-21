@@ -31,6 +31,16 @@ final class WorkspaceController: LinkController, ObservableObject {
         clear()
         nodes = state.nodes.map(\.restored)
         workspaceDragOffset = state.offset
+        // restore links
+//        for link in state.links {
+//            let fromNode = nodes.first(where: {$0.id == link.fromId})
+//            let newLink = Link.init(from: formNode.point,
+//                                    to: .constant(.zero),
+//                                    fromId: link.fromId,
+//                                    toId: link.toId,
+//                                    toPosition: link.toPosition)
+//            links.append(newLink)
+//        }
     }
 
     func link(_ point: Binding<CGPoint>, id: String, param: NodeParam) {
