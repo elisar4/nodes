@@ -16,7 +16,7 @@ final class JoinTests: XCTestCase {
         let param = "Hello"
 
         let paramSubject = CurrentValueSubject<Wrapped, Never>(.string(nil))
-        sut.linkInput(paramSubject, position: 0)
+        _ = sut.linkInput(paramSubject, position: 0)
 
         paramSubject.send(.string(param))
 
@@ -29,8 +29,8 @@ final class JoinTests: XCTestCase {
         let constStringNodeA = ConstantString(paramA)
         let constStringNodeB = ConstantString(paramB)
 
-        sut.linkInput(constStringNodeA.output, position: 0)
-        sut.linkInput(constStringNodeB.output, position: 1)
+        _ = sut.linkInput(constStringNodeA.output, position: 0)
+        _ = sut.linkInput(constStringNodeB.output, position: 1)
 
         constStringNodeA.run()
 
@@ -42,9 +42,9 @@ final class JoinTests: XCTestCase {
         let param2 = "World"
 
         let param1Subject = CurrentValueSubject<Wrapped, Never>(.string(nil))
-        sut.linkInput(param1Subject, position: 0)
+        _ = sut.linkInput(param1Subject, position: 0)
         let param2Subject = CurrentValueSubject<Wrapped, Never>(.string(nil))
-        sut.linkInput(param2Subject, position: 1)
+        _ = sut.linkInput(param2Subject, position: 1)
 
         param1Subject.send(.string(param1))
         param2Subject.send(.string(param2))
