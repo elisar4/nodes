@@ -5,10 +5,10 @@ import SwiftUI
 import Logic
 
 struct MainView: View {
-    @ObservedObject var controller: NodeLinkController
+    @ObservedObject var controller: WorkspaceController
     @ObservedObject var debugController: DebugMenuController
 
-    init(controller: NodeLinkController, debugController: DebugMenuController) {
+    init(controller: WorkspaceController, debugController: DebugMenuController) {
         self.controller = controller
         self.debugController = debugController
     }

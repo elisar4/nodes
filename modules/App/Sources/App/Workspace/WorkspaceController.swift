@@ -1,11 +1,11 @@
-//  NodeLinkController.swift
+//  WorkspaceController.swift
 //  Created by Aiur Arkhipov on 19.02.2024.
 
 import SwiftUI
 import Logic
 import Combine
 
-final class NodeLinkController: LinkController, ObservableObject {
+final class WorkspaceController: LinkController, ObservableObject {
     @Published var links: [Link] = []
     @Published var nodes: [any BaseNode] = []
     @Published var selection: (any BaseNode)?
@@ -97,7 +97,7 @@ final class NodeLinkController: LinkController, ObservableObject {
 
 // MARK: - Selection
 
-extension NodeLinkController {
+extension WorkspaceController {
     func didTapNode(_ node: any BaseNode) {
         if selection?.id == node.id {
             selection = nil
@@ -113,7 +113,7 @@ extension NodeLinkController {
 
 // MARK: - Removing
 
-extension NodeLinkController {
+extension WorkspaceController {
     func removeSelectedNode() {
         guard let selection,
               let idx = nodes.firstIndex(where: { $0.id == selection.id }) else {

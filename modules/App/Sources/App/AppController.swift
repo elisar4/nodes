@@ -6,8 +6,8 @@ import SwiftUI
 public class AppController: UIViewController {
 
     lazy var rootController: UIViewController = {
-        let controller = NodeLinkController()
-        let debugController = DebugMenuController(nodeLinkController: controller)
+        let controller = WorkspaceController()
+        let debugController = DebugMenuController(workspace: controller)
         let mainView = MainView(controller: controller, debugController: debugController)
         return UIHostingController(rootView: mainView)
     }()

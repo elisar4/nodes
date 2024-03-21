@@ -6,16 +6,16 @@ import Combine
 class DebugMenuController: ObservableObject {
     @Published var debugState: WorkspaceState?
 
-    private let nodeLinkController: NodeLinkController
+    private let workspace: WorkspaceController
 
-    init(nodeLinkController: NodeLinkController) {
-        self.nodeLinkController = nodeLinkController
+    init(workspace: WorkspaceController) {
+        self.workspace = workspace
     }
     
     func reset() {
-        nodeLinkController.links = []
-        nodeLinkController.nodes = []
-        nodeLinkController.clear()
+        workspace.links = []
+        workspace.nodes = []
+        workspace.clear()
     }
     
     func addRandomNode() {
@@ -24,11 +24,11 @@ class DebugMenuController: ObservableObject {
     }
     
     func addNode(_ node: any BaseNode) {
-        nodeLinkController.nodes.append(node)
+        workspace.nodes.append(node)
     }
 
     func saveDebugState() {
-        debugState = nodeLinkController.currentWorkspaceState
+        debugState = workspace.currentWorkspaceState
     }
 
     func loadDebugState() {
@@ -36,6 +36,6 @@ class DebugMenuController: ObservableObject {
             print("Debug state noo")
             return
         }
-        nodeLinkController.loadState(debugState)
+        workspace.loadState(debugState)
     }
 }

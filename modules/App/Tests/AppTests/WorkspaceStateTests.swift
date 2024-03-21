@@ -7,15 +7,15 @@ import XCTest
 class WorkspaceStateTests: XCTestCase {
 
     func testWorkspace_InitWithEmptyState() throws {
-        let sut = NodeLinkController()
+        let sut = WorkspaceController()
         
         XCTAssertEqual(sut.links.count, 0)
         XCTAssertEqual(sut.nodes.count, 0)
         XCTAssertEqual(sut.workspaceDragOffset, .zero)
     }
 
-    func testWorkspace_InitWithOffset() throws {
-        let sut = NodeLinkController()
+    func testWorkspace_CanLoadOffset_FromWorkspaceState() throws {
+        let sut = WorkspaceController()
         let state = WorkspaceState(offset: .init(x: 69, y: 69))
 
         sut.loadState(state)
@@ -24,7 +24,7 @@ class WorkspaceStateTests: XCTestCase {
     }
 
     func testWorkspace_SaveState() throws {
-        let controller = NodeLinkController()
+        let controller = WorkspaceController()
         let offset = CGPoint(x: 69, y: 69)
         controller.workspaceDragOffset = offset
 
@@ -32,7 +32,7 @@ class WorkspaceStateTests: XCTestCase {
     }
 
     func testWorkspace_SaveNodes() throws {
-        let controller = NodeLinkController()
+        let controller = WorkspaceController()
         controller.nodes.append(contentsOf: [
             NodeType.allTypes.randomElement()!.type.init(),
             NodeType.allTypes.randomElement()!.type.init(),
@@ -43,7 +43,7 @@ class WorkspaceStateTests: XCTestCase {
     }
     
     func testWorkspace_SaveNodesNew() throws {
-        let controller = NodeLinkController()
+        let controller = WorkspaceController()
         let displayNode = DisplayNode()
         displayNode.position = .init(x: 64, y: 64)
         controller.nodes.append(displayNode)
@@ -56,7 +56,7 @@ class WorkspaceStateTests: XCTestCase {
     }
 
     func testWorkspace_SaveLinks() throws {
-        let controller = NodeLinkController()
+        let controller = WorkspaceController()
         controller.links.append(contentsOf: [
             Link(from: .constant(.zero), to: .constant(.zero), fromId: "", toId: "", toPosition: 0),
             Link(from: .constant(.zero), to: .constant(.zero), fromId: "", toId: "", toPosition: 0)
@@ -66,7 +66,7 @@ class WorkspaceStateTests: XCTestCase {
     }
 
     func testWorkspace_InitWithNodes() throws {
-        let sut = NodeLinkController()
+        let sut = WorkspaceController()
         let state = WorkspaceState(nodes: [
             NodeType.allTypes.randomElement()!.type.init(),
             NodeType.allTypes.randomElement()!.type.init(),
@@ -79,7 +79,7 @@ class WorkspaceStateTests: XCTestCase {
     }
 
     func testWorkspace_InitWithNodes_CheckEqualIDs() throws {
-        let sut = NodeLinkController()
+        let sut = WorkspaceController()
         let node1 = RandomLetterNode()
         let state = WorkspaceState(nodes: [
             node1
