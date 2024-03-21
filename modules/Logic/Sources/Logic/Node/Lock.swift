@@ -3,7 +3,7 @@
 
 import Combine
 
-public class Lock: NodeInput, Linkable {
+public class Lock: NodeInput, NodeOutput, Linkable {
     public var input1: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string(nil)).eraseToAnyPublisher()
     public var input2: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.bool(nil)).eraseToAnyPublisher()
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.string(nil))
@@ -32,6 +32,13 @@ public class Lock: NodeInput, Linkable {
             linkParamTwo(input)
         }
         return true
+    }
+
+    public func getOutput(_ position: Int) -> CurrentValueSubject<Wrapped, Never>? {
+        if position == 0 {
+            return output
+        }
+        return nil
     }
 
     public func remove() {

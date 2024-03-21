@@ -3,9 +3,15 @@
 
 import SwiftUI
 
+struct LinkPathModel: Identifiable {
+    var id: String = UUID().uuidString
+    var from: CGPoint
+    var to: CGPoint
+}
+
 struct LinkView: View {
-    @Binding var fromPoint: CGPoint
-    @Binding var toPoint: CGPoint
+    var fromPoint: CGPoint
+    var toPoint: CGPoint
     
     var body: some View {
         Path() { path in

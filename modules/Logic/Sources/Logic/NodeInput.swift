@@ -8,5 +8,5 @@ public protocol NodeInput {
 }
 
 public protocol NodeOutput {
-    func linkOutput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool
+    func getOutput(_ position: Int) -> CurrentValueSubject<Wrapped, Never>?
 }

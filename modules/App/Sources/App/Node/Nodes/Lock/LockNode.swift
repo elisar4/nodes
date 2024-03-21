@@ -3,6 +3,7 @@
 
 import SwiftUI
 import Logic
+import Combine
 
 final class LockNode: BaseNode {
     var model: Lock
@@ -16,9 +17,17 @@ final class LockNode: BaseNode {
         model.remove()
     }
 
+    override func linkInput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool {
+        return model.linkInput(input, position: position)
+    }
+
+    override func getOutput(position: Int) -> CurrentValueSubject<Wrapped, Never>? {
+        return model.getOutput(position)
+    }
+
     override func build(controller: LinkController, id: String) -> AnyView {
-        AnyView(LockNodeView(model: self, onLinkTap: { (point, param) in
-            controller.link(point, id: id, param: param)
+        AnyView(LockNodeView(model: self, onLinkTap: { (param) in
+            controller.link(id: id, param: param)
         }))
     }
 }

@@ -4,10 +4,20 @@
 import Foundation
 
 protocol LinkState {
-    var id: String { get }
     var fromId: String { get }
+    var fromPosition: Int { get }
     var toId: String { get }
     var toPosition: Int { get }
 }
 
-extension Link: LinkState {}
+extension Link: LinkState {
+
+}
+extension LinkState {
+    var restored: Link {
+        .init(fromId: fromId,
+              fromPosition: fromPosition,
+              toId: toId,
+              toPosition: toPosition)
+    }
+}

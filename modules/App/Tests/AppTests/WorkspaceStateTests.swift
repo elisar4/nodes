@@ -3,6 +3,7 @@
 
 import XCTest
 @testable import App
+@testable import Logic
 
 class WorkspaceStateTests: XCTestCase {
 
@@ -57,12 +58,9 @@ class WorkspaceStateTests: XCTestCase {
 
     func testWorkspace_SaveLinks() throws {
         let controller = WorkspaceController()
-        controller.links.append(contentsOf: [
-            Link(from: .constant(.zero), to: .constant(.zero), fromId: "", toId: "", toPosition: 0),
-            Link(from: .constant(.zero), to: .constant(.zero), fromId: "", toId: "", toPosition: 0)
-        ])
-
-        XCTAssertEqual(controller.currentWorkspaceState.links.count, 2)
+        controller.link(id: "1", param: .input(Display(), 0))
+        controller.link(id: "2", param: .output(Display(), 0))
+        XCTAssertEqual(controller.currentWorkspaceState.links.count, 1)
     }
 
     func testWorkspace_InitWithNodes() throws {

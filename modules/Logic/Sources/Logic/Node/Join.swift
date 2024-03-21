@@ -3,7 +3,7 @@
 
 import Combine
 
-public class Join: NodeInput, Linkable {
+public class Join: NodeInput, NodeOutput, Linkable {
     public var input1: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
     public var input2: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.string(""))
@@ -31,6 +31,13 @@ public class Join: NodeInput, Linkable {
             linkParamTwo(input)
         }
         return true
+    }
+
+    public func getOutput(_ position: Int) -> CurrentValueSubject<Wrapped, Never>? {
+        if position == 0 {
+            return output
+        }
+        return nil
     }
 
     public func remove() {

@@ -3,7 +3,7 @@
 
 import Combine
 
-public class RandomLetter: Linkable {
+public class RandomLetter: Linkable, NodeOutput {
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.string(nil))
 
     private let inputTypes: [Int: [String]] = [:]
@@ -17,6 +17,13 @@ public class RandomLetter: Linkable {
     public func run() {
         let chars = "ABCDEFGHIJQKLMNOPRSTUVWXYZ".map({ $0 })
         output.send(.string(chars[Int.random(in: 0...25)].description))
+    }
+
+    public func getOutput(_ position: Int) -> CurrentValueSubject<Wrapped, Never>? {
+        if position == 0 {
+            return output
+        }
+        return nil
     }
 
     public func remove() {

@@ -2,6 +2,7 @@
 //  Created by Vladimir Roganov on 21.02.2024
 
 import SwiftUI
+import Combine
 import Logic
 
 final class DisplayNode: BaseNode {
@@ -11,7 +12,7 @@ final class DisplayNode: BaseNode {
     required init() {
         model = Display()
         super.init()
-        model.action = { [weak self] in
+        self.model.action = { [weak self] in
             self?.text = $0
         }
     }
@@ -20,9 +21,17 @@ final class DisplayNode: BaseNode {
         model.remove()
     }
 
+    override func linkInput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool {
+        return model.linkInput(input, position: position)
+    }
+
+    override func getOutput(position: Int) -> CurrentValueSubject<Wrapped, Never>? {
+        return model.getOutput(position)
+    }
+
     override func build(controller: LinkController, id: String) -> AnyView {
-        AnyView(DisplayNodeView(model: self, onLinkTap: { (point, param) in
-            controller.link(point, id: id, param: param)
+        AnyView(DisplayNodeView(model: self, onLinkTap: { (param) in
+            controller.link(id: id, param: param)
         }))
     }
 }

@@ -4,7 +4,7 @@
 import Foundation
 import Combine
 
-public class Greater: NodeInput {
+public class Greater: NodeInput, NodeOutput {
     public var input1: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.int(nil)).eraseToAnyPublisher()
     public var input2: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.int(nil)).eraseToAnyPublisher()
     public var output1: CurrentValueSubject<Wrapped, Never> = .init(.bool(nil))
@@ -34,6 +34,16 @@ public class Greater: NodeInput {
             linkParamTwo(input)
         }
         return true
+    }
+
+    public func getOutput(_ position: Int) -> CurrentValueSubject<Wrapped, Never>? {
+        if position == 0 {
+            return output1
+        }
+        if position == 1 {
+            return output2
+        }
+        return nil
     }
 
     public func remove() {
