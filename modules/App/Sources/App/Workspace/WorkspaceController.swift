@@ -25,6 +25,7 @@ final class WorkspaceController: LinkController, ObservableObject {
     private var tappedID: String?
     private var tappedParam: NodeParam?
 
+    private var offsetListener: AnyCancellable?
     private var nodesListener: AnyCancellable?
     private var bag: [AnyCancellable] = []
 
@@ -40,6 +41,10 @@ final class WorkspaceController: LinkController, ObservableObject {
                 })
             }
         }
+        offsetListener = $workspaceDragOffset
+            .sink { [weak self] _ in
+                self?.redrawLinks()
+            }
     }
 
     private func redrawLinks() {

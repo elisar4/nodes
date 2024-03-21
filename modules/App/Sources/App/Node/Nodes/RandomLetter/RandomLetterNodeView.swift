@@ -16,15 +16,18 @@ struct RandomLetterNodeView: View {
                 }
             }
             Spacer(minLength: 0)
-            LinkPointView {
-                LinkBadge(allowedTypes: model.model.allowedOutputTypes(0)).view
-            } onTap: {
-                onLinkTap(.output(model.model, 0))
-            } onPositionChange: { newPosition in
-                model.linkPosition["output0"] = newPosition
+            VStack {
+                ForEach(0..<model.model.outputsCount, id: \.self) { idx in
+                    LinkPointView {
+                        LinkBadge(allowedTypes: model.model.allowedOutputTypes(idx)).view
+                    } onTap: {
+                        onLinkTap(.output(model.model, idx))
+                    } onPositionChange: { newPosition in
+                        model.linkPosition["output\(idx)"] = newPosition
+                    }
+                }
             }
         }
         .padding(.vertical, 8)
     }
 }
-

@@ -9,30 +9,30 @@ struct DisplayNodeView: View {
 
     var body: some View {
         HStack {
-            LinkPointView {
-                LinkBadge(allowedTypes: model.model.allowedInputTypes(0)).view
-            } onTap: {
-                onLinkTap(.input(model.model, 0))
-            } onPositionChange: { newPosition in
-                model.linkPosition["input0"] = newPosition
+            VStack {
+                ForEach(0..<model.model.inputsCount, id: \.self) { idx in
+                    LinkPointView {
+                        LinkBadge(allowedTypes: model.model.allowedInputTypes(idx)).view
+                    } onTap: {
+                        onLinkTap(.input(model.model, idx))
+                    } onPositionChange: { newPosition in
+                        model.linkPosition["input\(idx)"] = newPosition
+                    }
+                }
             }
-            LinkPointView {
-                LinkBadge(allowedTypes: model.model.allowedInputTypes(1)).view
-            } onTap: {
-                onLinkTap(.input(model.model, 1))
-            } onPositionChange: { newPosition in
-                model.linkPosition["input1"] = newPosition
-            }
-
             Spacer(minLength: 0)
             Text(model.text ?? "nil")
             Spacer(minLength: 0)
-            LinkPointView {
-                LinkBadge(allowedTypes: model.model.allowedOutputTypes(0)).view
-            } onTap: {
-                onLinkTap(.output(model.model, 0))
-            } onPositionChange: { newPosition in
-                model.linkPosition["output0"] = newPosition
+            VStack {
+                ForEach(0..<model.model.outputsCount, id: \.self) { idx in
+                    LinkPointView {
+                        LinkBadge(allowedTypes: model.model.allowedOutputTypes(idx)).view
+                    } onTap: {
+                        onLinkTap(.output(model.model, idx))
+                    } onPositionChange: { newPosition in
+                        model.linkPosition["output\(idx)"] = newPosition
+                    }
+                }
             }
         }
         .padding(.vertical, 8)

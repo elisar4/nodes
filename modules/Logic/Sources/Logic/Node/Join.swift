@@ -45,6 +45,14 @@ public class Join: NodeInput, NodeOutput, Linkable {
         listener = nil
     }
 
+    public var inputsCount: Int {
+        return inputTypes.keys.count
+    }
+
+    public var outputsCount: Int {
+        return outputTypes.keys.count
+    }
+
     public func allowedInputTypes(_ position: Int) -> [String] {
         inputTypes[position] ?? []
     }

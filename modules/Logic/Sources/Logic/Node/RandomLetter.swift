@@ -26,6 +26,14 @@ public class RandomLetter: Linkable, NodeOutput {
         return nil
     }
 
+    public var inputsCount: Int {
+        return inputTypes.keys.count
+    }
+
+    public var outputsCount: Int {
+        return outputTypes.keys.count
+    }
+
     public func remove() {
         output.send(.string(nil))
     }
