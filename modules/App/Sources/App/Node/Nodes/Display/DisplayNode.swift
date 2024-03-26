@@ -17,8 +17,12 @@ final class DisplayNode: BaseNode {
     }
 
     override func build(controller: LinkController, id: String) -> AnyView {
-        AnyView(DisplayNodeView(model: self, onLinkTap: { (param) in
-            controller.link(id: id, param: param)
-        }))
+        AnyView(BaseNodeView(
+            model: self,
+            onLinkTap: { (param) in
+                controller.link(id: id, param: param)
+            }, display: {
+                Text(self.text ?? "nil")
+            }))
     }
 }

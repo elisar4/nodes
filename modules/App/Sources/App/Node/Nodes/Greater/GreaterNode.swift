@@ -12,8 +12,11 @@ final class GreaterNode: BaseNode {
     }
 
     override func build(controller: LinkController, id: String) -> AnyView {
-        AnyView(GreaterNodeView(model: self, onLinkTap: { (param) in
-            controller.link(id: id, param: param)
-        }))
+        AnyView(BaseNodeView(
+            model: self, onLinkTap: { (param) in
+                controller.link(id: id, param: param)
+            }, display: {
+                EmptyView()
+            }))
     }
 }

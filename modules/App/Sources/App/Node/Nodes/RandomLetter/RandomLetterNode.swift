@@ -12,8 +12,14 @@ final class RandomLetterNode: BaseNode {
     }
 
     override func build(controller: LinkController, id: String) -> AnyView {
-        AnyView(RandomLetterNodeView(model: self, onLinkTap: { (param) in
-            controller.link(id: id, param: param)
-        }))
+        AnyView(BaseNodeView(
+            model: self,
+            onLinkTap: { (param) in
+                controller.link(id: id, param: param)
+            }, display: {
+                Button("Generate") {
+                    self.model.run()
+                }
+            }))
     }
 }
