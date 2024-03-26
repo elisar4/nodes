@@ -5,7 +5,7 @@ import SwiftUI
 import Combine
 import Logic
 
-class BaseNode: ObservableObject, Identifiable, AnyNodeModel {
+class BaseNode: ObservableObject, Identifiable {
     var model: any NodeModel
 
     var name: String { String(describing: type) }
@@ -45,22 +45,4 @@ class BaseNode: ObservableObject, Identifiable, AnyNodeModel {
                 EmptyView()
             }))
     }
-}
-
-extension BaseNode {
-    func builder() -> (() -> BaseNode) {
-        switch self {
-        case is CountNode: { CountNode() }
-        case is JoinNode: { JoinNode() }
-        case is DisplayNode: { DisplayNode() }
-        case is GreaterNode: { GreaterNode() }
-        case is LockNode: { LockNode() }
-        case is RandomLetterNode: { RandomLetterNode() }
-        default: { fatalError() }
-        }
-    }
-}
-
-protocol AnyNodeModel {
-    var model: NodeModel { get }
 }
