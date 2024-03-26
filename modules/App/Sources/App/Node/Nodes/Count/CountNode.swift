@@ -6,11 +6,9 @@ import Combine
 import Logic
 
 final class CountNode: BaseNode {
-    var model: Count
 
-    required init() {
-        model = Count()
-        super.init()
+    convenience init() {
+        self.init(model: Count())
     }
 
     override func remove() {

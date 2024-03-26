@@ -7,12 +7,11 @@ import Logic
 
 final class DisplayNode: BaseNode {
     @Published var text: String?
-    var model: Display
 
-    required init() {
-        model = Display()
-        super.init()
-        self.model.action = { [weak self] in
+    convenience init() {
+        let model = Display()
+        self.init(model: model)
+        model.action = { [weak self] in
             self?.text = $0
         }
     }

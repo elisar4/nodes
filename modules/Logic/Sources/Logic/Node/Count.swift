@@ -3,7 +3,9 @@
 
 import Combine
 
-public final class Count: NodeInput, NodeOutput, Linkable {
+public final class Count: NodeModel {
+    public func run() {}
+    
     public var input: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string(nil)).eraseToAnyPublisher()
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.int(nil))
 

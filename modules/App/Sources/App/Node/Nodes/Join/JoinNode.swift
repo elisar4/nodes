@@ -6,11 +6,9 @@ import Logic
 import Combine
 
 final class JoinNode: BaseNode {
-    var model: Join
 
-    required init() {
-        model = Join()
-        super.init()
+    convenience init() {
+        self.init(model: Join())
     }
 
     override func remove() {

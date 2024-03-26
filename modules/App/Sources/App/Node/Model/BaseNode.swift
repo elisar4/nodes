@@ -5,7 +5,9 @@ import SwiftUI
 import Combine
 import Logic
 
-class BaseNode: ObservableObject, Identifiable {
+class BaseNode: ObservableObject, Identifiable, AnyNodeModel {
+    var model: any NodeModel
+
     var name: String { String(describing: type) }
     @Published var position: CGPoint = .randomPositionOnScreen
 
@@ -14,7 +16,9 @@ class BaseNode: ObservableObject, Identifiable {
     var id: String = UUID().uuidString
     var type: BaseNode.Type { Self.self }
 
-    required init() { }
+    init(model: NodeModel) {
+        self.model = model
+    }
 
     func remove() {
         fatalError()
@@ -35,4 +39,22 @@ class BaseNode: ObservableObject, Identifiable {
     func build(controller: LinkController, id: String) -> AnyView {
         AnyView(Color.red)
     }
+}
+
+extension BaseNode {
+    func builder() -> (() -> BaseNode) {
+        switch self {
+        case is CountNode: { CountNode() }
+        case is JoinNode: { JoinNode() }
+        case is DisplayNode: { DisplayNode() }
+        case is GreaterNode: { GreaterNode() }
+        case is LockNode: { LockNode() }
+        case is RandomLetterNode: { RandomLetterNode() }
+        default: { fatalError() }
+        }
+    }
+}
+
+protocol AnyNodeModel {
+    var model: NodeModel { get }
 }

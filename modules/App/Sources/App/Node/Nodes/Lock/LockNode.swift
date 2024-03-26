@@ -6,11 +6,9 @@ import Logic
 import Combine
 
 final class LockNode: BaseNode {
-    var model: Lock
 
-    required init() {
-        model = Lock()
-        super.init()
+    convenience init() {
+        self.init(model: Lock())
     }
 
     override func remove() {

@@ -3,7 +3,9 @@
 
 import Combine
 
-public final class Display: NodeInput, NodeOutput, Linkable {
+public final class Display: NodeModel {
+    public func run() {}
+    
     public var input: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.string(""))
 

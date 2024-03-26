@@ -6,11 +6,9 @@ import Logic
 import Combine
 
 final class RandomLetterNode: BaseNode {
-    var model: RandomLetter
 
-    required init() {
-        model = RandomLetter()
-        super.init()
+    convenience init() {
+        self.init(model: RandomLetter())
     }
 
     override func remove() {

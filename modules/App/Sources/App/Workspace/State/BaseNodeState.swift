@@ -7,17 +7,17 @@ struct BaseNodeState {
     let id: String
     let name: String
     let position: CGPoint
-    let type: BaseNode.Type
+    let build: () -> BaseNode
 
     init(node: BaseNode) {
         self.id = node.id
         self.name = node.name
         self.position = node.position
-        self.type = node.type
+        self.build = node.builder()
     }
 
     var restored: BaseNode {
-        let model = type.init()
+        let model = build()
         model.position = position
         model.id = id
         return model

@@ -3,7 +3,9 @@
 
 import Combine
 
-public class RandomLetter: Linkable, NodeOutput {
+public class RandomLetter: NodeModel {
+    public func linkInput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool { false }
+    
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.string(nil))
 
     private let inputTypes: [Int: [String]] = [:]

@@ -6,11 +6,9 @@ import Combine
 import Logic
 
 final class GreaterNode: BaseNode {
-    var model: Greater
 
-    required init() {
-        model = Greater()
-        super.init()
+    convenience init() {
+        self.init(model: Greater())
     }
 
     override func remove() {

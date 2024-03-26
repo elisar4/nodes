@@ -3,7 +3,9 @@
 
 import Combine
 
-public class Lock: NodeInput, NodeOutput, Linkable {
+public class Lock: NodeModel {
+    public func run() {}
+    
     public var input1: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string(nil)).eraseToAnyPublisher()
     public var input2: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.bool(nil)).eraseToAnyPublisher()
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.string(nil))
