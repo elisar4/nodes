@@ -11,18 +11,6 @@ final class GreaterNode: BaseNode {
         self.init(model: Greater())
     }
 
-    override func remove() {
-        model.remove()
-    }
-
-    override func linkInput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool {
-        return model.linkInput(input, position: position)
-    }
-
-    override func getOutput(position: Int) -> CurrentValueSubject<Wrapped, Never>? {
-        return model.getOutput(position)
-    }
-
     override func build(controller: LinkController, id: String) -> AnyView {
         AnyView(GreaterNodeView(model: self, onLinkTap: { (param) in
             controller.link(id: id, param: param)

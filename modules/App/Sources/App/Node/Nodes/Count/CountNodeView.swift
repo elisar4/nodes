@@ -3,8 +3,8 @@
 
 import SwiftUI
 
-struct CountNodeView: View {
-    @ObservedObject var model: CountNode
+struct BaseNodeView: View {
+    @ObservedObject var model: BaseNode
     var onLinkTap: (NodeParam) -> Void?
 
     var body: some View {

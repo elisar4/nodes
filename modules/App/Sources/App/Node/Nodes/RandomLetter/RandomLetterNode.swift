@@ -11,18 +11,6 @@ final class RandomLetterNode: BaseNode {
         self.init(model: RandomLetter())
     }
 
-    override func remove() {
-        model.remove()
-    }
-
-    override func linkInput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool {
-        return false
-    }
-
-    override func getOutput(position: Int) -> CurrentValueSubject<Wrapped, Never>? {
-        return model.getOutput(position)
-    }
-
     override func build(controller: LinkController, id: String) -> AnyView {
         AnyView(RandomLetterNodeView(model: self, onLinkTap: { (param) in
             controller.link(id: id, param: param)

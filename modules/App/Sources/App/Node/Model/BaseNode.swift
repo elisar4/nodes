@@ -21,15 +21,15 @@ class BaseNode: ObservableObject, Identifiable, AnyNodeModel {
     }
 
     func remove() {
-        fatalError()
+        model.remove()
     }
 
     func linkInput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool {
-        fatalError()
+        return model.linkInput(input, position: position)
     }
 
     func getOutput(position: Int) -> CurrentValueSubject<Wrapped, Never>? {
-        fatalError()
+        return model.getOutput(position)
     }
 
     func linkPosition(id: String) -> CGPoint? {
