@@ -37,7 +37,13 @@ class BaseNode: ObservableObject, Identifiable, AnyNodeModel {
     }
 
     func build(controller: LinkController, id: String) -> AnyView {
-        AnyView(Color.red)
+        AnyView(BaseNodeView(
+            model: self,
+            onLinkTap: { (param) in
+                controller.link(id: id, param: param)
+            }, display: {
+                EmptyView()
+            }))
     }
 }
 
