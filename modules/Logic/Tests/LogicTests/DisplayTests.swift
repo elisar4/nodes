@@ -13,7 +13,7 @@ final class DisplayTests: XCTestCase {
 
         let paramSubject = CurrentValueSubject<Wrapped, Never>(.string(nil))
 
-        sut.linkInput(paramSubject, position: 0)
+        _ = sut.linkInput(paramSubject, position: 0)
 
         var printedValue: Wrapped?
         sut.action = {

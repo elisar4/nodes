@@ -10,8 +10,8 @@ final class IntegrationTests: XCTestCase {
         let randomLetter = RandomLetter()
         let join = Join()
 
-        join.linkInput(randomLetter.output, position: 0)
-        join.linkInput(randomLetter.output, position: 1)
+        _ = join.linkInput(randomLetter.output, position: 0)
+        _ = join.linkInput(randomLetter.output, position: 1)
 
         randomLetter.run()
 

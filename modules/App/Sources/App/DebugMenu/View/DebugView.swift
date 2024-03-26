@@ -23,6 +23,16 @@ struct DebugView: View {
                 }
                 .buttonStyle(.borderedProminent)
             }
+            Divider()
+            Button("Save State") {
+                controller.saveDebugState()
+            }
+            .buttonStyle(.borderedProminent)
+            Button("Load State") {
+                controller.loadDebugState()
+            }
+            .disabled(controller.debugState == nil)
+            .buttonStyle(.borderedProminent)
         }
         .padding(.horizontal)
     }

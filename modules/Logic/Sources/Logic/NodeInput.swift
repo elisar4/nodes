@@ -4,9 +4,11 @@
 import Combine
 
 public protocol NodeInput {
+    var inputsCount: Int { get }
     func linkInput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool
 }
 
 public protocol NodeOutput {
-    func linkOutput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool
+    var outputsCount: Int { get }
+    func getOutput(_ position: Int) -> CurrentValueSubject<Wrapped, Never>?
 }

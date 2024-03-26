@@ -3,7 +3,7 @@
 
 import Combine
 
-public final class Count: NodeInput, Linkable {
+public final class Count: NodeInput, NodeOutput, Linkable {
     public var input: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string(nil)).eraseToAnyPublisher()
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.int(nil))
 
@@ -29,9 +29,24 @@ public final class Count: NodeInput, Linkable {
         return true
     }
 
+    public func getOutput(_ position: Int) -> CurrentValueSubject<Wrapped, Never>? {
+        if position == 0 {
+            return output
+        }
+        return nil
+    }
+
     public func remove() {
         output.send(.int(nil))
         listener = nil
+    }
+
+    public var inputsCount: Int {
+        return inputTypes.keys.count
+    }
+
+    public var outputsCount: Int {
+        return outputTypes.keys.count
     }
 
     public func allowedInputTypes(_ position: Int) -> [String] {

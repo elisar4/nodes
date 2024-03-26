@@ -2,26 +2,32 @@
 //  Created by Igor Manakov on 04.03.2024.
 
 import SwiftUI
+import Combine
 import Logic
 
-class CountNode: BaseNode, ObservableObject {
-    @Published var position: CGPoint = .randomPositionOnScreen
-
+final class CountNode: BaseNode {
     var model: Count
-    var name: String = "Count"
-    var id: String = UUID().uuidString
 
     required init() {
-        model = .init()
+        model = Count()
+        super.init()
     }
 
-    func remove() {
+    override func remove() {
         model.remove()
     }
 
-    func build(controller: LinkController, id: String) -> AnyView {
-        AnyView(CountNodeView(model: self, onLinkTap: { (point, param) in
-            controller.link(point, id: id, param: param)
+    override func linkInput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool {
+        return model.linkInput(input, position: position)
+    }
+
+    override func getOutput(position: Int) -> CurrentValueSubject<Wrapped, Never>? {
+        return model.getOutput(position)
+    }
+
+    override func build(controller: LinkController, id: String) -> AnyView {
+        AnyView(CountNodeView(model: self, onLinkTap: { (param) in
+            controller.link(id: id, param: param)
         }))
     }
 }

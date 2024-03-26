@@ -5,7 +5,7 @@ import SwiftUI
 
 struct RandomLetterNodeView: View {
     @ObservedObject var model: RandomLetterNode
-    var onLinkTap: (Binding<CGPoint>, NodeParam) -> Void?
+    var onLinkTap: (NodeParam) -> Void?
 
     var body: some View {
         HStack {
@@ -16,10 +16,16 @@ struct RandomLetterNodeView: View {
                 }
             }
             Spacer(minLength: 0)
-            LinkPointView {
-                LinkBadge(allowedTypes: model.model.allowedOutputTypes(0)).view
-            } onTap: {
-                onLinkTap($0, .output(model.model.output))
+            VStack {
+                ForEach(0..<model.model.outputsCount, id: \.self) { idx in
+                    LinkPointView {
+                        LinkBadge(allowedTypes: model.model.allowedOutputTypes(idx)).view
+                    } onTap: {
+                        onLinkTap(.output(model.model, idx))
+                    } onPositionChange: { newPosition in
+                        model.linkPosition["output\(idx)"] = newPosition
+                    }
+                }
             }
         }
         .padding(.vertical, 8)

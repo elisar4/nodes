@@ -4,16 +4,18 @@
 import Combine
 
 class DebugMenuController: ObservableObject {
-    private let nodeLinkController: NodeLinkController
-    
-    init(nodeLinkController: NodeLinkController) {
-        self.nodeLinkController = nodeLinkController
+    @Published var debugState: WorkspaceState?
+
+    private let workspace: WorkspaceController
+
+    init(workspace: WorkspaceController) {
+        self.workspace = workspace
     }
     
     func reset() {
-        nodeLinkController.links = []
-        nodeLinkController.nodes = []
-        nodeLinkController.clear()
+        workspace.links = []
+        workspace.nodes = []
+        workspace.clear()
     }
     
     func addRandomNode() {
@@ -21,7 +23,19 @@ class DebugMenuController: ObservableObject {
         addNode(randomNode)
     }
     
-    func addNode(_ node: any BaseNode) {
-        nodeLinkController.nodes.append(node)
+    func addNode(_ node: BaseNode) {
+        workspace.nodes.append(node)
+    }
+
+    func saveDebugState() {
+        debugState = workspace.currentWorkspaceState
+    }
+
+    func loadDebugState() {
+        guard let debugState else {
+            print("Debug state noo")
+            return
+        }
+        workspace.loadState(debugState)
     }
 }

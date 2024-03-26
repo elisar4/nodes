@@ -5,11 +5,17 @@ import SwiftUI
 import Logic
 
 struct MainView: View {
-    @StateObject var controller = NodeLinkController()
+    @ObservedObject var controller: WorkspaceController
+    @ObservedObject var debugController: DebugMenuController
+
+    init(controller: WorkspaceController, debugController: DebugMenuController) {
+        self.controller = controller
+        self.debugController = debugController
+    }
 
     var body: some View {
         NavigationView {
-            DebugView(controller: DebugMenuController(nodeLinkController: controller))
+            DebugView(controller: debugController)
             WorkspaceOffset(offset: $controller.workspaceDragOffset) {
                 workspace()
             }
@@ -36,7 +42,7 @@ struct MainView: View {
         .ignoresSafeArea(.keyboard)
     }
 
-    private func makeNodeView(_ node: any BaseNode) -> some View {
+    private func makeNodeView(_ node: BaseNode) -> some View {
         let tap = TapGesture()
             .onEnded { _ in
                 controller.didTapNode(node)

@@ -3,12 +3,9 @@
 
 import SwiftUI
 
-struct Link: Identifiable {
-    let id: String = UUID().uuidString
-
-    let from: Binding<CGPoint>
-    let to: Binding<CGPoint>
+struct Link {
     let fromId: String
+    let fromPosition: Int
     let toId: String
     let toPosition: Int
 }

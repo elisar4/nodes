@@ -5,23 +5,33 @@ import SwiftUI
 
 struct JoinNodeView: View {
     @ObservedObject var model: JoinNode
-    var onLinkTap: (Binding<CGPoint>, NodeParam) -> Void?
-    
+    var onLinkTap: (NodeParam) -> Void?
+
     var body: some View {
         HStack {
             VStack {
-                LinkPointView {
-                    LinkBadge(allowedTypes: model.model.allowedInputTypes(0)).view
-                } onTap: { onLinkTap($0, .input(model.model, 0)) }
-                LinkPointView {
-                    LinkBadge(allowedTypes: model.model.allowedInputTypes(1)).view
-                } onTap: { onLinkTap($0, .input(model.model, 1)) }
+                ForEach(0..<model.model.inputsCount, id: \.self) { idx in
+                    LinkPointView {
+                        LinkBadge(allowedTypes: model.model.allowedInputTypes(idx)).view
+                    } onTap: {
+                        onLinkTap(.input(model.model, idx))
+                    } onPositionChange: { newPosition in
+                        model.linkPosition["input\(idx)"] = newPosition
+                    }
+                }
             }
-
             Spacer(minLength: 0)
-            LinkPointView {
-                LinkBadge(allowedTypes: model.model.allowedOutputTypes(0)).view
-            } onTap: { onLinkTap($0, .output(model.model.output)) }
+            VStack {
+                ForEach(0..<model.model.outputsCount, id: \.self) { idx in
+                    LinkPointView {
+                        LinkBadge(allowedTypes: model.model.allowedOutputTypes(idx)).view
+                    } onTap: {
+                        onLinkTap(.output(model.model, idx))
+                    } onPositionChange: { newPosition in
+                        model.linkPosition["output\(idx)"] = newPosition
+                    }
+                }
+            }
         }
         .padding(.vertical, 8)
     }

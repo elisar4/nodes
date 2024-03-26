@@ -5,7 +5,12 @@ import SwiftUI
 
 public class AppController: UIViewController {
 
-    let rootController = UIHostingController(rootView: MainView())
+    lazy var rootController: UIViewController = {
+        let controller = WorkspaceController()
+        let debugController = DebugMenuController(workspace: controller)
+        let mainView = MainView(controller: controller, debugController: debugController)
+        return UIHostingController(rootView: mainView)
+    }()
 
     public override func viewDidLoad() {
         super.viewDidLoad()
