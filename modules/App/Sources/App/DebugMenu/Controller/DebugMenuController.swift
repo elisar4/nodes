@@ -19,7 +19,7 @@ class DebugMenuController: ObservableObject {
     }
     
     func addRandomNode() {
-        let randomNode = NodeType.allTypes.randomElement()!.type.init()
+        let randomNode = NodeType.allTypes.randomElement()!.build()
         addNode(randomNode)
     }
     

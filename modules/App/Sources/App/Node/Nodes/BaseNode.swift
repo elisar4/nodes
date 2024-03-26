@@ -6,6 +6,8 @@ import Combine
 import Logic
 
 class BaseNode: ObservableObject, Identifiable {
+    var model: any NodeModel
+
     var name: String { String(describing: type) }
     @Published var position: CGPoint = .randomPositionOnScreen
 
@@ -14,18 +16,20 @@ class BaseNode: ObservableObject, Identifiable {
     var id: String = UUID().uuidString
     var type: BaseNode.Type { Self.self }
 
-    required init() { }
+    init(model: NodeModel) {
+        self.model = model
+    }
 
     func remove() {
-        fatalError()
+        model.remove()
     }
 
     func linkInput(_ input: CurrentValueSubject<Wrapped, Never>, position: Int) -> Bool {
-        fatalError()
+        return model.linkInput(input, position: position)
     }
 
     func getOutput(position: Int) -> CurrentValueSubject<Wrapped, Never>? {
-        fatalError()
+        return model.getOutput(position)
     }
 
     func linkPosition(id: String) -> CGPoint? {
@@ -33,6 +37,12 @@ class BaseNode: ObservableObject, Identifiable {
     }
 
     func build(controller: LinkController, id: String) -> AnyView {
-        AnyView(Color.red)
+        AnyView(BaseNodeView(
+            model: self,
+            onLinkTap: { (param) in
+                controller.link(id: id, param: param)
+            }, display: {
+                EmptyView()
+            }))
     }
 }

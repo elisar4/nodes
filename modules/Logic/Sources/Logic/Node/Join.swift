@@ -3,7 +3,9 @@
 
 import Combine
 
-public class Join: NodeInput, NodeOutput, Linkable {
+public class Join: NodeModel {
+    public func run() {}
+
     public var input1: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
     public var input2: AnyPublisher<Wrapped, Never> = CurrentValueSubject.init(.string("")).eraseToAnyPublisher()
     public var output: CurrentValueSubject<Wrapped, Never> = .init(.string(""))

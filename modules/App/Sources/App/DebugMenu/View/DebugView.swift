@@ -19,7 +19,7 @@ struct DebugView: View {
             Divider()
             ForEach(NodeType.allTypes, id: \.name) { item in
                 Button(item.name) {
-                    controller.addNode(item.type.init())
+                    controller.addNode(item.build())
                 }
                 .buttonStyle(.borderedProminent)
             }

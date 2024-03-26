@@ -5,3 +5,11 @@ public protocol Linkable {
     func allowedInputTypes(_ position: Int) -> [String]
     func allowedOutputTypes(_ position: Int) -> [String]
 }
+
+public protocol Removable {
+    func remove()
+}
+
+public protocol Runnable {
+    func run()
+}
